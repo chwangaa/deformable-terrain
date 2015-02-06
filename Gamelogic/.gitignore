@@ -1,0 +1,6 @@
+.iw-dependencies/
+target/
+bin/
+obj/
+*.suo
+*.DotSettings.user

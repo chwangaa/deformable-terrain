@@ -1,0 +1,20 @@
+# Visual Studio Generated Files
+**/obj/
+**/bin/
+Gamelogic/src/main/cs/*/*.csproj.user
+
+# IntelliJ Generated Files
+.idea/
+*.iml
+
+# SBT
+target/
+
+# Logs
+/logs/
+
+# Mac-specific
+**/.DS_Store
+
+#Asset Database and Library
+Data/AssetDatabase

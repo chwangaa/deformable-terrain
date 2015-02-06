@@ -1,0 +1,12 @@
+import improbable.configuration.DeploymentConfigurationProperties
+import improbable.corelib.launcher.ShutdownAfterInput
+import improbable.dapi.Launcher
+
+object ManualEngineSpoolUpGameLauncher extends SuperSeedlingGameLauncher(ManualEngineStartupLaunchConfig) with App with ShutdownAfterInput
+
+object AutoEngineSpoolUpGameLauncher extends SuperSeedlingGameLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
+
+class SuperSeedlingGameLauncher(gameSetupSettings: SuperSeedlingLaunchConfig) {
+  System.setProperty(DeploymentConfigurationProperties.PROPERTY_IS_PRODUCTION, true.toString)
+  Launcher.startGame(gameSetupSettings)
+}
