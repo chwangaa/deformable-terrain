@@ -1,4 +1,11 @@
-<Group package="improbable.physical"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://docs.improbable.io/schema/v1/GamelogicDefinitionsSchema.xsd">
+<Group package="improbable.physical" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://docs.improbable.io/schema/v1/GamelogicDefinitionsSchema.xsd">
+
+    <Behaviour name="MoveRandomly">
+        <Dependencies>
+            <Interface name="RigidbodyInterface" package="improbable.entity.physical"/>
+        </Dependencies>
+    </Behaviour>
 
     <State name="PlayerBotData" synchronized="true">
         <Properties>

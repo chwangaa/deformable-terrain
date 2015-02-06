@@ -1,10 +1,13 @@
 package improbable.game
 
-import improbable.corelib.entity.nature.definitions.CoreLibPhysicalObject
+import improbable.entitytemplates.DemoBot
 import improbable.math.Vector3d
 import improbable.papi.entity.EntityPrefab
 import improbable.papi.worldapp.WorldApp
 
 trait Demo extends WorldApp {
-  CoreLibPhysicalObject(Vector3d.zero).spawn(world, EntityPrefab("PlayerBox"))
+  Range(1, 200).foreach {
+    _ =>
+    DemoBot(Vector3d.zero).spawn(world, EntityPrefab("PlayerCube"))
+  }
 }
