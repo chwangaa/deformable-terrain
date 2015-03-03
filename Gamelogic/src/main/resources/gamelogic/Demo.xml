@@ -1,0 +1,15 @@
+<Group package="improbable.demo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://docs.improbable.io/schema/v1/GamelogicDefinitionsSchema.xsd">
+
+    <State name="Flammable" synchronized="true">
+        <Properties>
+            <Property name="isOnFire" type="Boolean"/>
+        </Properties>
+        <StateEvents>
+            <StateEvent name="hasIgnitedFromDirection">
+                <Property name="directionOfIgnition" type="Vector3d"/>
+            </StateEvent>
+        </StateEvents>
+    </State>
+
+</Group>
