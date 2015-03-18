@@ -10,7 +10,6 @@ namespace Improbable
         public string ReceptionistIp = "localhost";
         public int ReceptionistPort = 7777;
         public EnginePlatform EngineType = EnginePlatform.Client;
-        public string Metadata = "";
         public int FixedUpdateRate = 20;
         public int TargetFps = 120;
         public bool UseLocalPrefabs = false;
@@ -25,7 +24,6 @@ namespace Improbable
             {
                 Ip = ReceptionistIp,
                 Port = ReceptionistPort,
-                MetaData = Metadata,
                 TargetFps = TargetFps,
                 FixedUpdateRate = FixedUpdateRate,
                 UsePrefabPooling = UsePrefabPooling,
@@ -33,7 +31,10 @@ namespace Improbable
                 EngineType = EngineTypeUtils.ToEngineName(EngineType),
                 UseInstrumentation = Instrument,
                 IsDebugMode = IsDebugMode,
-                LinkProtocol = LinkProtocol
+                LinkProtocol = LinkProtocol,
+				AccountsUrl = "accounts.improbable.io",
+				ImprobableAppId = "BANTER",
+				AccessToken = "WOOO"
             };
             var game = new GameRoot(gameObject, engineConfiguration);
             game.Start();
