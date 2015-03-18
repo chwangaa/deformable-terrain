@@ -1,14 +1,13 @@
 package improbable.entitytemplates
 
-import improbable.corelib.entity.nature.definitions.{CoreLibPhysicalObject, CoreLibBotObject}
+import improbable.corelib.entity.nature.definitions.CoreLibPhysicalObject
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
-import improbable.demo.{NewPropagateFlamesBehaviour, Flammable}
+import improbable.demo.{Flammable, NewPropagateFlamesBehaviour}
 import improbable.math._
-import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
 import improbable.physical.NewMoveRandomlyBehaviour
 
 object DemoBot extends NatureDescription {
-  override def activeBehaviours: Set[EntityBehaviourDescriptor] = {
+  override def activeBehaviours = {
     Set(NewMoveRandomlyBehaviour(), NewPropagateFlamesBehaviour())
   }
 

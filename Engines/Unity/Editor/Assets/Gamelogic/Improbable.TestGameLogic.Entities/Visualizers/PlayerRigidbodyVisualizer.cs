@@ -18,7 +18,7 @@ namespace Improbable.Pinnacle.Visualizers
 
         public Rigidbody Rigidbody
         {
-            get { return rigidbody; }
+            get { return GetComponent<Rigidbody>(); }
         }
 
         public GameObject GameObject
@@ -36,7 +36,7 @@ namespace Improbable.Pinnacle.Visualizers
         public void OnDisable()
         {
             rigidbodyParametersBinder.StopListeningToRigidbodyParameters();
-            Destroy(rigidbody);
+            Destroy(GetComponent<Rigidbody>());
         }
     }
 }

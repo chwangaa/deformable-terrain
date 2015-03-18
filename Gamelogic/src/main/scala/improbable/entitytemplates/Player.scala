@@ -18,7 +18,7 @@ object Player extends NatureDescription {
 
   def apply(engineId: EngineId): NatureApplication = {
     application(
-      states = Seq(EntityOwnerDescriptor(engineId), PlayerBotDataDescriptor(forceMagnitude = 10.0f)),
+      states = Seq(EntityOwnerDescriptor(engineId), PlayerBotDataDescriptor(forceMagnitude = 20.0f)),
       natures = Seq(CoreLibBotObject(Vector3(0, 0.5, 0)))
     )
   }

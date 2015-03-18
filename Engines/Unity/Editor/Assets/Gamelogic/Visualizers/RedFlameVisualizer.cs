@@ -23,9 +23,9 @@ namespace Improbable.Demo {
 		void HandleIsOnFireUpdated (bool isOnFire)
 		{
 			if (isOnFire) {
-				renderer.material.color = Color.red;
+				GetComponent<Renderer>().material.color = Color.red;
 			} else {
-				renderer.material.color = Color.blue;
+				GetComponent<Renderer>().material.color = Color.blue;
 			}
 		}
 	}

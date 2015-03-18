@@ -8,6 +8,7 @@ case object Ignite extends CustomMsg
 
 trait PropagateFlamesBehaviour extends PropagateFlamesBehaviourBase {
 
+
   if(state.isOnFire) {
     ignite()
   }

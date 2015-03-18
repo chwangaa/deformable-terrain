@@ -5,11 +5,10 @@
         <Properties>
             <Property name="isOnFire" type="Boolean"/>
         </Properties>
-        <StateEvents>
-            <StateEvent name="hasIgnitedFromDirection">
-                <Property name="directionOfIgnition" type="Vector3d"/>
-            </StateEvent>
-        </StateEvents>
     </State>
+
+    <Behaviour name="PropagateFlames">
+        <State name="Flammable"/>
+    </Behaviour>
 
 </Group>
