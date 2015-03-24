@@ -17,6 +17,7 @@ namespace Improbable
         public bool Instrument = true;
         public bool IsDebugMode = true;
         public LinkProtocol LinkProtocol = LinkProtocol.Tcp;
+        public int MsgProcessLimitPerFrame = 100;
 
         private void Start()
         {
@@ -34,7 +35,8 @@ namespace Improbable
                 LinkProtocol = LinkProtocol,
 				AccountsUrl = "accounts.improbable.io",
 				ImprobableAppId = "BANTER",
-				AccessToken = "WOOO"
+				AccessToken = "WOOO",
+				MsgProcessLimitPerFrame = MsgProcessLimitPerFrame
             };
             var game = new GameRoot(gameObject, engineConfiguration);
             game.Start();
