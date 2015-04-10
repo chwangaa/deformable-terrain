@@ -5,9 +5,3 @@ resolvers := Seq(
 ) ++ resolvers.value
 
 addSbtPlugin("improbable" % "core-library-build-plugin" % IO.read(file("project/coreLibrary.version")).trim)
-
-addSbtPlugin("improbable" % "scala-sdk-build-plugin" % "0.0.10")
-
-addSbtPlugin("improbable" % "unity-sdk-build-plugin" % "0.0.9")
-
-addSbtPlugin("improbable" % "build-plugin" % "0.0.5")
