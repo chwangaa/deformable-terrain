@@ -8,7 +8,7 @@ import improbable.papi.worldapp.WorldApp
 import scala.util.Random
 
 trait TreeSpawner extends WorldApp {
-  val prefab = EntityPrefab("PlayerCube")
+  val prefab = EntityPrefab("Cube")
 
   spawnKindling()
   spawnIgnition()

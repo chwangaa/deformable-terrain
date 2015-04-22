@@ -1,3 +1,5 @@
+import java.awt.Color
+
 import improbable.corelib.launcher.DefaultLaunchConfig
 import improbable.game.{PlayerLifeCycleManagerDescriptor, TreeSpawnerDescriptor}
 
