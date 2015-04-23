@@ -10,13 +10,15 @@ import scala.util.Random
 trait TreeSpawner extends WorldApp {
   val prefab = EntityPrefab("Cube")
 
+  spawnRandomTrees()
   spawnKindling()
   spawnIgnition()
-  spawnRandomTrees()
 
   private def spawnKindling(): Unit = {
     Range(1, 200).foreach {
-      _ => DemoBot(Vector3d.zero).spawn(world, prefab)
+      _ =>
+        Thread.sleep(200)
+        DemoBot(Vector3d.unitY * 20.0f + Vector3d.unitX * 10.0f).spawn(world, prefab)
     }
   }
 

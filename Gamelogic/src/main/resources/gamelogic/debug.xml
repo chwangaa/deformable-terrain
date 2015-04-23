@@ -1,0 +1,16 @@
+<Group package="improbable.corelib.debug" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://docs.improbable.io/schema/v1/GamelogicDefinitionsSchema.xsd">
+
+    <State name="Color" synchronized="true">
+        <Properties>
+            <Property name="value" type="Vector3f"/>
+        </Properties>
+    </State>
+
+    <State name="Text" synchronized="true">
+        <Properties>
+            <Property name="content" type="String"/>
+        </Properties>
+    </State>
+
+</Group>
