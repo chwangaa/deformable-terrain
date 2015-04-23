@@ -21,7 +21,7 @@ object Bot extends NatureDescription {
       ),
       natures = Seq(
         CoreLibPhysicalObject(position, drag = 0.2f),
-        TextDisplayer("Hello"),
+        TextDisplayer(),
         Colored(java.awt.Color.red))
     )
   }

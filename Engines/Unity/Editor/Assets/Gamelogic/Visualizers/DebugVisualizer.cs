@@ -15,7 +15,19 @@ namespace Improbable
 
 		void OnEnable ()
 		{
+			gameObject.AddComponent<SpeechBubble> ();
 			Color.ValueUpdated += HandleValueUpdated;
+			Text.EmitText += HandleEmitText;
+		}
+
+		void HandleEmitText (Improbable.Debug.Events.Text.EmitText obj)
+		{
+			GetComponent<SpeechBubble> ().addNewMessage (obj.Content);
+		}
+
+		void OnDisable()
+		{
+			Destroy (GetComponent<SpeechBubble> ());
 		}
 
 		void HandleValueUpdated (Improbable.Math.Vector3f color)

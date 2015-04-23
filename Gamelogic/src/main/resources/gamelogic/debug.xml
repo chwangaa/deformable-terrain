@@ -18,6 +18,11 @@
         <Properties>
             <Property name="content" type="String"/>
         </Properties>
+        <StateEvents>
+            <StateEvent name="EmitText">
+                <Property name="content" type="String"/>
+            </StateEvent>
+        </StateEvents>
     </State>
 
     <Behaviour name="TextWriter">

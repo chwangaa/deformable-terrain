@@ -17,4 +17,12 @@ trait TextWriterBehaviour extends TextWriterBehaviourBase {
   override def clearText(): Unit = {
     state.update.content("").finishAndSend()
   }
+
+  import scala.concurrent.duration._
+
+  var x = 0
+  world.timing.every(5.seconds) {
+    x += 1
+    state.update.triggerEmitText(s"Lads: $x").finishAndSend()
+  }
 }
