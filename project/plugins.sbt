@@ -4,4 +4,7 @@ resolvers := Seq(
   "Spray Repository" at "http://repo.spray.io/"
 ) ++ resolvers.value
 
+addSbtPlugin("improbable" % "unity-sdk-build-plugin" % "0.30")
+
 addSbtPlugin("improbable" % "core-library-build-plugin" % IO.read(file("project/coreLibrary.version")).trim)
+

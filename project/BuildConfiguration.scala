@@ -4,9 +4,9 @@ import improbable.build.fabric._
 import sbt._
 
 object BuildConfiguration extends improbable.build.ImprobableBuild(
-  projectName = "superseedling",
+  projectName = "demonstration",
   organisation = "improbable",
-  version = Versions.coreLibraryVersion,
+  version = "1",
   buildSettings = Seq(FabricBuildSettings(), UnityPlayerProject()),
   gameDependencies = List(CoreLibrary)
 )
