@@ -9,8 +9,13 @@ object AutoEngineSpoolUpGameLauncher extends SuperSeedlingGameLauncher(Automatic
 
 object VisibleClient extends DownloadableClientEngineDescriptor(withGui = true)
 
-class SuperSeedlingGameLauncher(gameSetupSettings: SuperSeedlingLaunchConfig) {
+object Demonstration extends App with ShutdownAfterInput {
   System.setProperty(DeploymentConfigurationProperties.PROPERTY_IS_PRODUCTION, true.toString)
   System.setProperty("game_engines_to_start", "VisibleClient@0,0,0")
+  Launcher.startGame(AutomaticEngineStartupLaunchConfig)
+}
+
+class SuperSeedlingGameLauncher(gameSetupSettings: SuperSeedlingLaunchConfig) {
+  System.setProperty(DeploymentConfigurationProperties.PROPERTY_IS_PRODUCTION, true.toString)
   Launcher.startGame(gameSetupSettings)
 }
