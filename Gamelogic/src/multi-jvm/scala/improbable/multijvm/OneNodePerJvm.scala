@@ -4,7 +4,6 @@ import improbable.configuration.DeploymentConfigurationProperties
 import improbable.core.deployment.ModuleProps
 import improbable.core.terrain.Terrains
 import improbable.deployment.config.{DeploymentSettings, EngineSettings, GameSetupSettings}
-import improbable.game.{GameDefinitionLoader, PlayerLifeCycleManagerDescriptor}
 import improbable.multijvm.OneNodePerJvm._
 import improbable.papi.world.{Terrain, WorldSettings}
 import improbable.pinnacle.worldapps.spawning.BoxStackAppDescriptor

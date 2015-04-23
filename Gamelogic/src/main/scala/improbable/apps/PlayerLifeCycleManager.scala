@@ -1,15 +1,14 @@
-package improbable.game
+package improbable.apps
 
-import improbable.entitytemplates.Player
+import improbable.apps.PlayerLifeCycleManager._
+import improbable.natures.Player
 import improbable.papi._
 import improbable.papi.engine.EngineId
 import improbable.papi.entity.EntityPrefab
 import improbable.papi.world.messaging.{EngineConnected, EngineDisconnected}
 import improbable.papi.worldapp.WorldApp
 
-
 trait PlayerLifeCycleManager extends WorldApp {
-  import improbable.game.PlayerLifeCycleManager._
 
   private var userIdToEntityIdMap = Map[EngineId, EntityId]()
 

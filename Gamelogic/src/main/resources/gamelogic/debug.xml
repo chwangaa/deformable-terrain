@@ -1,4 +1,4 @@
-<Group package="improbable.corelib.debug" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<Group package="improbable.debug" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="http://docs.improbable.io/schema/v1/GamelogicDefinitionsSchema.xsd">
 
     <State name="Color" synchronized="true">
@@ -7,10 +7,24 @@
         </Properties>
     </State>
 
+    <Behaviour name="ColorWriter">
+        <State name="Color"/>
+        <Interfaces>
+            <Interface name="ColorInterface"/>
+        </Interfaces>
+    </Behaviour>
+
     <State name="Text" synchronized="true">
         <Properties>
             <Property name="content" type="String"/>
         </Properties>
     </State>
+
+    <Behaviour name="TextWriter">
+        <State name="Text"/>
+        <Interfaces>
+            <Interface name="TextInterface"/>
+        </Interfaces>
+    </Behaviour>
 
 </Group>

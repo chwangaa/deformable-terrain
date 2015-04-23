@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using WorldScene.Visualizers;
-using Improbable.Corelib.Debug;
+using Improbable.Debug;
 
 namespace Improbable
 {

@@ -1,6 +1,6 @@
-package improbable.game
+package improbable.apps
 
-import improbable.entitytemplates.{DemoTree, DemoBot}
+import improbable.natures.{Tree, Bot}
 import improbable.math.Vector3d
 import improbable.papi.entity.EntityPrefab
 import improbable.papi.worldapp.WorldApp
@@ -8,8 +8,8 @@ import improbable.papi.worldapp.WorldApp
 import scala.util.Random
 
 trait TreeSpawner extends WorldApp {
-  val prefab = EntityPrefab("Cube")
 
+  Thread.sleep(500)
   spawnRandomTrees()
   spawnKindling()
   spawnIgnition()
@@ -18,12 +18,12 @@ trait TreeSpawner extends WorldApp {
     Range(1, 200).foreach {
       _ =>
         Thread.sleep(200)
-        DemoBot(Vector3d.unitY * 20.0f + Vector3d.unitX * 10.0f).spawn(world, prefab)
+        world.entities.spawnEntity(Bot(Vector3d.unitY * 20.0f + Vector3d.unitX * 10.0f))
     }
   }
 
   private def spawnIgnition(): Unit = {
-    DemoBot(Vector3d.unitX * 50.0f, onFire = true).spawn(world, prefab)
+    world.entities.spawnEntity(Bot(Vector3d.unitX * 50.0f, onFire = true))
   }
 
   private def spawnRandomTrees(): Unit = {
@@ -35,6 +35,6 @@ trait TreeSpawner extends WorldApp {
   private def spawnRandomTree(): Unit = {
     val x = (Random.nextDouble() - 0.5f) * 1000.0f
     val z = (Random.nextDouble() - 0.5f) * 1000.0f
-    DemoTree(Vector3d(x, 0.5, z)).spawn(world, EntityPrefab("Tree"))
+    world.entities.spawnEntity(Tree(Vector3d(x, 0.5, z)))
   }
 }

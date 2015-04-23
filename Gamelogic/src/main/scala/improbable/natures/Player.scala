@@ -1,5 +1,5 @@
 // Copyright (c) 2014 All Right Reserved, Improbable Worlds Ltd.
-package improbable.entitytemplates
+package improbable.natures
 
 import improbable.corelib.entity.nature.definitions._
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
