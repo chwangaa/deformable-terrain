@@ -23,6 +23,6 @@ trait TextWriterBehaviour extends TextWriterBehaviourBase {
   var x = 0
   world.timing.every(5.seconds) {
     x += 1
-    state.update.triggerEmitText(s"Lads: $x").finishAndSend()
+    state.update.triggerEmitText(s"Hello!: $x").finishAndSend()
   }
 }

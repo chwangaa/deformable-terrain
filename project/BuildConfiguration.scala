@@ -6,7 +6,7 @@ import sbt._
 object BuildConfiguration extends improbable.build.ImprobableBuild(
   projectName = "demonstration",
   organisation = "improbable",
-  version = "1",
+  version = "10",
   buildSettings = Seq(FabricBuildSettings(), UnityPlayerProject()),
   gameDependencies = List(CoreLibrary)
 )

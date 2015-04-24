@@ -9,7 +9,7 @@ import scala.util.Random
 
 trait TreeSpawner extends WorldApp {
 
-  Thread.sleep(500)
+  Thread.sleep(10000)
   spawnRandomTrees()
   spawnKindling()
   spawnIgnition()
