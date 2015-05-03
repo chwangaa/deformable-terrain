@@ -15,9 +15,6 @@
     </Behaviour>
 
     <State name="Text" synchronized="true">
-        <Properties>
-            <Property name="content" type="String"/>
-        </Properties>
         <StateEvents>
             <StateEvent name="EmitText">
                 <Property name="content" type="String"/>

@@ -1,13 +1,12 @@
 package improbable.natures
 
-import improbable.corelib.Prefab
-import improbable.corelib.entity.nature.definitions.CoreLibPhysicalObject
+import improbable.corelib.entity.nature.definitions.RigidbodyEntity
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
-import improbable.demo.Flammable
 import improbable.math._
+import improbable.papi.entity.EntityPrefab
 
 object Bot extends NatureDescription {
-  override val dependencies = Set[NatureDescription](CoreLibPhysicalObject, TextDisplayer, Colored)
+  override val dependencies = Set[NatureDescription](RigidbodyEntity, TextDisplayer, Colored)
 
   override def activeBehaviours = {
     Set()
@@ -15,12 +14,9 @@ object Bot extends NatureDescription {
 
   def apply(position: Vector3d, onFire: Boolean = false): NatureApplication = {
     application(
-      states = Seq(
-        Flammable(onFire),
-        Prefab("Cube")
-      ),
+      states = Seq(),
       natures = Seq(
-        CoreLibPhysicalObject(position, drag = 0.2f),
+        RigidbodyEntity(EntityPrefab("Cube"), position, drag = 0.2f),
         TextDisplayer(),
         Colored(java.awt.Color.red))
     )

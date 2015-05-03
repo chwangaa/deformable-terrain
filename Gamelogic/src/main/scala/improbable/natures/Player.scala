@@ -4,22 +4,23 @@ package improbable.natures
 import improbable.corelib.entity.nature.definitions._
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
 import improbable.corelib.util.EntityOwnerDescriptor
-import improbable.math.Vector3
+import improbable.math.Vector3d
 import improbable.papi.engine.EngineId
+import improbable.papi.entity.EntityPrefab
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
 import improbable.physical.{NewPlayerBotBehaviour, PlayerBotDataDescriptor}
 
 object Player extends NatureDescription {
+  override val dependencies = Set[NatureDescription](BotEntity)
+
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = {
     Set(NewPlayerBotBehaviour())
   }
 
-  override val dependencies = Set[NatureDescription](CoreLibBotObject)
-
-  def apply(engineId: EngineId): NatureApplication = {
+  def apply(prefab: EntityPrefab, engineId: EngineId): NatureApplication = {
     application(
       states = Seq(EntityOwnerDescriptor(Some(engineId)), PlayerBotDataDescriptor(forceMagnitude = 20.0f)),
-      natures = Seq(CoreLibBotObject(Vector3(0, 0.5, 0)))
+      natures = Seq(BotEntity(prefab, Vector3d(0, 0.5, 0)))
     )
   }
 }

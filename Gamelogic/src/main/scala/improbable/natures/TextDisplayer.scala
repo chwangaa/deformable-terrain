@@ -12,7 +12,7 @@ object TextDisplayer extends NatureDescription {
 
   def apply(text: String = ""): NatureApplication = {
     application(
-      states = Seq(Text(text))
+      states = Seq(Text())
     )
   }
 }

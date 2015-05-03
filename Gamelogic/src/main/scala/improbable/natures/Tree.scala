@@ -1,12 +1,12 @@
 package improbable.natures
 
-import improbable.corelib.Prefab
-import improbable.corelib.entity.nature.definitions.CoreLibObject
+import improbable.corelib.entity.nature.definitions.{BaseEntity, CoreLibObject}
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
 import improbable.math.Vector3d
+import improbable.papi.entity.EntityPrefab
 
 object Tree extends NatureDescription {
-  override val dependencies = Set[NatureDescription](CoreLibObject)
+  override val dependencies = Set[NatureDescription](BaseEntity)
 
   override def activeBehaviours = {
     Set()
@@ -14,8 +14,7 @@ object Tree extends NatureDescription {
 
   def apply(position: Vector3d): NatureApplication = {
     application(
-      states = Seq(Prefab("Tree")),
-      natures = Seq(CoreLibObject(position))
+      natures = Seq(BaseEntity(EntityPrefab("Tree"), position))
     )
   }
 }

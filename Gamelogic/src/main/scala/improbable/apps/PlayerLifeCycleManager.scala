@@ -32,7 +32,7 @@ trait PlayerLifeCycleManager extends WorldApp {
   }
 
   private def addEntity(userId: String): Unit = {
-    val playerEntityId = Player(engineId = userId).spawn(world, new EntityPrefab("Cube"))
+    val playerEntityId = world.entities.spawnEntity(Player(prefab = EntityPrefab("Cube"), engineId = userId))
     logger.info(s"Spawning Player with userId $userId and entityId $playerEntityId")
     userIdToEntityIdMap += userId -> playerEntityId
   }
