@@ -9,8 +9,6 @@ trait MoveRandomlyBehaviour extends MoveRandomlyBehaviourBase {
 
   val INTENSITY = 20.0f
 
-
-
   world.timing.every(1.seconds) {
     moveRandomly()
   }

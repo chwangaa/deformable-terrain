@@ -34,6 +34,7 @@ Editor/sysinfo.txt
 */Assets/Improbable/Gamelogic/*.pdb.meta
 */Assets/Improbable/Gamelogic/*.mdb.meta
 */Assets/Improbable.meta
+*/Assets/Improbable/EntityPrefabs/*
 */Assets/Plugins
 */Assets/Plugins.meta
 
@@ -43,3 +44,5 @@ Editor/Assets/Resources/Compiled.meta
 
 # Pinnacle-specific
 FSim/
+
+

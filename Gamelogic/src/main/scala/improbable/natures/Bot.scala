@@ -18,7 +18,7 @@ object Bot extends NatureDescription {
       natures = Seq(
         RigidbodyEntity(EntityPrefab("Cube"), position, drag = 0.2f),
         TextDisplayer(),
-        Colored(java.awt.Color.red))
+        Colored(java.awt.Color.white))
     )
   }
 }

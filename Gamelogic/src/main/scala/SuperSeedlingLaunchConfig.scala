@@ -1,8 +1,8 @@
-import improbable.apps.{PlayerLifeCycleManagerDescriptor, TreeSpawnerDescriptor}
+import improbable.apps.{CubeSpawnerDescriptor, PlayerLifeCycleManagerDescriptor}
 import improbable.corelib.launcher.DefaultLaunchConfig
 
 class SuperSeedlingLaunchConfig(dynamicallySpoolUpEngines: Boolean) extends DefaultLaunchConfig(
-  Seq(PlayerLifeCycleManagerDescriptor, TreeSpawnerDescriptor),
+  Seq(PlayerLifeCycleManagerDescriptor, CubeSpawnerDescriptor),
   dynamicallySpoolUpEngines
 )
 
