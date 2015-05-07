@@ -6,7 +6,7 @@ import improbable.math._
 import improbable.papi.entity.EntityPrefab
 
 object Bot extends NatureDescription {
-  override val dependencies = Set[NatureDescription](RigidbodyEntity, TextDisplayer, Colored)
+  override val dependencies = Set[NatureDescription](RigidbodyEntity, Colored)
 
   override def activeBehaviours = {
     Set()
@@ -17,7 +17,6 @@ object Bot extends NatureDescription {
       states = Seq(),
       natures = Seq(
         RigidbodyEntity(EntityPrefab("Cube"), position, drag = 0.2f),
-        TextDisplayer(),
         Colored(java.awt.Color.white))
     )
   }
