@@ -19,7 +19,7 @@ object Player extends NatureDescription {
 
   def apply(prefab: EntityPrefab, engineId: EngineId): NatureApplication = {
     application(
-      states = Seq(EntityOwnerDescriptor(Some(engineId)), PlayerBotDataDescriptor(forceMagnitude = 20.0f)),
+      states = Seq(EntityOwnerDescriptor(Some(engineId)), PlayerBotDataDescriptor(forceMagnitude = 30.0f)),
       natures = Seq(BotEntity(prefab, Vector3d(0, 0.5, 0)))
     )
   }

@@ -29,7 +29,6 @@ namespace Improbable.Controls.Observer
         private Vector3 GetMovementDirection(Vector3 inputDirection)
         {
             var resultDirection = CameraRoot.transform.rotation * inputDirection.ToUnityVector();
-            UnityEngine.Debug.Log(resultDirection);
             return resultDirection.normalized.ToNativeVector();
         }
     }

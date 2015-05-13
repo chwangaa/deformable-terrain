@@ -17,5 +17,11 @@ trait PlayerBotBehaviour extends PlayerBotBehaviourBase {
   entity.watch[PlayerControlsData].bind.movementDirection {
     movementDirection =>
       rigidbodyInterface.setForce(movementDirection * state.forceMagnitude)
+      if(movementDirection.magnitude < 0.1f) {
+        rigidbodyInterface.setDrag(10.0f)
+      } else {
+        rigidbodyInterface.setDrag(0.8f)
+      }
+
   }
 }
