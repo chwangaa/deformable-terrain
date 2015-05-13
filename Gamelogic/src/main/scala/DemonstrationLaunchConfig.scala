@@ -1,8 +1,8 @@
-import improbable.apps.{CubeSpawnerDescriptor, PlayerLifeCycleManagerDescriptor}
+import improbable.apps.{TreeSpawnerDescriptor, CubeSpawnerDescriptor, PlayerLifeCycleManagerDescriptor}
 import improbable.corelib.launcher.DefaultLaunchConfig
 
 class DemonstrationLaunchConfig(dynamicallySpoolUpEngines: Boolean) extends DefaultLaunchConfig(
-  Seq(PlayerLifeCycleManagerDescriptor, CubeSpawnerDescriptor),
+  Seq(PlayerLifeCycleManagerDescriptor, CubeSpawnerDescriptor, TreeSpawnerDescriptor),
   dynamicallySpoolUpEngines
 )
 

@@ -1,9 +1,6 @@
-import improbable.configuration.DeploymentConfigurationProperties
 import improbable.corelib.launcher.ShutdownAfterInput
 import improbable.dapi.Launcher
 import improbable.unity.fabric.engine.DownloadableClientEngineDescriptor
-
-import scala.io.StdIn
 
 object ManualEngineSpoolUpGameLauncher extends DemonstrationGameLauncher(ManualEngineStartupLaunchConfig) with App with ShutdownAfterInput
 
