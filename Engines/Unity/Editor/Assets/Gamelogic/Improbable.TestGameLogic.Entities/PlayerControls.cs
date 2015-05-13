@@ -1,6 +1,9 @@
-using Improbable.Math;
+using System.Net.Sockets;
+using Improbable.Unity.Common.Core.Math;
 using Improbable.Unity.Input.Sources;
 using IoC;
+using UnityEngine;
+using Vector3 = Improbable.Math.Vector3;
 
 namespace Improbable.Controls.Observer
 {
@@ -9,14 +12,25 @@ namespace Improbable.Controls.Observer
         [Inject]
         public IInputSource InputSource { protected get; set; }
 
-        private void FixedUpdate()
+        private Transform CameraRoot;
+
+        private void OnEnable()
         {
-            State.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
+            CameraRoot = transform.FindChild("CameraRoot");
         }
 
-        private Vector3 GetMovementDirection()
+        private void Update()
         {
-            return new Vector3(InputSource.GetAxis("Horizontal"), 0, InputSource.GetAxis("Vertical"));
+            State.Update.MovementDirection(
+                GetMovementDirection(new Vector3(InputSource.GetAxis("Horizontal"), 0, InputSource.GetAxis("Vertical"))))
+                .FinishAndSend();
+        }
+
+        private Vector3 GetMovementDirection(Vector3 inputDirection)
+        {
+            var resultDirection = CameraRoot.transform.rotation * inputDirection.ToUnityVector();
+            UnityEngine.Debug.Log(resultDirection);
+            return resultDirection.normalized.ToNativeVector();
         }
     }
 }
