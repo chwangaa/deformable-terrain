@@ -6,12 +6,16 @@ object ManualEngineSpoolUpGameLauncher extends DemonstrationGameLauncher(ManualE
 
 object AutoEngineSpoolUpGameLauncher extends DemonstrationGameLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
 
-object Demonstration extends DemonstrationGameLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
+object LocalDemonstration extends DemonstrationGameLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
 
 object VisibleClient extends DownloadableClientEngineDescriptor(withGui = true)
 
-class DemonstrationGameLauncher(gameSetupSettings: DemonstrationLaunchConfig) {
-  Launcher.startGame(gameSetupSettings,
+class DemonstrationGameLauncher(gameSetupSettings: DemonstrationLaunchConfig, options: String*) {
+  val allOptions = options ++ Seq(
     "--engine_startup_retries=3",
-    "--game_engines_to_start=VisibleClient@0,0,0")
+    "--game_engines_to_start=VisibleClient@0,0,0",
+    "--game_world_edge_length=5000",
+    "--game_node_two_jvm_deployment=false"
+  )
+  Launcher.startGame(gameSetupSettings, allOptions: _*)
 }
