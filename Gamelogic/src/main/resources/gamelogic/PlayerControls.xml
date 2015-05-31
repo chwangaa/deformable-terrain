@@ -6,8 +6,8 @@
         </Properties>
     </State>
 
-    <Observer name="PlayerControls">
+    <Behaviour name="PlayerControls">
         <State name="PlayerControlsData"/>
-    </Observer>
+    </Behaviour>
 
 </Group>
