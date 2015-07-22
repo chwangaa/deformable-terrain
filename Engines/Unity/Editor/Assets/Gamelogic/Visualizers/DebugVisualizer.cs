@@ -1,17 +1,14 @@
+using Improbable.Unity.Visualizer;
 using UnityEngine;
-using System;
-using WorldScene.Visualizers;
 using Improbable.Debug;
 
 namespace Improbable
 {
-	class DebugVisualizer : MonoBehaviour, IVisualizer
+	class DebugVisualizer : MonoBehaviour
 	{
-		[Data]
-		private IText Text;
+		[Require] public TextReader Text;
 
-		[Data]
-		private IColor Color;
+        [Require] public ColorReader Color;
 
 		void OnEnable ()
 		{

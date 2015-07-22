@@ -2,7 +2,7 @@ package improbable.natures
 
 import improbable.corelib.entity.nature.definitions.StaticBodyEntity
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
-import improbable.math.Vector3d
+import improbable.math.{Coordinates, Vector3d}
 import improbable.papi.entity.EntityPrefab
 
 object Tree extends NatureDescription {
@@ -12,7 +12,7 @@ object Tree extends NatureDescription {
     Set()
   }
 
-  def apply(position: Vector3d): NatureApplication = {
+  def apply(position: Coordinates): NatureApplication = {
     application(
       natures = Seq(StaticBodyEntity(EntityPrefab("Tree"), position))
     )

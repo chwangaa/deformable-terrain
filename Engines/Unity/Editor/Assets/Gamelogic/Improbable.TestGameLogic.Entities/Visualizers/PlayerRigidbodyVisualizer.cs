@@ -1,19 +1,19 @@
 ﻿using Improbable.Corelib.Physical.Visualizers;
 using Improbable.Entity.Physical;
+using Improbable.Unity.Visualizer;
 using UnityEngine;
-using WorldScene.Visualizers;
 
 namespace Improbable.Pinnacle.Visualizers
 {
-    public class PlayerRigidbodyVisualizer : MonoBehaviour, IVisualizer, IRigidbodyVisualizer
+    class PlayerRigidbodyVisualizer : MonoBehaviour, IRigidbodyVisualizer
     {
-        [Data] private IRigidbodyData rigidbodyData;
-        [Data] private IRigidbodyEngineData rigidbodyEngineData;
-        private RigidbodyParametersBinder rigidbodyParametersBinder;
+        [Require] public RigidbodyDataReader RigidbodyDetails;
 
-        public IRigidbodyData RigidbodyData
+        private RigidbodyParametersBinder RigidbodyParameters;
+
+        public RigidbodyDataReader RigidbodyData
         {
-            get { return rigidbodyData; }
+            get { return RigidbodyDetails; }
         }
 
         public Rigidbody Rigidbody
@@ -28,14 +28,14 @@ namespace Improbable.Pinnacle.Visualizers
 
         public void OnEnable()
         {
-            rigidbodyParametersBinder = new RigidbodyParametersBinder(this);
+            RigidbodyParameters = new RigidbodyParametersBinder(this);
             RigidbodyParametersBinder.AddRigidbody(gameObject);
-            rigidbodyParametersBinder.ListenToRigidbodyParameters();
+            RigidbodyParameters.ListenToRigidbodyParameters();
         }
 
         public void OnDisable()
         {
-            rigidbodyParametersBinder.StopListeningToRigidbodyParameters();
+            RigidbodyParameters.StopListeningToRigidbodyParameters();
             Destroy(GetComponent<Rigidbody>());
         }
     }

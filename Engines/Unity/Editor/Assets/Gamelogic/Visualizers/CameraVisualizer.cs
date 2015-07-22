@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using WorldScene.Visualizers;
 
 namespace Assets.Gamelogic.Visualizers
 {
-    class CameraVisualizer : MonoBehaviour, IVisualizer
+    class CameraVisualizer : MonoBehaviour
     {
         public Camera OurCamera;
         public Transform CameraRoot;

@@ -5,7 +5,7 @@ import improbable.controls.{NewPlayerControlsBehaviour, PlayerControlsDataDescri
 import improbable.corelib.entity.nature.definitions._
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
 import improbable.corelib.util.EntityOwnerDescriptor
-import improbable.math.Vector3d
+import improbable.math.{Coordinates, Vector3d}
 import improbable.papi.engine.EngineId
 import improbable.papi.entity.EntityPrefab
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
@@ -21,7 +21,7 @@ object Player extends NatureDescription {
   def apply(prefab: EntityPrefab, engineId: EngineId): NatureApplication = {
     application(
       states = Seq(EntityOwnerDescriptor(Some(engineId)), PlayerBotDataDescriptor(forceMagnitude = 20.0f), PlayerControlsDataDescriptor(Vector3d.zero)),
-      natures = Seq(BotEntity(prefab, Vector3d(0, 0.5, 0)))
+      natures = Seq(BotEntity(prefab, Coordinates(0, 0.5, 0)))
     )
   }
 }

@@ -1,6 +1,6 @@
 package improbable.apps
 
-import improbable.math.Vector3d
+import improbable.math.{Coordinates, Vector3d}
 import improbable.natures.Tree
 import improbable.papi.worldapp.WorldApp
 
@@ -18,11 +18,11 @@ trait TreeSpawner extends WorldApp {
   private def spawnRandomTree(): Unit = {
     val x = (Random.nextDouble() - 0.5f) * TreeSpawner.DISTANCE
     val z = (Random.nextDouble() - 0.5f) * TreeSpawner.DISTANCE
-    world.entities.spawnEntity(Tree(Vector3d(x, 0.5, z)))
+    world.entities.spawnEntity(Tree(Coordinates(x, 0.5, z)))
   }
 }
 
 object TreeSpawner {
-  val DISTANCE = 3000f
-  val NUMBER_OF_TREES = 10000
+  val DISTANCE = 500
+  val NUMBER_OF_TREES = 500
 }

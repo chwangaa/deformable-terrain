@@ -13,7 +13,7 @@ object Bot extends NatureDescription {
     Set(NewMoveRandomlyBehaviour())
   }
 
-  def apply(position: Vector3d, onFire: Boolean = false): NatureApplication = {
+  def apply(position: Coordinates, onFire: Boolean = false): NatureApplication = {
     application(
       states = Seq(),
       natures = Seq(
