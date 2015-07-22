@@ -21,3 +21,6 @@ Data/AssetDatabase
 
 #Generated type ID Map
 typeIDMap.properties
+
+#Built out assets
+Engines/Unity/Editor/Assets/Improbable/EntityPrefabs/*
