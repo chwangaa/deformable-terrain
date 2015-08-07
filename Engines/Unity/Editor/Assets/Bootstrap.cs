@@ -33,7 +33,7 @@ namespace Improbable
                 UseInstrumentation = Instrument,
                 IsDebugMode = IsDebugMode,
                 LinkProtocol = LinkProtocol,
-				AccountsUrl = "accounts.improbable.io",
+				AccountsUrl = "https://account.improbable.io/",
 				ImprobableAppId = "BANTER",
 				AccessToken = "WOOO",
 				MsgProcessLimitPerFrame = MsgProcessLimitPerFrame
