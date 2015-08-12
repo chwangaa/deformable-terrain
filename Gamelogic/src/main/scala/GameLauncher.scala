@@ -13,7 +13,6 @@ object VisibleClient extends DownloadableClientEngineDescriptor(withGui = true)
 class DemonstrationGameLauncher(gameSetupSettings: DemonstrationLaunchConfig, options: String*) {
   val allOptions = options ++ Seq(
     "--engine_startup_retries=3",
-    "--game_engines_to_start=VisibleClient@0,0,0",
     "--game_world_edge_length=5000",
     "--game_node_two_jvm_deployment=false"
   )
