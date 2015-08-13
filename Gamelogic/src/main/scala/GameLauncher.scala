@@ -14,7 +14,8 @@ class DemonstrationGameLauncher(gameSetupSettings: DemonstrationLaunchConfig, op
   val allOptions = options ++ Seq(
     "--engine_startup_retries=3",
     "--game_world_edge_length=5000",
-    "--game_node_two_jvm_deployment=false"
+    "--game_node_two_jvm_deployment=false",
+    "--entity_activator=improbable.corelib.entity.CoreLibraryEntityActivator"
   )
   Launcher.startGame(gameSetupSettings, allOptions: _*)
 }

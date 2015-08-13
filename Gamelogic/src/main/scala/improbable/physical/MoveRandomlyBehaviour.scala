@@ -1,11 +1,15 @@
 package improbable.physical
 
+import improbable.entity.physical.RigidbodyInterface
 import improbable.math.Vector3d
+import improbable.papi.entity.EntityBehaviour
+import improbable.papi.world.World
 
 import scala.concurrent.duration._
 import scala.util.Random
 
-trait MoveRandomlyBehaviour extends MoveRandomlyBehaviourBase {
+class MoveRandomlyBehaviour(world: World,
+                            rigidBodyInterface: RigidbodyInterface) extends EntityBehaviour {
 
   val INTENSITY = 20.0f
 
@@ -16,7 +20,7 @@ trait MoveRandomlyBehaviour extends MoveRandomlyBehaviourBase {
   private def moveRandomly(): Unit = {
     val x = randomAxis()
     val z = randomAxis()
-    rigidbodyInterface.setForce(Vector3d(x, 0.0f, z).normalised * INTENSITY)
+    rigidBodyInterface.setForce(Vector3d(x, 0.0f, z).normalised * INTENSITY)
   }
 
   private def randomAxis(): Double = {

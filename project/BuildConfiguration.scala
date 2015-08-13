@@ -8,7 +8,8 @@ object BuildConfiguration extends improbable.build.ImprobableBuild(
   organisation = "improbable",
   version = "10",
   buildSettings = Seq(FabricBuildSettings(), UnityPlayerProject()),
-  gameDependencies = List(CoreLibrary)
+  dependencies = List(CoreLibrary),
+  isLibrary = false
 )
 
 object Versions {
