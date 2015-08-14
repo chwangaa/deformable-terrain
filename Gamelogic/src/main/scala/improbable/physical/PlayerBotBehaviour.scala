@@ -1,11 +1,15 @@
 package improbable.physical
 
 import improbable.controls.PlayerControlsData
+import improbable.entity.physical.RigidbodyInterface
+import improbable.papi.entity.{Entity, EntityBehaviour}
 
-trait PlayerBotBehaviour extends PlayerBotBehaviourBase {
+class PlayerBotBehaviour(entity: Entity,
+                         playerBotData: PlayerBotDataWriter,
+                         rigidBodyInterface: RigidbodyInterface) extends EntityBehaviour {
 
   entity.watch[PlayerControlsData].bind.movementDirection {
     movementDirection =>
-      rigidbodyInterface.setForce(movementDirection * state.forceMagnitude)
+      rigidBodyInterface.setForce(movementDirection * playerBotData.forceMagnitude)
   }
 }

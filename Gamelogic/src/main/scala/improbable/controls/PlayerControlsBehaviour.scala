@@ -1,9 +1,10 @@
 package improbable.controls
 
-import improbable.corelib.util.EntityOwnerUtils
-import improbable.unity.papi.SpecificEngineConstraint
+import improbable.corelib.util.EntityOwnerDelegation.entityOwnerDelegation
+import improbable.papi.entity.{Entity, EntityBehaviour}
 
-trait PlayerControlsBehaviour extends PlayerControlsBehaviourBase {
+class PlayerControlsBehaviour(entity: Entity) extends EntityBehaviour {
 
-  entity.delegateState[PlayerControlsData](SpecificEngineConstraint(EntityOwnerUtils.ownerIdOf(entity)))
+  entity.delegateStateToOwner[PlayerControlsData]
+
 }
