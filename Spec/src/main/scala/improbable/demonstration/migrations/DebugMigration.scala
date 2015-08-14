@@ -1,25 +1,11 @@
 package improbable.demonstration.migrations
 
+import improbable.migration.Implicits._
 import improbable.migration._
 import improbable.spec._
-import Implicits._
 
 @Timestamp(timestamp = 1439386804473L)
-object InitialMigration extends Migrations(
-  state.add(
-    State(
-      id = "improbable.physical.PlayerBotData",
-      description = "Parameters for player movement",
-      properties = Seq(
-        Property("forceMagnitude", "scaling factor for force applied to player", Type.Float)
-      ),
-      events = Seq(
-
-      ),
-      synchronized = true,
-      queryable = false
-    )
-  ),
+object DebugMigration extends Migrations(
   state.add(
     State(
       id = "improbable.debug.Color",
@@ -45,20 +31,6 @@ object InitialMigration extends Migrations(
         Event("improbable.debug.EmitText", "emit debug text", properties = Seq(
           Property("content", "debug text string", Type.String)
         ))
-      ),
-      synchronized = true,
-      queryable = false
-    )
-  ),
-  state.add(
-    State(
-      id = "improbable.controls.PlayerControlsData",
-      description = "player controls values",
-      properties = Seq(
-        Property("movementDirection", "control movement direction", Type.Vec3d)
-      ),
-      events = Seq(
-
       ),
       synchronized = true,
       queryable = false
