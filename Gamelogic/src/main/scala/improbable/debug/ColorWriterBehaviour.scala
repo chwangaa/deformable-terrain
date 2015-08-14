@@ -9,10 +9,10 @@ trait ColorInterface extends EntityBehaviourInterface {
   def setColor(color: java.awt.Color)
 }
 
-class ColorWriterBehaviour(colorWriter: ColorWriter) extends EntityBehaviour with ColorInterface{
+class ColorWriterBehaviour(color: ColorWriter) extends EntityBehaviour with ColorInterface{
   import ColorConversions._
 
-  override def setColor(color: awt.Color): Unit = {
-    colorWriter.update.value(color).finishAndSend()
+  override def setColor(newColorValue: awt.Color): Unit = {
+    color.update.value(newColorValue).finishAndSend()
   }
 }
