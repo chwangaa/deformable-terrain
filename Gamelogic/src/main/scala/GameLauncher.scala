@@ -6,8 +6,6 @@ object ManualEngineSpoolUpGameLauncher extends DemonstrationGameLauncher(ManualE
 
 object AutoEngineSpoolUpGameLauncher extends DemonstrationGameLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
 
-object LocalDemonstration extends DemonstrationGameLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
-
 object VisibleClient extends DownloadableClientEngineDescriptor(withGui = true)
 
 class DemonstrationGameLauncher(gameSetupSettings: DemonstrationLaunchConfig, options: String*) {
