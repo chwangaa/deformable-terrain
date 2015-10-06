@@ -5,7 +5,6 @@ Gamelogic/src/main/cs/*/*.csproj.user
 
 # IntelliJ Generated Files
 .idea/
-*.iml
 
 # SBT
 target/
@@ -18,9 +17,6 @@ target/
 
 #Asset Database and Library
 Data/AssetDatabase
-
-#Generated type ID Map
-typeIDMap.properties
 
 #Built out assets
 Engines/Unity/Editor/Assets/Improbable/EntityPrefabs/*
