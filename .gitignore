@@ -20,3 +20,6 @@ Data/AssetDatabase
 
 #Built out assets
 Engines/Unity/Editor/Assets/Improbable/EntityPrefabs/*
+
+#Editor backup files
+*~
