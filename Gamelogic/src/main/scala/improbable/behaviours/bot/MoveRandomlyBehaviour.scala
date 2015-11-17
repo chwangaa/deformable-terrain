@@ -1,4 +1,4 @@
-package improbable.behaviours.physical
+package improbable.behaviours.bot
 
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.Vector3d
@@ -11,7 +11,7 @@ import scala.util.Random
 class MoveRandomlyBehaviour(world: World,
                             rigidBodyInterface: RigidbodyInterface) extends EntityBehaviour {
 
-  val INTENSITY = 20.0f
+  val INTENSITY = 12.0f
 
   world.timing.every(1.seconds) {
     moveRandomly()

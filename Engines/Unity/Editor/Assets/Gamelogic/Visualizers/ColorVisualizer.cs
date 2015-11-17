@@ -11,12 +11,12 @@ namespace Assets.Gamelogic.Visualizers
 
         public Renderer[] Renderers;
 
-        private void OnEnable()
+        public void OnEnable()
         {
             Color.ValueUpdated += HandleValueUpdated;
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             Color.ValueUpdated -= HandleValueUpdated;
         }

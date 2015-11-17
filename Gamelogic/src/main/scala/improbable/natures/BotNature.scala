@@ -1,10 +1,10 @@
 package improbable.natures
 
-import improbable.behaviours.physical.MoveRandomlyBehaviour
+import improbable.behaviours.bot.MoveRandomlyBehaviour
 import improbable.corelib.entity.nature.definitions.RigidbodyEntity
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
 import improbable.math._
-import improbable.util.EntityPrefabs.PLAYER
+import improbable.util.EntityPrefabs.BOT
 
 object BotNature extends NatureDescription {
 
@@ -17,7 +17,7 @@ object BotNature extends NatureDescription {
   def apply(initialPosition: Coordinates, onFire: Boolean = false): NatureApplication = {
     application(
       natures = Seq(
-        RigidbodyEntity(prefab = PLAYER, position = initialPosition, drag = 0.2f),
+        RigidbodyEntity(prefab = BOT, position = initialPosition, drag = 0.2f),
         ColoredNature(color = java.awt.Color.red))
     )
   }

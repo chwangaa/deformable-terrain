@@ -8,7 +8,7 @@ import improbable.spec._
 object PlayerControlsMigration extends Migrations(
   state.add(
     State(
-      id = "improbable.controls.PlayerControlsState",
+      id = "improbable.player.controls.PlayerControlsState",
       description = "Player controls values",
       properties = Seq(
         Property("movementDirection", "Control movement direction", Type.Vec3d)

@@ -1,4 +1,5 @@
-using Improbable.Controls;
+using Improbable.Player;
+using Improbable.Player.Controls;
 using Improbable.Unity.Input.Sources;
 using Improbable.Unity.Visualizer;
 using IoC;
@@ -11,9 +12,10 @@ namespace Assets.Gamelogic.Visualizers
     {
         [Inject] public IInputSource InputSource { protected get; set; }
 
+        [Require] protected LocalPlayerCheckStateWriter LocalPlayerCheck;
         [Require] protected PlayerControlsStateWriter PlayerControls;
 
-        private void Update()
+        public void Update()
         {
             PlayerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
         }

@@ -8,7 +8,7 @@ import improbable.spec._
 object PlayerMigration extends Migrations(
   state.add(
     State(
-      id = "improbable.physical.PlayerState",
+      id = "improbable.player.physical.PlayerState",
       description = "Parameters for player movement",
       properties = Seq(
         Property("forceMagnitude", "Scaling factor for force applied to player", Type.Float)

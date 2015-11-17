@@ -1,22 +1,30 @@
-﻿using UnityEngine;
+﻿using Improbable.Player;
+using Improbable.Unity.Input.Sources;
+using Improbable.Unity.Visualizer;
+using IoC;
+using UnityEngine;
 
 namespace Assets.Gamelogic.Visualizers
 {
-    class CameraVisualizer : MonoBehaviour
+    public class CameraVisualizer : MonoBehaviour
     {
+        [Inject] public IInputSource InputSource { protected get; set; }
+        
+        [Require] protected LocalPlayerCheckStateWriter LocalPlayerCheck;
+
         public Camera OurCamera;
         public Transform CameraRoot;
+        public float RotationSpeed;
 
-        private float RotateSpeed = 60.0f;
-
-        void Update()
+        public void Update()
         {
-            if (Input.GetKey(KeyCode.Q))
+            if (InputSource.GetKey(KeyCode.Q))
             {
-                CameraRoot.transform.Rotate(-Vector3.up * Time.deltaTime * RotateSpeed, Space.World);
-            } else if (Input.GetKey(KeyCode.E))
+                CameraRoot.transform.Rotate(-Vector3.up * Time.deltaTime * RotationSpeed, Space.World);
+            }
+            else if (InputSource.GetKey(KeyCode.E))
             {
-                CameraRoot.transform.Rotate(Vector3.up * Time.deltaTime * RotateSpeed, Space.World);
+                CameraRoot.transform.Rotate(Vector3.up * Time.deltaTime * RotationSpeed, Space.World);
             }
         }
     }

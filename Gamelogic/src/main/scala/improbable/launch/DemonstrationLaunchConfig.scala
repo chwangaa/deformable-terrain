@@ -1,11 +1,15 @@
 package improbable.launch
 
 import improbable.apps._
-import improbable.corelib.launcher.DefaultLaunchConfig
+import improbable.corelib.launcher.DefaultConstraintEngineDescriptorResolver
+import improbable.dapi.LaunchConfig
+import improbable.launch.bridgesettings.DemonstrationBridgeSettingsResolver
 
-class DemonstrationLaunchConfig(dynamicallySpoolUpEngines: Boolean) extends DefaultLaunchConfig(
+class DemonstrationLaunchConfig(dynamicallySpoolUpEngines: Boolean) extends {} with LaunchConfig(
   Seq(classOf[CubeSpawner], classOf[PlayerLifeCycleManager], classOf[TreeSpawner]),
-  dynamicallySpoolUpEngines
+  dynamicallySpoolUpEngines,
+  DemonstrationBridgeSettingsResolver,
+  DefaultConstraintEngineDescriptorResolver
 )
 
 object ManualEngineStartupLaunchConfig extends DemonstrationLaunchConfig(dynamicallySpoolUpEngines = false)
