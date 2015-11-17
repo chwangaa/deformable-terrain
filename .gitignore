@@ -15,11 +15,18 @@ target/
 # Mac-specific
 **/.DS_Store
 
-#Asset Database and Library
+# Asset Database and Library
 Data/AssetDatabase
 
-#Built out assets
+# Built out assets
 Engines/Unity/Editor/Assets/Improbable/EntityPrefabs/*
+
+# Unity
+Engines/Unity/Editor/ProjectSettings/UnityAnalyticsManager.asset
+Engines/Unity/Editor/ProjectSettings/UnityAdsSettings.asset
+
+# Schema
+Engines/Unity/Editor/schema.html
 
 #Editor backup files
 *~

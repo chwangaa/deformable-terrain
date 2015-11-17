@@ -3,4 +3,5 @@ target/
 bin/
 obj/
 *.suo
+schema.html
 *.DotSettings.user
