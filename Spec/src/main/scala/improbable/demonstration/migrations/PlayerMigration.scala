@@ -5,13 +5,13 @@ import improbable.migration._
 import improbable.spec._
 
 @Timestamp(timestamp = 1439386804473L)
-object PlayerControlsMigration extends Migrations(
+object PlayerMigration extends Migrations(
   state.add(
     State(
-      id = "improbable.controls.PlayerControlsState",
-      description = "Player controls values",
+      id = "improbable.physical.PlayerState",
+      description = "Parameters for player movement",
       properties = Seq(
-        Property("movementDirection", "Control movement direction", Type.Vec3d)
+        Property("forceMagnitude", "Scaling factor for force applied to player", Type.Float)
       ),
       synchronized = true,
       queryable = false

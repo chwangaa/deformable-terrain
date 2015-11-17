@@ -7,15 +7,15 @@ using Vector3 = Improbable.Math.Vector3;
 
 namespace Assets.Gamelogic.Visualizers
 {
-    public class PlayerControls : MonoBehaviour
+    public class PlayerControlsVisualizer : MonoBehaviour
     {
         [Inject] public IInputSource InputSource { protected get; set; }
 
-        [Require] private PlayerControlsDataWriter playerControls;
+        [Require] protected PlayerControlsStateWriter PlayerControls;
 
-        private void FixedUpdate()
+        private void Update()
         {
-            playerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
+            PlayerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
         }
 
         private Vector3 GetMovementDirection()

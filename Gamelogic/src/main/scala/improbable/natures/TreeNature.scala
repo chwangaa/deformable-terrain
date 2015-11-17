@@ -2,19 +2,23 @@ package improbable.natures
 
 import improbable.corelib.entity.nature.definitions.StaticBodyEntity
 import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
-import improbable.math.{Coordinates, Vector3d}
-import improbable.papi.entity.EntityPrefab
+import improbable.math.Coordinates
+import improbable.util.EntityPrefabs.TREE
 
-object Tree extends NatureDescription {
+object TreeNature extends NatureDescription {
+
   override val dependencies = Set[NatureDescription](StaticBodyEntity)
 
   override def activeBehaviours = {
     Set()
   }
 
-  def apply(position: Coordinates): NatureApplication = {
+  def apply(initialPosition: Coordinates): NatureApplication = {
     application(
-      natures = Seq(StaticBodyEntity(EntityPrefab("Tree"), position))
+      natures = Seq(
+        StaticBodyEntity(prefab = TREE, position = initialPosition)
+      )
     )
   }
+
 }

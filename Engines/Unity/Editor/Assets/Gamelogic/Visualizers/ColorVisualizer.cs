@@ -1,14 +1,13 @@
-﻿using Improbable.Debug;
+﻿using Improbable.Color;
 using Improbable.Math;
 using Improbable.Unity.Visualizer;
 using UnityEngine;
-using Color = UnityEngine.Color;
 
 namespace Assets.Gamelogic.Visualizers
 {
-    class ColorVisualizer : MonoBehaviour
+    public class ColorVisualizer : MonoBehaviour
     {
-        [Require] public ColorReader Color;
+        [Require] public ColorStateReader Color;
 
         public Renderer[] Renderers;
 

@@ -5,16 +5,13 @@ import improbable.migration._
 import improbable.spec._
 
 @Timestamp(timestamp = 1439386804473L)
-object BotMigration extends Migrations(
+object ColorMigration extends Migrations(
   state.add(
     State(
-      id = "improbable.physical.PlayerBotData",
-      description = "Parameters for player movement",
+      id = "improbable.color.ColorState",
+      description = "Color of entities",
       properties = Seq(
-        Property("forceMagnitude", "scaling factor for force applied to player", Type.Float)
-      ),
-      events = Seq(
-
+        Property("value", "Color value", Type.Vec3f)
       ),
       synchronized = true,
       queryable = false
