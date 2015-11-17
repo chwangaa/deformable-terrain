@@ -1,3 +1,0 @@
-<Group package="improbable.apps"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://docs.improbable.io/schema/v1/WorldAppSchema.xsd">
-    <WorldApp name="CubeSpawner"/>
-</Group>

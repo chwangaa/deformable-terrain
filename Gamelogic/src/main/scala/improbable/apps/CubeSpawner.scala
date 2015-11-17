@@ -1,10 +1,14 @@
 package improbable.apps
 
+import com.typesafe.scalalogging.Logger
 import improbable.math.Vector3d
 import improbable.natures.Bot
-import improbable.papi.worldapp.WorldApp
+import improbable.papi.world.AppWorld
+import improbable.papi.worldapp.{WorldAppLifecycle, WorldApp}
 
-trait CubeSpawner extends WorldApp {
+class CubeSpawner(val world: AppWorld,
+                  override val logger: Logger,
+                  val lifecycle: WorldAppLifecycle) extends WorldApp {
 
   spawnCubes()
 

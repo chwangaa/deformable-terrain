@@ -1,17 +1,14 @@
 import improbable.build._
-import improbable.build.unity._
 import improbable.build.fabric._
-import sbt._
+import improbable.build.unity._
+import improbable.build.util.Versions
+import improbable.sdk.SdkInfo
 
 object BuildConfiguration extends improbable.build.ImprobableBuild(
   projectName = "demonstration",
   organisation = "improbable",
-  version = "10",
+  version = Versions.fetchVersion("demonstration"),
   buildSettings = Seq(FabricBuildSettings(), UnityPlayerProject()),
-  dependencies = List(CoreLibrary),
+  dependencies = List(new SimulationLibrary("improbable", "core-library", SdkInfo.version)),
   isLibrary = false
 )
-
-object Versions {
-  val coreLibraryVersion = readVersionFrom("project/coreLibrary.version")
-}

@@ -1,12 +1,17 @@
 package improbable.apps
 
-import improbable.math.{Coordinates, Vector3d}
+import com.typesafe.scalalogging.Logger
+import improbable.math.Coordinates
 import improbable.natures.Tree
-import improbable.papi.worldapp.WorldApp
+import improbable.papi.world.AppWorld
+import improbable.papi.worldapp.{WorldApp, WorldAppLifecycle}
 
 import scala.util.Random
 
-trait TreeSpawner extends WorldApp {
+class TreeSpawner(val world: AppWorld,
+                  override val logger: Logger,
+                  val lifecycle: WorldAppLifecycle) extends WorldApp {
+
   spawnRandomTrees()
 
   private def spawnRandomTrees(): Unit = {
@@ -20,6 +25,7 @@ trait TreeSpawner extends WorldApp {
     val z = (Random.nextDouble() - 0.5f) * TreeSpawner.DISTANCE
     world.entities.spawnEntity(Tree(Coordinates(x, 0.5, z)))
   }
+
 }
 
 object TreeSpawner {
