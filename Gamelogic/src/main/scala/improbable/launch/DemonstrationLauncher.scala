@@ -15,6 +15,6 @@ class DemonstrationLauncher(launchConfig: LaunchConfig) {
 
 }
 
-object ManualEngineSpoolUpDemonstrationLauncher extends DemonstrationLauncher(ManualEngineStartupLaunchConfig) with App with ShutdownAfterInput
+object ManualEngineSpoolUpDemonstrationLauncher extends DemonstrationLauncher(ManualEngineStartupLaunchConfig) with App
 
-object AutoEngineSpoolUpDemonstrationLauncher extends DemonstrationLauncher(AutomaticEngineStartupLaunchConfig) with App with ShutdownAfterInput
+object AutoEngineSpoolUpDemonstrationLauncher extends DemonstrationLauncher(AutomaticEngineStartupLaunchConfig) with App
