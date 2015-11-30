@@ -16,7 +16,7 @@ mainClass.in(Compile) := Some("improbable.worldspec.tools.ProtoV2")
 
 
 // Dependencies
-libraryDependencies += "improbable" % "spatialos_migrations_2.11" % "999-LOCAL-SNAPSHOT"
+libraryDependencies += "improbable" % "spatialos_migrations_2.11" % "1.0-SNAPSHOT"
 
 
 // Test dependencies
