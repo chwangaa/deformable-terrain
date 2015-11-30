@@ -1,0 +1,15 @@
+{
+ "Targets": [
+   {
+     "Name": "GenerateProtos",
+     "Steps": [
+       {
+         "Name": "Scala",
+         "Command": "sbt",
+         "Arguments": [
+           ";clean;compile;run ."
+         ]
+       },
+     ]
+   }
+}
