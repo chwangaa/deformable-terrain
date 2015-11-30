@@ -10,7 +10,7 @@ version := "1.0-SNAPSHOT"
 scalaVersion := "2.11.7"
 
 // Run configuration
-fork in run := true
+fork in run := true  // needed for the classpathscanner to work properly
 
 mainClass.in(Compile) := Some("improbable.worldspec.tools.ProtoV2")
 
