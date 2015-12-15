@@ -1,7 +1,6 @@
 package improbable.natures
 
-import improbable.corelib.entity.nature.definitions.StaticBodyEntity
-import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
+import improbable.corelib.natures.{NatureApplication, StaticBodyEntity, NatureDescription}
 import improbable.math.Coordinates
 import improbable.util.EntityPrefabs.TREE
 

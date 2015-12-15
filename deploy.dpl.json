@@ -1,81 +1,75 @@
-{
-  "flagz": {
-    "game_chunk_size": 250,
-    "game_world_edge_length": 40000,
-    "deployment_heap_dumps_enable": false,
-    "deployment_heap_dumps_directory": "/improbable/logs/heapdumps",
-    "engine_auto_restart": true,
-    "engine_automatic_scaling_enabled": true,
-    "bridge_coordinate_remapping_enabled": true,
-    "bridge_lb_decay_rate": "1",
-    "engine_startup_retries": "3",
-    "engine_range_limit_enabled": true,
-    "engine_range_limit_prefix": "UnityFSim",
-    "engine_range": 5000,
-    "file_downloader_use_cache": true
-  },
-  "javaparams": {
-    "-J-Xmx5G": "",
-    "-J-Xms1G": "",
-    "-DIGNORE_FLAGS_IN_GAME_PROPERTIES_FILE": true,
-    "-DCLOUD_LAUNCH_CONFIG": "AutomaticEngineStartupLaunchConfig"
-  },
-  "nodes": [
-    {
-      "name": "OraclesFSims",
-      "modules": [
-        {
-          "name": "ReceptionistModule"
-        },
-        {
-          "name": "DevWorldRestApiModule"
-        },
-        {
-          "name": "BridgeOracleModule"
-        },
-        {
-          "name": "BridgeModuleOracleModule"
-        },
-        {
-          "name": "WorldAppOracleModule"
-        },
-        {
-          "name": "AssetDatabaseModule"
-        },
-        {
-          "name": "EngineStartupModuleOracleModule"
-        },
-        {
-          "name": "WorldAppSupervisorModule"
-        },
-        {
-          "name": "EngineStartupModule"
-        },
-        {
-          "name": "ProfilingModule"
-        }
-      ]
-    },
-    {
-      "name": "BigGsim",
-      "modules": [
-        {
-          "name": "GSimBridgeModule",
-          "params": {
-            "gSimNumber": 0,
-            "swe": -32,
-            "swn": -32,
-            "nee": 31,
-            "nen": 31
-          }
-        },
-        {
-          "name": "InspectionRestModule"
-        },
-        {
-          "name": "ProfilingModule"
-        }
-      ]
-    }
-  ]
+{  
+   "flagz":{  
+       "game_chunk_size":50,
+      "game_world_edge_length":5000,
+      "engine_automatic_scaling_enabled":false,
+      "engine_start_timeout_seconds":9999999,
+      "entity_activator":"improbable.corelib.entity.CoreLibraryEntityActivator",
+      "bridge_enable_ping":true,
+      "player_engine_type": "UnityClient",
+      "engine_automatic_scaling_enabled": true
+   },
+   "javaparams":{  
+      "-J-Xmx12G":"",
+      "-J-Xms1G":"",
+      "-DIGNORE_FLAGS_IN_GAME_PROPERTIES_FILE":true,
+      "-DCLOUD_LAUNCH_CONFIG": "improbable.launch.AutomaticEngineStartupLaunchConfig"
+   },
+   "nodes":[  
+      {  
+         "name":"master",
+         "size":"single",
+         "modules":[  
+            {  
+               "name":"ReceptionistModule"
+            },
+            {  
+               "name":"DevWorldRestApiModule"
+            },
+            {  
+               "name":"BridgeOracleModule"
+            },
+            {  
+               "name":"BridgeModuleOracleModule"
+            },
+            {  
+               "name":"AssetDatabaseModule"
+            },
+            {  
+               "name":"EngineStartupModuleOracleModule"
+            },
+            {  
+               "name":"InspectionRestModule"
+            },
+            {  
+               "name":"PersistenceModule"
+            },
+            {  
+               "name":"RouterModule"
+            },
+            {  
+               "name":"EngineStartupModule"
+            },
+            {  
+               "name":"WorldAppSupervisorModule"
+            },
+            {  
+               "name":"WorldAppOracleModule"
+            },
+            {
+               "name":"ProfilingModule"
+            },
+            {  
+               "name":"GSimBridgeModule",
+               "params":{  
+                  "gSimNumber":1,
+                  "swe":-100,
+                  "swn":-100,
+                  "nee":100,
+                  "nen":100
+               }
+            }
+         ]
+      }           
+   ]
 }

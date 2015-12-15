@@ -9,7 +9,7 @@ import improbable.papi.worldapp.{WorldApp, WorldAppLifecycle}
 import scala.util.Random
 
 class TreeSpawner(val world: AppWorld,
-                  override val logger: Logger,
+                  val logger: Logger,
                   val lifecycle: WorldAppLifecycle) extends WorldApp {
 
   spawnRandomTrees()

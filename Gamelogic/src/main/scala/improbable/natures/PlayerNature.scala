@@ -1,9 +1,8 @@
 package improbable.natures
 
-import improbable.behaviours.player.controls.{DelegateLocalPlayerCheckToOwnerBehaviour, DelegatePlayerControlsToOwnerBehaviour}
 import improbable.behaviours.player.controls.physical.PlayerBehaviour
-import improbable.corelib.entity.nature.definitions._
-import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
+import improbable.behaviours.player.controls.{DelegateLocalPlayerCheckToOwnerBehaviour, DelegatePlayerControlsToOwnerBehaviour}
+import improbable.corelib.natures.{NatureApplication, BotEntity, NatureDescription}
 import improbable.corelib.util.EntityOwner
 import improbable.math.{Coordinates, Vector3d}
 import improbable.papi.engine.EngineId

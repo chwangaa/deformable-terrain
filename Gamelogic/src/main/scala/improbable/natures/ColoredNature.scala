@@ -1,9 +1,9 @@
 package improbable.natures
 
-import improbable.behaviours.color.ColorConversions._
 import improbable.behaviours.color.ColorBehaviour
+import improbable.behaviours.color.ColorConversions._
 import improbable.color.ColorState
-import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
+import improbable.corelib.natures.{NatureApplication, NatureDescription}
 
 object ColoredNature extends NatureDescription {
 

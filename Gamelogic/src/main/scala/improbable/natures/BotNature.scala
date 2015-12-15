@@ -1,9 +1,8 @@
 package improbable.natures
 
 import improbable.behaviours.bot.MoveRandomlyBehaviour
-import improbable.corelib.entity.nature.definitions.RigidbodyEntity
-import improbable.corelib.entity.nature.{NatureApplication, NatureDescription}
-import improbable.math._
+import improbable.corelib.natures.{NatureApplication, RigidbodyEntity, NatureDescription}
+import improbable.math.Coordinates
 import improbable.util.EntityPrefabs.BOT
 
 object BotNature extends NatureDescription {

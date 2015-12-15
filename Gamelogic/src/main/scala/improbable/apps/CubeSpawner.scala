@@ -7,7 +7,7 @@ import improbable.papi.world.AppWorld
 import improbable.papi.worldapp.{WorldAppLifecycle, WorldApp}
 
 class CubeSpawner(val world: AppWorld,
-                  override val logger: Logger,
+                  val logger: Logger,
                   val lifecycle: WorldAppLifecycle) extends WorldApp {
 
   spawnCubes()

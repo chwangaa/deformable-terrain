@@ -1,8 +1,10 @@
 resolvers := Seq(
-  "Improbable Nexus External Releases" at s"http://172.16.2.101:8081/content/repositories/releases/",
-  "Improbable Nexus External Snapshots" at s"http://172.16.2.101:8081/content/repositories/snapshots/",
+  "Improbable Nexus Repository Releases" at s"https://releases.service.improbable.io/content/repositories/releases/",
+  "Improbable Nexus Repository Snapshots" at s"https://releases.service.improbable.io/content/repositories/snapshots/",
   "Spray Repository" at "http://repo.spray.io/"
 ) ++ resolvers.value
+
+credentials.in(Global) ++= (Path.userHome / ".ivy2" * "*credentials").get.map(Credentials(_))
 
 val everythingVersion = IO.read(file("project/everything.version")).trim
 

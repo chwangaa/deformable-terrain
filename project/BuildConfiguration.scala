@@ -9,6 +9,6 @@ object BuildConfiguration extends improbable.build.ImprobableBuild(
   organisation = "improbable",
   version = Versions.fetchVersion("demonstration"),
   buildSettings = Seq(FabricBuildSettings(), UnityPlayerProject()),
-  dependencies = List(new SimulationLibrary("improbable", "core-library", SdkInfo.version)),
+  dependencies = List(new UnitySimulationLibrary("improbable", "core-library", SdkInfo.version)),
   isLibrary = false
 )

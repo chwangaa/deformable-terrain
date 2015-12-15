@@ -2,7 +2,7 @@
   "Deploy": {
     "FSim": {
       "Targets": [
-        "StandaloneLinux64"
+        "StandaloneLinux64?EnableHeadlessMode"
       ],
       "Assets": "Streaming"
     },
