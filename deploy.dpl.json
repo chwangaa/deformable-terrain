@@ -1,19 +1,19 @@
 {  
    "flagz":{  
-       "game_chunk_size":50,
+      "game_chunk_size":50,
       "game_world_edge_length":5000,
       "engine_automatic_scaling_enabled":false,
       "engine_start_timeout_seconds":9999999,
       "entity_activator":"improbable.corelib.entity.CoreLibraryEntityActivator",
       "bridge_enable_ping":true,
-      "player_engine_type": "UnityClient",
+      "player_engine_type":"UnityClient",
       "engine_automatic_scaling_enabled": true
    },
    "javaparams":{  
       "-J-Xmx12G":"",
       "-J-Xms1G":"",
       "-DIGNORE_FLAGS_IN_GAME_PROPERTIES_FILE":true,
-      "-DCLOUD_LAUNCH_CONFIG": "improbable.launch.AutomaticEngineStartupLaunchConfig"
+      "-DCLOUD_LAUNCH_CONFIG":"improbable.launch.AutomaticEngineStartupLaunchConfig"
    },
    "nodes":[  
       {  
