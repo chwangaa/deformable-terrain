@@ -1,16 +1,16 @@
 package improbable.natures
 
-import improbable.behaviours.bot.MoveRandomlyBehaviour
-import improbable.corelib.natures.{NatureApplication, RigidbodyEntity, NatureDescription}
+import improbable.corelib.natures.{NatureApplication, NatureDescription, RigidbodyEntity}
 import improbable.math.Coordinates
+import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
 import improbable.util.EntityPrefabs.BOT
 
 object BotNature extends NatureDescription {
 
   override val dependencies = Set[NatureDescription](RigidbodyEntity, ColoredNature)
 
-  override def activeBehaviours = {
-    Set(descriptorOf[MoveRandomlyBehaviour])
+  override def activeBehaviours: Set[EntityBehaviourDescriptor] = {
+    Set.empty
   }
 
   def apply(initialPosition: Coordinates, onFire: Boolean = false): NatureApplication = {
