@@ -5,18 +5,21 @@ import improbable.math.Vector3d
 import improbable.natures.BotNature
 import improbable.papi.world.AppWorld
 import improbable.papi.worldapp.{WorldAppLifecycle, WorldApp}
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
-class CubeSpawner(val world: AppWorld,
-                  val logger: Logger,
-                  val lifecycle: WorldAppLifecycle) extends WorldApp {
+class CubeSpawner(world: AppWorld,
+                  logger: Logger,
+                  lifecycle: WorldAppLifecycle) extends WorldApp {
 
   spawnCubes()
 
   private def spawnCubes(): Unit = {
-    Range(1, 50).foreach {
-      _ =>
-        Thread.sleep(200)
-        world.entities.spawnEntity(BotNature((Vector3d.unitY * 20.0f + Vector3d.unitX * 10.0f).toCoordinates))
+    Range.inclusive(1, 50).foreach {
+      i =>
+        world.timing.after((200 * i) millis) {
+          world.entities.spawnEntity(BotNature((Vector3d.unitY * 20.0f + Vector3d.unitX * 10.0f).toCoordinates))
+        }
     }
   }
 }

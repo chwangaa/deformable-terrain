@@ -1,6 +1,5 @@
 package improbable.launch
 
-import improbable.corelib.launcher.ShutdownAfterInput
 import improbable.dapi.{LaunchConfig, Launcher}
 
 class DemonstrationLauncher(launchConfig: LaunchConfig) {
