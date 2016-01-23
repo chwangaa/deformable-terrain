@@ -1,22 +1,21 @@
 package improbable.natures
 
-import improbable.corelib.natures.{NatureApplication, NatureDescription, RigidbodyEntity}
+import improbable.corelib.natures.rigidbody.RigidbodyComposedTransformNature
+import improbable.corelib.natures.{NatureApplication, NatureDescription}
 import improbable.math.Coordinates
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
 import improbable.util.EntityPrefabs.BOT
 
 object BotNature extends NatureDescription {
 
-  override val dependencies = Set[NatureDescription](RigidbodyEntity, ColoredNature)
+  override def dependencies = Set[NatureDescription](RigidbodyComposedTransformNature, ColoredNature)
 
-  override def activeBehaviours: Set[EntityBehaviourDescriptor] = {
-    Set.empty
-  }
+  override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set.empty
 
-  def apply(initialPosition: Coordinates, onFire: Boolean = false): NatureApplication = {
+  def apply(initialPosition: Coordinates): NatureApplication = {
     application(
       natures = Seq(
-        RigidbodyEntity(prefab = BOT, position = initialPosition, drag = 0.2f),
+        RigidbodyComposedTransformNature(entityPrefab = BOT, initialPosition = initialPosition, drag = 0.2f),
         ColoredNature(color = java.awt.Color.red))
     )
   }

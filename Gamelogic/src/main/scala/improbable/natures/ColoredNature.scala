@@ -4,12 +4,13 @@ import improbable.behaviours.color.ColorBehaviour
 import improbable.behaviours.color.ColorConversions._
 import improbable.color.ColorState
 import improbable.corelib.natures.{NatureApplication, NatureDescription}
+import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
 
 object ColoredNature extends NatureDescription {
 
-  override val dependencies = Set[NatureDescription]()
+  override def dependencies: Set[NatureDescription] = Set.empty
 
-  override def activeBehaviours = {
+  override def activeBehaviours: Set[EntityBehaviourDescriptor] = {
     Set(descriptorOf[ColorBehaviour])
   }
 

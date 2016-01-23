@@ -2,7 +2,8 @@ package improbable.natures
 
 import improbable.behaviours.player.controls.physical.PlayerBehaviour
 import improbable.behaviours.player.controls.{DelegateLocalPlayerCheckToOwnerBehaviour, DelegatePlayerControlsToOwnerBehaviour}
-import improbable.corelib.natures.{NatureApplication, BotEntity, NatureDescription}
+import improbable.corelib.natures.bot.BotComposedTransformNature
+import improbable.corelib.natures.{NatureApplication, NatureDescription}
 import improbable.corelib.util.EntityOwner
 import improbable.math.{Coordinates, Vector3d}
 import improbable.papi.engine.EngineId
@@ -14,7 +15,7 @@ import improbable.util.EntityPrefabs._
 
 object PlayerNature extends NatureDescription {
 
-  override val dependencies = Set[NatureDescription](BotEntity)
+  override def dependencies: Set[NatureDescription] = Set(BotComposedTransformNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = {
     Set(
@@ -33,7 +34,7 @@ object PlayerNature extends NatureDescription {
         LocalPlayerCheckState()
       ),
       natures = Seq(
-        BotEntity(prefab = PLAYER, position = Coordinates(0, 0.5, 0))
+        BotComposedTransformNature(entityPrefab = PLAYER, initialPosition = Coordinates(0, 0.5, 0))
       )
     )
   }

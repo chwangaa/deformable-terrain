@@ -11,10 +11,12 @@ import scala.util.Random
 class MoveRandomlyBehaviour(world: World,
                             rigidBodyInterface: RigidbodyInterface) extends EntityBehaviour {
 
-  val INTENSITY = 12.0f
+  private val INTENSITY = 12.0f
 
-  world.timing.every(1.seconds) {
-    moveRandomly()
+  override def onReady(): Unit = {
+    world.timing.every(1.seconds) {
+      moveRandomly()
+    }
   }
 
   private def moveRandomly(): Unit = {

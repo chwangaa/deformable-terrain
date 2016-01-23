@@ -7,11 +7,13 @@ import improbable.player.physical.PlayerStateWriter
 
 class PlayerBehaviour(entity: Entity,
                       playerState: PlayerStateWriter,
-                      rigidbody: RigidbodyInterface) extends EntityBehaviour {
+                      rigidbodyInterface: RigidbodyInterface) extends EntityBehaviour {
 
-  entity.watch[PlayerControlsState].bind.movementDirection {
-    movementDirection =>
-      rigidbody.setForce(movementDirection * playerState.forceMagnitude)
+  override def onReady(): Unit = {
+    entity.watch[PlayerControlsState].bind.movementDirection {
+      movementDirection =>
+        rigidbodyInterface.setForce(movementDirection * playerState.forceMagnitude)
+    }
   }
 
 }

@@ -6,6 +6,8 @@ import improbable.player.controls.PlayerControlsState
 
 class DelegatePlayerControlsToOwnerBehaviour(entity: Entity) extends EntityBehaviour {
 
-  entity.delegateStateToOwner[PlayerControlsState]
+  override def onReady(): Unit = {
+    entity.delegateStateToOwner[PlayerControlsState]
+  }
 
 }

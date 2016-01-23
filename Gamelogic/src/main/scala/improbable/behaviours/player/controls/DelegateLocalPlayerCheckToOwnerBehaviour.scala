@@ -6,6 +6,8 @@ import improbable.player.LocalPlayerCheckState
 
 class DelegateLocalPlayerCheckToOwnerBehaviour(entity: Entity) extends EntityBehaviour {
 
-  entity.delegateStateToOwner[LocalPlayerCheckState]
+  override def onReady(): Unit = {
+    entity.delegateStateToOwner[LocalPlayerCheckState]
+  }
 
 }
