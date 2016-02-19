@@ -1,7 +1,7 @@
 # Visual Studio Generated Files
 **/obj/
 **/bin/
-Gamelogic/src/main/cs/*/*.csproj.user
+workers/gsim/src/main/cs/*/*.csproj.user
 
 # IntelliJ Generated Files
 .idea/
@@ -19,14 +19,20 @@ target/
 Data/AssetDatabase
 
 # Built out assets
-Engines/Unity/Editor/Assets/Improbable/EntityPrefabs/*
+workers/unity/Assets/Improbable/EntityPrefabs/*
 
 # Unity
-Engines/Unity/Editor/ProjectSettings/UnityAnalyticsManager.asset
-Engines/Unity/Editor/ProjectSettings/UnityAdsSettings.asset
+workers/unity/ProjectSettings/UnityAnalyticsManager.asset
+workers/unity/ProjectSettings/UnityAdsSettings.asset
 
 # Schema
-Engines/Unity/Editor/schema.html
+workers/unity/schema.html
 
 #Editor backup files
 *~
+toolbelt.log
+
+/build/
+/workers/unity/build/
+/workers/gsim/generated/
+/workers/gsim/logs/

@@ -1,0 +1,21 @@
+syntax = "proto2";
+package schema.improbable.player.physical;
+
+import "improbable/entity_state.proto";
+
+
+
+// Parameters for player movement
+message PlayerStateData {
+  // Scaling factor for force applied to player
+  optional float forceMagnitude = 1;
+}
+
+extend improbable.EntityState {
+  optional PlayerStateData playerState = 1003
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+}
+     

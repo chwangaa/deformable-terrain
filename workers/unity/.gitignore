@@ -1,0 +1,55 @@
+#improbable
+.dependencies
+
+Assets/mustache-sharp.dll.mdb
+Assets/mustache-sharp.dll.mdb.meta
+
+# Ignore The following directories / file extensions
+Assembly-*
+Library/*
+Temp/*
+obj/*
+*.exe
+*.mdb
+*.mdb.meta
+*.vcproject
+*.svd
+*.userprefs
+*.suo
+*.sln
+*.csproj
+*.pidb
+*.unityproj
+*.sln.DotSettings.user
+sysinfo.txt
+
+# Improbable
+Assets/Gamelogic/Generated
+Assets/Gamelogic/Generated.meta
+Assets/Improbable/
+Assets/Improbable/Editor.meta
+Assets/Improbable/iw/
+Assets/Improbable/iw.meta
+Assets/Improbable/external/
+Assets/Improbable/external.meta
+Assets/Improbable/Gamelogic/.dependencyTimestamps
+Assets/Improbable/Gamelogic.meta
+Assets/Improbable/Gamelogic/*.dll
+Assets/Improbable/Gamelogic/*.pdb
+Assets/Improbable/Gamelogic/*.mdb
+Assets/Improbable/Gamelogic/*.pdb.meta
+Assets/Improbable/Gamelogic/*.mdb.meta
+Assets/Improbable.meta
+Assets/Improbable/EntityPrefabs/*
+Assets/Plugins
+Assets/Plugins.meta
+
+# Compiled Prefabs folder
+Assets/Resources/Compiled
+Assets/Resources/Compiled.meta
+
+# Pinnacle-specific
+FSim/
+
+
+.nugetDependencyStaging/
