@@ -45,12 +45,9 @@ dist := {
   val distZipPath = dist.value
   val outputDir = baseDirectory.value / ".." / ".." / "build" / "assembly" / "worker"
   IO.createDirectory(outputDir)
-
   val targetZipPath = outputDir / "gsim.zip"
   IO.copyFile(distZipPath, targetZipPath, preserveLastModified = false)
-
   streams.value.log.info(s"Copied $distZipPath to $targetZipPath")
-
   targetZipPath
 }
 
