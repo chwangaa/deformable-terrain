@@ -6,7 +6,7 @@ import improbable.dapi.LaunchConfig
 import improbable.launch.bridgesettings.DemonstrationBridgeSettingsResolver
 
 class DemonstrationLaunchConfig(dynamicallySpoolUpEngines: Boolean) extends {} with LaunchConfig(
-  Seq(classOf[CubeSpawner], classOf[PlayerLifeCycleManager]),
+  Seq(classOf[CubeSpawner], classOf[PlayerLifeCycleManager],classOf[TreeSpawner]),
   dynamicallySpoolUpEngines,
   DemonstrationBridgeSettingsResolver,
   DefaultConstraintEngineDescriptorResolver

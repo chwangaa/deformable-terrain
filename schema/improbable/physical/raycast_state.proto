@@ -1,0 +1,36 @@
+syntax = "proto2";
+package schema.improbable.physical;
+
+import "improbable/entity_state.proto";
+
+message RaycastRequestedEvent {
+
+}
+
+message RaycastRequestState {
+  repeated RaycastRequestedEvent raycastRequested = 1
+    [(improbable.state_event) = true];
+}
+
+message RaycastRespondedEvent {
+  optional int64 entityId = 1 [(improbable.entity_id) = true];
+}
+
+message RaycastResponseState {
+  repeated RaycastRespondedEvent raycastResponded = 1
+    [(improbable.state_event) = true];
+}
+
+extend improbable.EntityState {
+  optional RaycastRequestState raycastRequest = 1005
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+
+    optional RaycastResponseState raycastResponse = 1006
+      [(improbable.entity_state_options) = {
+        state_synchronized: true
+        state_queryable: false
+      }];
+}

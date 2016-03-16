@@ -4,7 +4,8 @@ object DemonstrationWorldAppList {
 
   val apps = List(
     classOf[CubeSpawner],
-    classOf[PlayerLifeCycleManager]
+    classOf[PlayerLifeCycleManager],
+    classOf[TreeSpawner]
   )
 
 }

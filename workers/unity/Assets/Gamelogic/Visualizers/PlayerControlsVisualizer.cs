@@ -15,13 +15,20 @@ namespace Assets.Gamelogic.Visualizers
         [Require] protected LocalPlayerCheckStateWriter LocalPlayerCheck;
         [Require] protected PlayerControlsStateWriter PlayerControls;
 
+
         public void Update()
         {
             PlayerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
+            if (InputSource.GetButton("Fire1"))
+            {
+                Debug.Log("check if Fire1 is handled in Unity");
+                PlayerControls.Update.TriggerExtinguishRequested().FinishAndSend();
+            }
         }
 
         private Vector3 GetMovementDirection()
         {
+            Debug.Log("hello");
             return new Vector3(InputSource.GetAxis("Horizontal"), 0, InputSource.GetAxis("Vertical"));
         }
     }

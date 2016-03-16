@@ -9,6 +9,13 @@ import "improbable/math/vector3d.proto";
 message PlayerControlsStateData {
   // Control movement direction
   optional improbable.math.Vector3d movementDirection = 1;
+
+  repeated ExtinguishRequestedEvent extinguishRequested = 1005
+      [(improbable.state_event) = true];
+}
+
+message ExtinguishRequestedEvent {
+
 }
 
 extend improbable.EntityState {
