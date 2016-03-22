@@ -41,7 +41,7 @@ object PlayerNature extends NatureDescription {
         RaycastResponse()
       ),
       natures = Seq(
-        BotComposedTransformNature(entityPrefab = PLAYER, initialPosition = Coordinates(0, 0.5, 0))
+        BotComposedTransformNature(entityPrefab = PLAYER, initialPosition = Coordinates(0, 50, 0))
       )
     )
   }

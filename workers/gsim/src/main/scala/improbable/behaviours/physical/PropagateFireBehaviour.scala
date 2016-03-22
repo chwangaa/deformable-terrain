@@ -1,6 +1,8 @@
 package improbable.physical
 
 import improbable.Cancellable
+import improbable.behaviours.bot.MoveRandomlyBehaviour
+import improbable.behaviours.color.{SetColorFromFireBehaviour, ColorInterface}
 import improbable.papi.world.World
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.messaging.CustomMsg
@@ -10,7 +12,7 @@ import scala.concurrent.duration._
 case object Ignite extends CustomMsg
 case object Extinguish extends CustomMsg
 
-class PropagateFireBehaviour(fire: FireWriter, world: World, entity: Entity) extends EntityBehaviour{
+class PropagateFireBehaviour(fire: FireWriter, world: World, entity: Entity, colorInterface: ColorInterface) extends EntityBehaviour{
 
   var cancellable: Cancellable = null
 
@@ -32,10 +34,19 @@ class PropagateFireBehaviour(fire: FireWriter, world: World, entity: Entity) ext
 
   def ignite(): Unit = {
     fire.update.onFire(true).finishAndSend()
-    cancellable = world.timing.every(1000.milliseconds) {
+    cancellable = world.timing.every(100.milliseconds) {
       spreadFire()
+
     }
     world.timing.after(20000.milliseconds){
+      entityBurnedDown()
+    }
+  }
+
+  def entityBurnedDown() = {
+    cancellable.cancel()
+    colorInterface.setColor(java.awt.Color.BLACK)
+    world.timing.after(2000.milliseconds){
       entity.destroy()
     }
   }

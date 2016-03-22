@@ -17,6 +17,7 @@ class TreeSpawner(world: AppWorld,
     Range(1, TreeSpawner.NUMBER_OF_TREES).foreach { _ =>
       spawnRandomTree()
     }
+    logger.info("trees are spawned randomly")
   }
 
   private def spawnRandomTree(): Unit = {

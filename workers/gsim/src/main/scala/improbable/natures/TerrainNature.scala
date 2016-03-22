@@ -1,5 +1,6 @@
 package improbable.natures
 
+import improbable.behaviours.TerrainInstanceBehaviour
 import improbable.behaviours.bot.MoveRandomlyBehaviour
 import improbable.behaviours.color.SetColorFromFireBehaviour
 import improbable.corelib.natures.base.BaseComposedTransformNature
@@ -8,26 +9,22 @@ import improbable.corelib.natures.{NatureApplication, NatureDescription}
 import improbable.entity.physical.FreezeConstraints
 import improbable.math.Coordinates
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
-import improbable.physical.{Fire}
 import improbable.util.EntityPrefabs._
 
-object TreeNature extends NatureDescription {
+object TerrainNature extends NatureDescription {
 
-  override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature, ColoredNature, FlammableNature)
+  override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
-    descriptorOf[SetColorFromFireBehaviour])
+                        descriptorOf[TerrainInstanceBehaviour]
+  )
 
-  def apply(initialPosition: Coordinates, onFire:Boolean = false): NatureApplication = {
+  def apply(initialPosition: Coordinates): NatureApplication = {
     application(
-      states = Seq(Fire(onFire)),
+      states = Seq(),
       natures = Seq(
-        RigidbodyComposedTransformNature(entityPrefab = TREE, initialPosition = initialPosition, drag = 0.2f, positionConstraints = FreezeConstraints(x = true, y = true, z = true), rotationConstraints = FreezeConstraints(x = true, y = true, z = true)),
-        ColoredNature(java.awt.Color.green),
-        FlammableNature(onFire)
-
+        RigidbodyComposedTransformNature(entityPrefab = TERRAIN, initialPosition, mass = 100, drag = 100, positionConstraints = FreezeConstraints(x = true, y = true, z = true), rotationConstraints = FreezeConstraints(x = true, y = true, z = true))
       )
     )
   }
-
 }

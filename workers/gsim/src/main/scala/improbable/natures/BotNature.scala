@@ -5,10 +5,9 @@ import improbable.corelib.natures.rigidbody.RigidbodyComposedTransformNature
 import improbable.corelib.natures.{NatureApplication, NatureDescription}
 import improbable.math.Coordinates
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
-import improbable.physical.PropagateFireBehaviour
+import improbable.physical.{Fire}
 import improbable.util.EntityPrefabs.BOT
 import improbable.behaviours.bot.MoveRandomlyBehaviour
-import improbable.physical.Fire
 
 
 object BotNature extends NatureDescription {
@@ -19,7 +18,7 @@ object BotNature extends NatureDescription {
     descriptorOf[MoveRandomlyBehaviour],
     descriptorOf[SetColorFromFireBehaviour])
 
-  def apply(initialPosition: Coordinates, onFire:Boolean = false): NatureApplication = {
+  def apply(initialPosition: Coordinates, onFire:Boolean = false, speedo_val:Float = 10f): NatureApplication = {
     application(
       states = Seq(Fire(onFire)),
       natures = Seq(
