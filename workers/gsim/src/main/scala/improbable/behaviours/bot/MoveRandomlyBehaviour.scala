@@ -20,8 +20,7 @@ class MoveRandomlyBehaviour(world: World,
                             logger: Logger
                             ) extends EntityBehaviour {
 
-  private var INTENSITY = 5.0f
-  private var chance = 1
+  private var INTENSITY = 10.0f
 
   override def onReady(): Unit = {
     world.timing.every(1.seconds) {
@@ -30,12 +29,7 @@ class MoveRandomlyBehaviour(world: World,
 
     entity.watch[Fire].bind.onFire {
       isOnFire =>
-        if(chance == 1){
-          chance -= 1
-        }
-        else{
-          INTENSITY = if (isOnFire) 20f else 0f
-        }
+          INTENSITY = 8f
     }
   }
 
@@ -45,10 +39,6 @@ class MoveRandomlyBehaviour(world: World,
 
     rigidBodyInterface.setForce(Vector3d(x, 0.0f, z).normalised * INTENSITY)
 
-    world.entities.find(EntityFindByTag("TerrainGenerator")).foreach(
-      x =>
-        world.messaging.sendToEntity(x.entityId, MovementEvent(entity.position))
-    )
   }
 
   private def randomAxis(): Double = {

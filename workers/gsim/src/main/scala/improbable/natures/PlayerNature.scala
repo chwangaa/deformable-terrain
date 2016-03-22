@@ -1,5 +1,6 @@
 package improbable.natures
 
+import improbable.behaviours.ReportToTerrainGeneratorNature
 import improbable.behaviours.physical.ExtinguishFlamesBehaviour
 import improbable.behaviours.player.controls.physical.PlayerBehaviour
 import improbable.behaviours.player.controls.{RaycastResponderBehaviour, RaycastRequestorBehaviour, DelegateLocalPlayerCheckToOwnerBehaviour, DelegatePlayerControlsToOwnerBehaviour}
@@ -26,7 +27,8 @@ object PlayerNature extends NatureDescription {
       descriptorOf[DelegateLocalPlayerCheckToOwnerBehaviour],
       descriptorOf[RaycastRequestorBehaviour],
       descriptorOf[RaycastResponderBehaviour],
-      descriptorOf[ExtinguishFlamesBehaviour]
+      descriptorOf[ExtinguishFlamesBehaviour],
+      descriptorOf[ReportToTerrainGeneratorNature]
     )
   }
 
@@ -34,14 +36,14 @@ object PlayerNature extends NatureDescription {
     application(
       states = Seq(
         EntityOwner(ownerId = Some(engineId)),
-        PlayerState(forceMagnitude = 20.0f),
+        PlayerState(forceMagnitude = 10.0f),
         PlayerControlsState(movementDirection = Vector3d.zero),
         LocalPlayerCheckState(),
         RaycastRequest(),
         RaycastResponse()
       ),
       natures = Seq(
-        BotComposedTransformNature(entityPrefab = PLAYER, initialPosition = Coordinates(0, 50, 0))
+        BotComposedTransformNature(entityPrefab = PLAYER, hasGravity = false, initialPosition = Coordinates(0, 40, 0))
       )
     )
   }

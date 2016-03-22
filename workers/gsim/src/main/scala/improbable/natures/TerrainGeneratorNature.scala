@@ -5,6 +5,7 @@ import improbable.corelib.natures.{NatureApplication, NatureDescription}
 import improbable.corelib.natures.rigidbody.RigidbodyComposedTransformNature
 import improbable.math.Coordinates
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
+import improbable.terrainchunk.Terrainseed
 import improbable.util.EntityPrefabs._
 import improbable.behaviours.TerrainGeneratorBehaviour
 
@@ -18,11 +19,11 @@ object TerrainGeneratorNature extends NatureDescription {
     Set(descriptorOf[TerrainGeneratorBehaviour])
   }
 
-  def apply(initialPosition: Coordinates): NatureApplication = {
+  def apply(initialPosition: Coordinates, seed:Long, terrain_length:Int = 100): NatureApplication = {
     application(
-      states = Seq(),
+      states = Seq(Terrainseed(seed, terrain_length)),
       natures = Seq(
-        RigidbodyComposedTransformNature(entityPrefab = TERRAIN, initialPosition)
+        RigidbodyComposedTransformNature(entityPrefab = TERRAINGENERATOR, initialPosition)
       )
     )
   }

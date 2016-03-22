@@ -1,108 +1,61 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Improbable.Entity.Physical;
+using Improbable.Unity.Visualizer;
+using Improbable.Unity;
+using Improbable.Terrainchunk;
+using System.Linq;
 
 namespace TerrainGenerator
 {
     public class TerrainChunkGenerator : MonoBehaviour
     {
         public Material TerrainMaterial;
+        [Require]
+        protected PositionReader Position;
 
         public Texture2D FlatTexture;
         public Texture2D SteepTexture;
 
         private TerrainChunkSettings Settings;
-
         private NoiseProvider NoiseProvider;
 
-        private ChunkCache Cache;
+        private Terrain terrain;
 
-        private void Awake()
+        [Require]
+        protected TerrainseedReader terrain_seed_reader;
+
+        private void OnEnable()
         {
-            Settings = new TerrainChunkSettings(129, 129, 100, 40, FlatTexture, SteepTexture, TerrainMaterial);
-            NoiseProvider = new NoiseProvider();
 
-            Cache = new ChunkCache();
-        }
+            transform.position = Position.Value.ToUnityVector();
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.A))
+
+            var x = (int)gameObject.transform.position.x;
+            var z = (int)gameObject.transform.position.z;
+            var seed = terrain_seed_reader.Seed;
+            var terrain_length = terrain_seed_reader.TerrainLength;
+            Settings = new TerrainChunkSettings(129, 129, terrain_length, 40, FlatTexture, SteepTexture, TerrainMaterial);
+            NoiseProvider = new NoiseProvider(seed);
+
+            TerrainChunk new_chunk = new TerrainChunk(terrain_length, Settings, NoiseProvider, x, z);
+            new_chunk.GenerateHeightmap();
+            while (!new_chunk.IsHeightmapReady())
             {
+                // Debug.Log("height map not yet ready, busy wait");
             }
 
-            Cache.Update();
+            var new_terrain = new_chunk.CreateTerrain();
+            // new_terrain.transform.parent = gameObject.transform;
+            Debug.Log("generated terrain at position " + gameObject.transform.position + "with seed valued " + seed.ToString());
+            terrain = new_terrain;
         }
 
-        private void GenerateChunk(int x, int z)
+        private void OnDisable()
         {
-            if (Cache.ChunkCanBeAdded(x, z))
-            {
-                var chunk = new TerrainChunk(Settings, NoiseProvider, x, z);
-                Cache.AddNewChunk(chunk);
-            }
-        }
-
-        private void RemoveChunk(int x, int z)
-        {
-            if (Cache.ChunkCanBeRemoved(x, z))
-                Cache.RemoveChunk(x, z);
-        }
-
-        private List<Vector2i> GetChunkPositionsInRadius(Vector2i chunkPosition, int radius)
-        {
-            var result = new List<Vector2i>();
-
-            for (var zCircle = -radius; zCircle <= radius; zCircle++)
-            {
-                for (var xCircle = -radius; xCircle <= radius; xCircle++)
-                {
-                    if (xCircle * xCircle + zCircle * zCircle < radius * radius)
-                        result.Add(new Vector2i(chunkPosition.X + xCircle, chunkPosition.Z + zCircle));
-                }
-            }
-
-            return result;
-        }
-
-        public void UpdateTerrain(Vector3 worldPosition, int radius)
-        {
-            var chunkPosition = GetChunkPosition(worldPosition);
-            var newPositions = GetChunkPositionsInRadius(chunkPosition, radius);
-
-            var loadedChunks = Cache.GetGeneratedChunks();
-            var chunksToRemove = loadedChunks.Except(newPositions).ToList();
-
-            var positionsToGenerate = newPositions.Except(chunksToRemove).ToList();
-            foreach (var position in positionsToGenerate)
-                GenerateChunk(position.X, position.Z);
-
-            foreach (var position in chunksToRemove)
-                RemoveChunk(position.X, position.Z);
-        }
-
-        public Vector2i GetChunkPosition(Vector3 worldPosition)
-        {
-            var x = (int)Mathf.Floor(worldPosition.x / Settings.Length);
-            var z = (int)Mathf.Floor(worldPosition.z / Settings.Length);
-
-            return new Vector2i(x, z);
-        }
-
-        public bool IsTerrainAvailable(Vector3 worldPosition)
-        {
-            var chunkPosition = GetChunkPosition(worldPosition);
-            return Cache.IsChunkGenerated(chunkPosition);
-        }
-
-        public float GetTerrainHeight(Vector3 worldPosition)
-        {
-            var chunkPosition = GetChunkPosition(worldPosition);
-            var chunk = Cache.GetGeneratedChunk(chunkPosition);
-            if (chunkPosition != null)
-                return chunk.GetTerrainHeight(worldPosition);
-
-            return 0;
+            Destroy(terrain.gameObject);
+            Debug.Log("destroy the terrain because the entity is disabled");
         }
     }
 }

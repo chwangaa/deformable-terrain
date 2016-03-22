@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package schema.improbable.terrainchunk;
+
+import "improbable/entity_state.proto";
+
+message TerrainSeedData {
+  // Whether something is on fire
+  optional int64 seed = 1;
+  optional int32 terrain_length = 2;
+}
+
+extend improbable.EntityState {
+  optional TerrainSeedData terrainseed = 1018
+  [(improbable.entity_state_options) = {
+    state_synchronized: true
+    state_queryable: false
+  }];
+}

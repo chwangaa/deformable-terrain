@@ -23,31 +23,13 @@ namespace LibNoise.Generator
         /// <summary>
         /// Initializes a new instance of Perlin.
         /// </summary>
-        public Perlin()
+        public Perlin(long seed)
             : base(0)
         {
+            _seed = (int)seed;
         }
 
-        /// <summary>
-        /// Initializes a new instance of Perlin.
-        /// </summary>
-        /// <param name="frequency">The frequency of the first octave.</param>
-        /// <param name="lacunarity">The lacunarity of the perlin noise.</param>
-        /// <param name="persistence">The persistence of the perlin noise.</param>
-        /// <param name="octaves">The number of octaves of the perlin noise.</param>
-        /// <param name="seed">The seed of the perlin noise.</param>
-        /// <param name="quality">The quality of the perlin noise.</param>
-        public Perlin(double frequency, double lacunarity, double persistence, int octaves, int seed,
-            QualityMode quality)
-            : base(0)
-        {
-            Frequency = frequency;
-            Lacunarity = lacunarity;
-            OctaveCount = octaves;
-            Persistence = persistence;
-            Seed = seed;
-            Quality = quality;
-        }
+
 
         #endregion
 

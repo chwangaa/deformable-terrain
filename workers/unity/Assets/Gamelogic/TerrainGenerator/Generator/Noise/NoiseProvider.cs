@@ -6,9 +6,9 @@ namespace TerrainGenerator
     {
         private Perlin PerlinNoiseGenerator;
 
-        public NoiseProvider()
+        public NoiseProvider(long seed)
         {
-            PerlinNoiseGenerator = new Perlin();
+            PerlinNoiseGenerator = new Perlin(seed);
         }
 
         public float GetValue(float x, float z)

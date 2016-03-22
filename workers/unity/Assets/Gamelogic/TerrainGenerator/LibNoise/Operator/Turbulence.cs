@@ -40,9 +40,9 @@ namespace LibNoise.Operator
         public Turbulence()
             : base(1)
         {
-            _xDistort = new Perlin();
-            _yDistort = new Perlin();
-            _zDistort = new Perlin();
+            _xDistort = new Perlin(0);
+            _yDistort = new Perlin(0);
+            _zDistort = new Perlin(0);
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace LibNoise.Operator
         public Turbulence(ModuleBase input)
             : base(1)
         {
-            _xDistort = new Perlin();
-            _yDistort = new Perlin();
-            _zDistort = new Perlin();
+            _xDistort = new Perlin(0);
+            _yDistort = new Perlin(0);
+            _zDistort = new Perlin(0);
             Modules[0] = input;
         }
 
@@ -62,7 +62,7 @@ namespace LibNoise.Operator
         /// Initializes a new instance of Turbulence.
         /// </summary>
         public Turbulence(double power, ModuleBase input)
-            : this(new Perlin(), new Perlin(), new Perlin(), power, input)
+            : this(new Perlin(0), new Perlin(0), new Perlin(0), power, input)
         {
         }
 

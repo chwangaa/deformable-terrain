@@ -24,11 +24,15 @@ namespace Assets.Gamelogic.Visualizers
                 Debug.Log("check if Fire1 is handled in Unity");
                 PlayerControls.Update.TriggerExtinguishRequested().FinishAndSend();
             }
+            if (InputSource.GetButton("Jump"))
+            {
+                Debug.Log("Space button being pressed");
+                GetComponent<Rigidbody>().isKinematic = true;
+            }
         }
 
         private Vector3 GetMovementDirection()
         {
-            Debug.Log("hello");
             return new Vector3(InputSource.GetAxis("Horizontal"), 0, InputSource.GetAxis("Vertical"));
         }
     }

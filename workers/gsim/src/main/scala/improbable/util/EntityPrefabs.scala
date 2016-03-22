@@ -7,6 +7,6 @@ object EntityPrefabs {
   val PLAYER = EntityPrefab("Player")
   val BOT = EntityPrefab("Bot")
   val TREE = EntityPrefab("Tree")
-  val TERRAIN = EntityPrefab("Terrains")
-
+  val TERRAINCHUNK = EntityPrefab("TerrainChunk")
+  val TERRAINGENERATOR = EntityPrefab("TerrainGenerator")
 }

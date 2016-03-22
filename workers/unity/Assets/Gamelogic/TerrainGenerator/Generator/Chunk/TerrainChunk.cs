@@ -21,14 +21,16 @@ namespace TerrainGenerator
 
         private object HeightmapThreadLockObject { get; set; }
 
-        public TerrainChunk(TerrainChunkSettings settings, NoiseProvider noiseProvider, int x, int z)
+        private int Scale { get; set; }
+
+        public TerrainChunk(int scale, TerrainChunkSettings settings, NoiseProvider noiseProvider, int x, int z)
         {
             HeightmapThreadLockObject = new object();
 
             Settings = settings;
             NoiseProvider = noiseProvider;
             Neighborhood = new TerrainChunkNeighborhood();
-
+            Scale = scale;
             Position = new Vector2i(x, z);
         }
 
@@ -42,6 +44,7 @@ namespace TerrainGenerator
 
         private void GenerateHeightmapThread()
         {
+            int scale = Scale;
             lock (HeightmapThreadLockObject)
             {
                 var heightmap = new float[Settings.HeightmapResolution, Settings.HeightmapResolution];
@@ -50,8 +53,8 @@ namespace TerrainGenerator
                 {
                     for (var xRes = 0; xRes < Settings.HeightmapResolution; xRes++)
                     {
-                        var xCoordinate = Position.X + (float)xRes / (Settings.HeightmapResolution - 1);
-                        var zCoordinate = Position.Z + (float)zRes / (Settings.HeightmapResolution - 1);
+                        var xCoordinate = Position.X / scale + (float)xRes / (Settings.HeightmapResolution - 1);
+                        var zCoordinate = Position.Z / scale + (float)zRes / (Settings.HeightmapResolution - 1);
 
                         heightmap[zRes, xRes] = NoiseProvider.GetValue(xCoordinate, zCoordinate);
                     }
@@ -75,7 +78,7 @@ namespace TerrainGenerator
 
         #region Main terrain generation
 
-        public void CreateTerrain()
+        public Terrain CreateTerrain()
         {
             Data = new TerrainData();
             Data.heightmapResolution = Settings.HeightmapResolution;
@@ -85,14 +88,15 @@ namespace TerrainGenerator
 
             Data.size = new Vector3(Settings.Length, Settings.Height, Settings.Length);
             var newTerrainGameObject = Terrain.CreateTerrainGameObject(Data);
-            newTerrainGameObject.transform.position = new Vector3(Position.X * Settings.Length, 0, Position.Z * Settings.Length);
+            newTerrainGameObject.transform.position = new Vector3(Position.X, 0, Position.Z);
 
-            Terrain = newTerrainGameObject.GetComponent<Terrain>();
-            Terrain.heightmapPixelError = 8;
-            Terrain.materialType = UnityEngine.Terrain.MaterialType.Custom;
-            Terrain.materialTemplate = Settings.TerrainMaterial;
-            Terrain.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
-            Terrain.Flush();
+            var terrain = newTerrainGameObject.GetComponent<Terrain>();
+            terrain.heightmapPixelError = 8;
+            terrain.materialType = UnityEngine.Terrain.MaterialType.Custom;
+            terrain.materialTemplate = Settings.TerrainMaterial;
+            terrain.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            terrain.Flush();
+            return terrain;
         }
 
         private void ApplyTextures(TerrainData terrainData)
