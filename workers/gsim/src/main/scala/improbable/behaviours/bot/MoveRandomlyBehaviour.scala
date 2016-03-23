@@ -20,17 +20,14 @@ class MoveRandomlyBehaviour(world: World,
                             logger: Logger
                             ) extends EntityBehaviour {
 
-  private var INTENSITY = 5.0f
+  private var INTENSITY = 40.0f
 
   override def onReady(): Unit = {
     world.timing.every(1.seconds) {
       moveRandomly()
     }
 
-    entity.watch[Fire].bind.onFire {
-      isOnFire =>
-          INTENSITY = 8f
-    }
+
   }
 
   private def moveRandomly(): Unit = {

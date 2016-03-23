@@ -20,8 +20,7 @@ class TerrainSpawner(appWorld: AppWorld,
 
   initializeTerrainGenerator()
   logger.info("terrain is intialized")
-  // spawnCubes()
-  //spawnRandomTrees()
+  spawnCubes()
 
   private def initializeTerrainGenerator(): Unit = {
     val initial_position = Coordinates(0, 0, 0)
@@ -30,7 +29,7 @@ class TerrainSpawner(appWorld: AppWorld,
 
     appWorld.entities.find(EntityFindByTag("TerrainGenerator")).foreach(
       x =>
-        appWorld.messaging.sendToEntity(x.entityId, MovementEvent(initial_position, 500))
+        appWorld.messaging.sendToEntity(x.entityId, MovementEvent(initial_position, 400))
     )
 
   }
@@ -41,9 +40,9 @@ class TerrainSpawner(appWorld: AppWorld,
 
     appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), onFire = true))
 
-    Range.inclusive(1, 20).foreach {
+    Range.inclusive(1, 10).foreach {
       i =>
-        appWorld.timing.after((2000 * i) millis) {
+        appWorld.timing.after((200 * i) millis) {
           appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0)))
           logger.info("a cube is spawned randomly")
         }

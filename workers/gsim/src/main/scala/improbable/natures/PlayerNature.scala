@@ -32,7 +32,7 @@ object PlayerNature extends NatureDescription {
     )
   }
 
-  def apply(engineId: EngineId, checkout_radius:Int = 500, report_period:Int = 200): NatureApplication = {
+  def apply(engineId: EngineId, checkout_radius:Int = 400, report_period:Int = 200): NatureApplication = {
     application(
       states = Seq(
         EntityOwner(ownerId = Some(engineId)),
@@ -41,10 +41,10 @@ object PlayerNature extends NatureDescription {
         LocalPlayerCheckState(),
         RaycastRequest(),
         RaycastResponse(),
-        Generatorreport(true, report_period, checkout_radius)
+        Generatorreport(true, report_period, checkout_radius, isPersistent = false)
       ),
       natures = Seq(
-        BotComposedTransformNature(entityPrefab = PLAYER, hasGravity = false, initialPosition = Coordinates(0, 40, 0))
+        BotComposedTransformNature(entityPrefab = PLAYER, hasGravity = false, initialPosition = Coordinates(0, 60, 0))
       )
     )
   }

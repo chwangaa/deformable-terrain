@@ -12,9 +12,16 @@ message PlayerControlsStateData {
 
   repeated ExtinguishRequestedEvent extinguishRequested = 1005
       [(improbable.state_event) = true];
+
+  repeated PlantRequestEvent plantRequested = 1006
+      [(improbable.state_event) = true];
 }
 
 message ExtinguishRequestedEvent {
+
+}
+
+message PlantRequestEvent {
 
 }
 

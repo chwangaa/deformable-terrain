@@ -45,23 +45,22 @@ namespace TerrainGenerator
         private void GenerateHeightmapThread()
         {
             int scale = Scale;
-            lock (HeightmapThreadLockObject)
+
+            var heightmap = new float[Settings.HeightmapResolution, Settings.HeightmapResolution];
+
+            for (var zRes = 0; zRes < Settings.HeightmapResolution; zRes++)
             {
-                var heightmap = new float[Settings.HeightmapResolution, Settings.HeightmapResolution];
-
-                for (var zRes = 0; zRes < Settings.HeightmapResolution; zRes++)
+                for (var xRes = 0; xRes < Settings.HeightmapResolution; xRes++)
                 {
-                    for (var xRes = 0; xRes < Settings.HeightmapResolution; xRes++)
-                    {
-                        var xCoordinate = Position.X / scale + (float)xRes / (Settings.HeightmapResolution - 1);
-                        var zCoordinate = Position.Z / scale + (float)zRes / (Settings.HeightmapResolution - 1);
+                    var xCoordinate = Position.X / scale + (float)xRes / (Settings.HeightmapResolution - 1);
+                    var zCoordinate = Position.Z / scale + (float)zRes / (Settings.HeightmapResolution - 1);
 
-                        heightmap[zRes, xRes] = NoiseProvider.GetValue(xCoordinate, zCoordinate);
-                    }
+                    heightmap[zRes, xRes] = NoiseProvider.GetValue(xCoordinate, zCoordinate);
                 }
-
-                Heightmap = heightmap;
             }
+
+            Heightmap = heightmap;
+
         }
 
         public bool IsHeightmapReady()
@@ -76,14 +75,27 @@ namespace TerrainGenerator
 
         #endregion
 
+
+
         #region Main terrain generation
 
         public Terrain CreateTerrain()
         {
+
+            GenerateHeightmap();                                                                                             // generate the height map
+
+            // busy wait until the height map is generated
+
+            while (!IsHeightmapReady())
+            {
+
+            }
+
             Data = new TerrainData();
             Data.heightmapResolution = Settings.HeightmapResolution;
             Data.alphamapResolution = Settings.AlphamapResolution;
             Data.SetHeights(0, 0, Heightmap);
+
             ApplyTextures(Data);
 
             Data.size = new Vector3(Settings.Length, Settings.Height, Settings.Length);

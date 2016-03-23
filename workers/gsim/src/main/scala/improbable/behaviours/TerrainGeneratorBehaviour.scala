@@ -7,6 +7,7 @@ import improbable.natures.TerrainChunkNature
 import improbable.papi.EntityId
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.World
+import improbable.papi.world.messaging.CustomMsg
 import improbable.physical.{Extinguish, Ignite, RaycastResponse}
 import improbable.terrainchunk.{Terrainseed}
 import scala.Tuple2
@@ -14,12 +15,17 @@ import scala.concurrent.duration._
 /**
   * Created by chihang on 21/03/2016.
   */
+case class CreatePersistentTerrainEvent(position: Coordinates) extends CustomMsg
+
+case class ChangeTagToPersistentTerrain() extends CustomMsg
+
 class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) extends EntityBehaviour {
 
   var terrain_length = 100
   val garbage_collector_period = 30 // period to which to garbage collect old terrain, in second
   var generatedTerrain = Map[Coordinates, EntityId]()
   var markedTerrain = Set[Coordinates]()
+  var persistentTerrain = Map[Coordinates, EntityId]()
   var seed : Long = 0
 
   override def onReady(): Unit = {
@@ -36,6 +42,8 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     world.messaging.onReceive {
       case MovementEvent(position, radius) =>
         checkIfNewObjectPositionRequireMoreTerrains(position, radius)
+      case CreatePersistentTerrainEvent(position) =>
+        createPersistentTerrain(position)
     }
 
     // start garbage collector
@@ -52,6 +60,10 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     val terrain_entities = world.entities.find(Coordinates(0,0,0), 10000000, Set("Terrain"))
     terrain_entities.foreach(terrain =>
             generatedTerrain += terrain.position -> terrain.entityId
+    )
+    val persistent_terrain_entities = world.entities.find(Coordinates(0,0,0), 100000000, Set("PersistentTerrain"))
+    persistent_terrain_entities.foreach(terrain =>
+            persistentTerrain += terrain.position -> terrain.entityId
     )
   }
 
@@ -100,15 +112,48 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
       world.entities.destroyEntity(id)
   }
 
-  // generate a new terrain entity at given coordinate
-  def generateNewTerrain(position:Coordinates): Unit ={
-    if(!generatedTerrain.contains(position)){
-       val id = world.entities.spawnEntity(TerrainChunkNature(position, seed, terrain_length))
-       generatedTerrain += position -> id
-       // logger.info("new terrain generated at position " + position.toString())
+
+
+  def terrainIsNew(position:Coordinates): Boolean = {
+    if(generatedTerrain.contains(position) || persistentTerrain.contains(position)){
+      return false
+    }
+    else{
+      return true
     }
   }
 
+  // generate a new terrain entity at given coordinate
+  def generateNewTerrain(position:Coordinates): Unit ={
+    if(terrainIsNew(position)){
+      val id = world.entities.spawnEntity(TerrainChunkNature(position, seed, terrain_length))
+      generatedTerrain += position -> id
+      // logger.info("new terrain generated at position " + position.toString())
+    }
+  }
+
+  // generate a new persistent terrain at a given coordinate
+  def generateNewPersistentTerrain(position:Coordinates): Unit = {
+    if(terrainIsNew(position)){
+      val id = world.entities.spawnEntity(TerrainChunkNature(position, seed, terrain_length, "PersistentTerrain"))
+      persistentTerrain += position -> id
+      // logger.info("new terrain generated at position " + position.toString())
+    }
+    else if(generatedTerrain.contains(position)){
+      changeTerrainToPersistentTerrain(position)
+    }
+  }
+
+  def changeTerrainToPersistentTerrain(position:Coordinates): Unit = {
+    generatedTerrain.get(position) match{
+      case Some(id) => {
+        persistentTerrain += position -> id
+        generatedTerrain -= position
+        world.messaging.sendToEntity(id, ChangeTagToPersistentTerrain())
+      }
+      case None => logger.info("error: the id in the cached set does not exist!")
+    }
+  }
 
   def getTerrainCoordinateForObjectPosition(x : Double, z : Double): Coordinates = {
     val terrain_x:Int = math.floor(x / terrain_length).toInt * terrain_length
@@ -116,11 +161,20 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     return new Coordinates(terrain_x, 0, terrain_z)
   }
 
+  def createPersistentTerrain(position:Coordinates):Unit = {
+    logger.info("try to create new persistent terrain")
+    val x:Double = position.x
+    val z:Double = position.z
+    val new_terrain_position = getTerrainCoordinateForObjectPosition(x, z)
+    generateNewPersistentTerrain(new_terrain_position)
+  }
+
+
   def findCoordinatesOfTerrainsThatNeedToBeGenerated(position: Coordinates, radius: Int): Set[Coordinates] = {
 
 
-    val x:Double = position.x
-    val z:Double = position.z
+    val x:Double = math.floor(position.x / terrain_length).toInt * terrain_length
+    val z:Double = math.floor(position.z / terrain_length).toInt * terrain_length
 
     var neighbour_terrains = Set[Coordinates]()
 
@@ -128,8 +182,8 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
       i <- x-radius to x+radius by terrain_length
       j <- z-radius to z+radius by terrain_length
     }{
-      val new_terrain = getTerrainCoordinateForObjectPosition(i, j)
-      neighbour_terrains += new_terrain
+      // val new_terrain = getTerrainCoordinateForObjectPosition(i, j)
+      neighbour_terrains += new Coordinates(i, 0, j)
     }
 
     return neighbour_terrains

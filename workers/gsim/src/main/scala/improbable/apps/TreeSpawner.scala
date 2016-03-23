@@ -29,6 +29,6 @@ class TreeSpawner(world: AppWorld,
 }
 
 object TreeSpawner {
-  val DISTANCE = 500
+  val DISTANCE = 100
   val NUMBER_OF_TREES = 500
 }

@@ -1,9 +1,7 @@
 package improbable.natures
 
 import improbable.behaviours.TerrainInstanceBehaviour
-import improbable.behaviours.bot.MoveRandomlyBehaviour
-import improbable.behaviours.color.SetColorFromFireBehaviour
-import improbable.corelib.natures.base.BaseComposedTransformNature
+
 import improbable.corelib.natures.rigidbody.RigidbodyComposedTransformNature
 import improbable.corelib.natures.{NatureApplication, NatureDescription}
 import improbable.entity.physical.FreezeConstraints
@@ -16,15 +14,15 @@ object TerrainChunkNature extends NatureDescription {
 
   override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature)
 
-  override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
-                        descriptorOf[TerrainInstanceBehaviour]
-  )
+  override def activeBehaviours: Set[EntityBehaviourDescriptor] =
+    Set(descriptorOf[TerrainInstanceBehaviour])
 
-  def apply(initialPosition: Coordinates, seed: Long, terrain_length:Int): NatureApplication = {
+
+  def apply(initialPosition: Coordinates, seed: Long, terrain_length:Int, category:String = "Terrain"): NatureApplication = {
     application(
       states = Seq(Terrainseed(seed, terrain_length)),
       natures = Seq(
-        RigidbodyComposedTransformNature(entityPrefab = TERRAINCHUNK, initialPosition, mass = 100, drag = 100, positionConstraints = FreezeConstraints(x = true, y = true, z = true), rotationConstraints = FreezeConstraints(x = true, y = true, z = true))
+        RigidbodyComposedTransformNature(entityPrefab = TERRAINCHUNK, initialPosition, mass = 100, drag = 100, positionConstraints = FreezeConstraints(x = true, y = true, z = true), rotationConstraints = FreezeConstraints(x = true, y = true, z = true), tags=List(category))
       )
     )
   }

@@ -12,6 +12,8 @@ import improbable.papi.world.entities.EntityFindByTag
 import improbable.player.controls.PlayerControlsState
 import improbable.player.physical.PlayerStateWriter
 
+import scala.util.Random
+
 class PlayerBehaviour(entity: Entity,
                       playerState: PlayerStateWriter,
                       rigidbodyInterface: RigidbodyInterface,
@@ -23,7 +25,7 @@ class PlayerBehaviour(entity: Entity,
     entity.watch[PlayerControlsState].bind.movementDirection {
       movementDirection => {
         logger.info("player movement received")
-        rigidbodyInterface.setForce(movementDirection * playerState.forceMagnitude)
+        rigidbodyInterface.setForce(movementDirection.normalised * playerState.forceMagnitude)
       }
     }
 
@@ -35,11 +37,18 @@ class PlayerBehaviour(entity: Entity,
       }
     }
 
-    entity.watch[PlayerControlsState].onPlanttreeRequested {
+    entity.watch[PlayerControlsState].onPlantRequested {
       payload => {
-        world.entities.spawnEntity(TreeNature(entity.position))
+        // add some displacement to the places where the tree should be generated
+        val center = entity.position
+        val x = center.x + (Random.nextFloat() * 10 - 10)
+        val y = center.y + (Random.nextFloat() * 10 - 10)
+        val z = center.z + (Random.nextFloat() * 10 - 10)
+        world.entities.spawnEntity(TreeNature(Coordinates(x, y, z)))
+        logger.info("tree is being planted")
       }
     }
+
   }
 
 

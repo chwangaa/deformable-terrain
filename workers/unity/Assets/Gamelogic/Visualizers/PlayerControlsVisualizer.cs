@@ -16,7 +16,7 @@ namespace Assets.Gamelogic.Visualizers
         [Require] protected PlayerControlsStateWriter PlayerControls;
 
 
-        public void Update()
+        public void LateUpdate()
         {
             PlayerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
             if (InputSource.GetButton("Fire1"))
@@ -28,6 +28,7 @@ namespace Assets.Gamelogic.Visualizers
             {
                 Debug.Log("Space button being pressed");
                 GetComponent<Rigidbody>().isKinematic = true;
+                PlayerControls.Update.TriggerPlantRequested().FinishAndSend();
             }
         }
 

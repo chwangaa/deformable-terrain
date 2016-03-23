@@ -11,7 +11,7 @@ namespace LibNoise.Generator
 
         private double _frequency = 1.0;
         private double _lacunarity = 2.0;
-        private QualityMode _quality = QualityMode.Medium;
+        private QualityMode _quality = QualityMode.Low;
         private int _octaveCount = 6;
         private double _persistence = 0.5;
         private int _seed;

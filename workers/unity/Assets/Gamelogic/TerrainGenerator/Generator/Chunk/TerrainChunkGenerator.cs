@@ -37,7 +37,18 @@ namespace TerrainGenerator
 
         private void OnEnable()
         {
+            
+            if (terrain == null)
+            {
+                
                 generateNewTerrain();
+                
+            }
+            else
+            {
+                Debug.Log("the terrain is an old one");
+            }
+            
         }
 
         private void generateNewTerrain()
@@ -54,22 +65,26 @@ namespace TerrainGenerator
             Settings = new TerrainChunkSettings(129, 129, terrain_length, 40, FlatTexture, SteepTexture, TerrainMaterial);             // create a setting variable
             NoiseProvider = new NoiseProvider(seed);                                                                                   // create a noise provider variable
             TerrainChunk new_chunk = new TerrainChunk(terrain_length, Settings, NoiseProvider, x, z);                                  // create a terrain chunk value
+            /*
             new_chunk.GenerateHeightmap();                                                                                             // generate the height map
             // busy wait until the height map is generated
             while (!new_chunk.IsHeightmapReady())
             {
             }
-            var new_terrain = new_chunk.CreateTerrain();                                                                               // use the generated height map to create a terrain
-            // new_terrain.transform.parent = gameObject.transform;
-            Debug.Log("generated terrain at position " + gameObject.transform.position + "with seed valued " + seed.ToString());
-            terrain = new_terrain;              // hold the terrain as a class variable
+            */
+            terrain = new_chunk.CreateTerrain();                                                                                     // use the generated height map to create a terrain
+            terrain.transform.parent = gameObject.transform;
+            // Debug.Log("generated terrain at position " + gameObject.transform.position + "with seed valued " + seed.ToString());
             setNeighbours();
         }
 
+
+
         private void OnDisable()
-        {
+        {   
             if(terrain.gameObject != null)
                 Destroy(terrain.gameObject);
+            
         }
 
         private void setNeighbours()

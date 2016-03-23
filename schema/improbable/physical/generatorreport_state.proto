@@ -9,6 +9,7 @@ message GeneratorReportData {
   optional bool report = 1;
   optional int32 report_period = 2;
   optional int32 checkout_radius = 3;
+  optional bool is_persistent = 4;
 }
 
 extend improbable.EntityState {

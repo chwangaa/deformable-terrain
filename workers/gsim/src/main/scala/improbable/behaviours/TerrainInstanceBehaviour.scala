@@ -9,6 +9,14 @@ import improbable.physical.{Ignite, Extinguish, RaycastResponse}
 class TerrainInstanceBehaviour(entity : Entity, logger : Logger, world: World) extends EntityBehaviour {
   override def onReady(): Unit = {
     // add tag to the entity so movement event can be received here
-    entity.addTag("Terrain")
+    // listen to the movement events
+    world.messaging.onReceive {
+      case ChangeTagToPersistentTerrain() =>
+        {
+          entity.removeTag("Terrain")
+          entity.addTag("PersistentTerrain")
+          logger.info(entity.position.toString() + " is now a persistent terrain")
+        }
+    }
   }
 }
