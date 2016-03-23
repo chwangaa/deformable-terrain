@@ -1,0 +1,20 @@
+syntax = "proto2";
+
+package schema.improbable.physical;
+
+import "improbable/entity_state.proto";
+
+message GeneratorReportData {
+  // Whether something is on fire
+  optional bool report = 1;
+  optional int32 report_period = 2;
+  optional int32 checkout_radius = 3;
+}
+
+extend improbable.EntityState {
+  optional GeneratorReportData generatorreport = 1023
+  [(improbable.entity_state_options) = {
+    state_synchronized: true
+    state_queryable: false
+  }];
+}

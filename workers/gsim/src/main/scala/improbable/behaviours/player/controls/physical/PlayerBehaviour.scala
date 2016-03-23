@@ -5,6 +5,7 @@ import improbable.behaviours.bot.MovementEvent
 import improbable.behaviours.player.controls.RaycastRequestorInterface
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.Coordinates
+import improbable.natures.TreeNature
 import improbable.papi.entity.{Entity, EntityBehaviour}
 import improbable.papi.world.World
 import improbable.papi.world.entities.EntityFindByTag
@@ -31,6 +32,12 @@ class PlayerBehaviour(entity: Entity,
     entity.watch[PlayerControlsState].onExtinguishRequested {
       payload => {
         raycastInterface.performRaycast()
+      }
+    }
+
+    entity.watch[PlayerControlsState].onPlanttreeRequested {
+      payload => {
+        world.entities.spawnEntity(TreeNature(entity.position))
       }
     }
   }

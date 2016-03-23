@@ -12,7 +12,7 @@ import improbable.physical.{Fire}
 import scala.concurrent.duration._
 import scala.util.Random
 
-case class MovementEvent(position: Coordinates) extends CustomMsg
+case class MovementEvent(position: Coordinates, radius: Int) extends CustomMsg
 
 class MoveRandomlyBehaviour(world: World,
                             rigidBodyInterface: RigidbodyInterface,

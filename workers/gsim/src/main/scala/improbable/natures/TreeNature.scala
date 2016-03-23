@@ -22,7 +22,7 @@ object TreeNature extends NatureDescription {
     application(
       states = Seq(Fire(onFire)),
       natures = Seq(
-        RigidbodyComposedTransformNature(entityPrefab = TREE, initialPosition = initialPosition, drag = 0.2f, positionConstraints = FreezeConstraints(x = true, y = true, z = true), rotationConstraints = FreezeConstraints(x = true, y = true, z = true)),
+        RigidbodyComposedTransformNature(entityPrefab = TREE, initialPosition = initialPosition, drag = 0.2f, mass = 100, rotationConstraints = FreezeConstraints(x = true, y = true, z = true)),
         ColoredNature(java.awt.Color.green),
         FlammableNature(onFire)
 

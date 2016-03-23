@@ -20,7 +20,7 @@ class TerrainSpawner(appWorld: AppWorld,
 
   initializeTerrainGenerator()
   logger.info("terrain is intialized")
-  spawnCubes()
+  // spawnCubes()
   //spawnRandomTrees()
 
   private def initializeTerrainGenerator(): Unit = {
@@ -30,7 +30,7 @@ class TerrainSpawner(appWorld: AppWorld,
 
     appWorld.entities.find(EntityFindByTag("TerrainGenerator")).foreach(
       x =>
-        appWorld.messaging.sendToEntity(x.entityId, MovementEvent(initial_position))
+        appWorld.messaging.sendToEntity(x.entityId, MovementEvent(initial_position, 500))
     )
 
   }

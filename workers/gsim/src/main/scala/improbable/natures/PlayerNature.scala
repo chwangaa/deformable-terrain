@@ -10,7 +10,7 @@ import improbable.corelib.util.EntityOwner
 import improbable.math.{Coordinates, Vector3d}
 import improbable.papi.engine.EngineId
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
-import improbable.physical.{RaycastResponse, RaycastRequest}
+import improbable.physical.{Generatorreport, RaycastResponse, RaycastRequest}
 import improbable.player.LocalPlayerCheckState
 import improbable.player.controls.PlayerControlsState
 import improbable.player.physical.PlayerState
@@ -32,7 +32,7 @@ object PlayerNature extends NatureDescription {
     )
   }
 
-  def apply(engineId: EngineId): NatureApplication = {
+  def apply(engineId: EngineId, checkout_radius:Int = 500, report_period:Int = 200): NatureApplication = {
     application(
       states = Seq(
         EntityOwner(ownerId = Some(engineId)),
@@ -40,7 +40,8 @@ object PlayerNature extends NatureDescription {
         PlayerControlsState(movementDirection = Vector3d.zero),
         LocalPlayerCheckState(),
         RaycastRequest(),
-        RaycastResponse()
+        RaycastResponse(),
+        Generatorreport(true, report_period, checkout_radius)
       ),
       natures = Seq(
         BotComposedTransformNature(entityPrefab = PLAYER, hasGravity = false, initialPosition = Coordinates(0, 40, 0))

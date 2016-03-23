@@ -8,7 +8,7 @@ import improbable.papi.EntityId
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.World
 import improbable.physical.{Extinguish, Ignite, RaycastResponse}
-import improbable.terrainchunk.{Terrainseed, TerrainseedWatcher}
+import improbable.terrainchunk.{Terrainseed}
 import scala.Tuple2
 import scala.concurrent.duration._
 /**
@@ -16,7 +16,6 @@ import scala.concurrent.duration._
   */
 class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) extends EntityBehaviour {
 
-  var radius = 200
   var terrain_length = 100
   val garbage_collector_period = 30 // period to which to garbage collect old terrain, in second
   var generatedTerrain = Map[Coordinates, EntityId]()
@@ -26,9 +25,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
   override def onReady(): Unit = {
     seed = entity.watch[Terrainseed].seed.get
     terrain_length = entity.watch[Terrainseed].terrainLength.get
-    if(radius < terrain_length){
-      radius = terrain_length
-    }
+
     logger.info(s"Terrain Generator with seed value $seed and size $terrain_length ready")
     // add tag to the entity so movement event can be received here
     entity.addTag("TerrainGenerator")
@@ -37,8 +34,8 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
 
     // listen to the movement events
     world.messaging.onReceive {
-      case MovementEvent(position) =>
-        checkIfNewObjectPositionRequireMoreTerrains(position)
+      case MovementEvent(position, radius) =>
+        checkIfNewObjectPositionRequireMoreTerrains(position, radius)
     }
 
     // start garbage collector
@@ -58,8 +55,8 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     )
   }
 
-  def checkIfNewObjectPositionRequireMoreTerrains(position: Coordinates): Unit ={
-    val terrain_coordinates = findCoordinatesOfTerrainsThatNeedToBeGenerated(position)
+  def checkIfNewObjectPositionRequireMoreTerrains(position: Coordinates, radius: Int): Unit ={
+    val terrain_coordinates = findCoordinatesOfTerrainsThatNeedToBeGenerated(position, radius)
 
     val new_coordinates = terrain_coordinates.diff(generatedTerrain.keySet)
     val old_coordinates = generatedTerrain.keySet.diff(terrain_coordinates)
@@ -119,7 +116,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     return new Coordinates(terrain_x, 0, terrain_z)
   }
 
-  def findCoordinatesOfTerrainsThatNeedToBeGenerated(position: Coordinates): Set[Coordinates] = {
+  def findCoordinatesOfTerrainsThatNeedToBeGenerated(position: Coordinates, radius: Int): Set[Coordinates] = {
 
 
     val x:Double = position.x
