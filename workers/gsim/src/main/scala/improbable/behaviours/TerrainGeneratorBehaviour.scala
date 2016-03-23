@@ -16,7 +16,7 @@ import scala.concurrent.duration._
   */
 class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) extends EntityBehaviour {
 
-  var radius = 600
+  var radius = 200
   var terrain_length = 100
   val garbage_collector_period = 30 // period to which to garbage collect old terrain, in second
   var generatedTerrain = Map[Coordinates, EntityId]()

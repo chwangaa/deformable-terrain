@@ -17,7 +17,7 @@ object DemonstrationUnityClientBridgeSettings extends BridgeSettingsResolver {
       SatisfySpecificEngine,
       SatisfySingleConstraint(VisualEngineConstraint)
     ),
-    AuthoritativeEntityOnly( radius = 6 ),
+    AuthoritativeEntityOnly( radius = 2 ),
     ConstantEngineLoadPolicy(0.5),
     PerEntityOrderedStateUpdateQos
   )
