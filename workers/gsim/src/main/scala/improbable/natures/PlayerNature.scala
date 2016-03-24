@@ -15,6 +15,7 @@ import improbable.player.LocalPlayerCheckState
 import improbable.player.controls.PlayerControlsState
 import improbable.player.physical.PlayerState
 import improbable.util.EntityPrefabs._
+import improbable.util.TerrainGeneratorSetting
 
 object PlayerNature extends NatureDescription {
 
@@ -32,7 +33,7 @@ object PlayerNature extends NatureDescription {
     )
   }
 
-  def apply(engineId: EngineId, checkout_radius:Int = 500, report_period:Int = 200): NatureApplication = {
+  def apply(engineId: EngineId, checkout_radius:Int = TerrainGeneratorSetting.PLAYER_VIEW_RADIUS, report_period:Int = 200): NatureApplication = {
     application(
       states = Seq(
         EntityOwner(ownerId = Some(engineId)),
@@ -44,7 +45,7 @@ object PlayerNature extends NatureDescription {
         Generatorreport(true, report_period, checkout_radius)
       ),
       natures = Seq(
-        BotComposedTransformNature(entityPrefab = PLAYER, hasGravity = false, initialPosition = Coordinates(0, 40, 0))
+        BotComposedTransformNature(entityPrefab = PLAYER, mass = 20, hasGravity = false, initialPosition = Coordinates(0, 40, 0))
       )
     )
   }

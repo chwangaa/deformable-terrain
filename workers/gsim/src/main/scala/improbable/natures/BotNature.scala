@@ -13,20 +13,19 @@ import improbable.behaviours.bot.MoveRandomlyBehaviour
 
 object BotNature extends NatureDescription {
 
-  override def dependencies = Set[NatureDescription](RigidbodyComposedTransformNature, ColoredNature, FlammableNature)
+  override def dependencies = Set[NatureDescription](RigidbodyComposedTransformNature, ColoredNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
     descriptorOf[MoveRandomlyBehaviour],
-    descriptorOf[SetColorFromFireBehaviour],
     descriptorOf[ReportToTerrainGeneratorNature])
 
-  def apply(initialPosition: Coordinates, onFire:Boolean = false, checkout_radius:Int = 100, report_period:Int = 1000): NatureApplication = {
+  def apply(initialPosition: Coordinates, onFire:Boolean = false, checkout_radius:Int = 100, report_period:Int = 500): NatureApplication = {
     application(
       states = Seq(Fire(onFire), Generatorreport(true, report_period, checkout_radius)),
       natures = Seq(
         RigidbodyComposedTransformNature(entityPrefab = BOT, initialPosition = initialPosition, drag = 0.2f),
-        ColoredNature(color = java.awt.Color.white),
-        FlammableNature(onFire))
+        ColoredNature(color = java.awt.Color.white)
+        )
     )
   }
 

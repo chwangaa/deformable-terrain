@@ -12,9 +12,30 @@ message PlayerControlsStateData {
 
   repeated ExtinguishRequestedEvent extinguishRequested = 1005
       [(improbable.state_event) = true];
+
+  repeated PlantRequestEvent plantRequested = 1025
+      [(improbable.state_event) = true];
+
+  repeated ReduceheightEvent reduceheightRequested = 1035
+      [(improbable.state_event) = true];
+
+  repeated AddheightEvent addheightRequested = 1045
+      [(improbable.state_event) = true];
 }
 
 message ExtinguishRequestedEvent {
+
+}
+
+message PlantRequestEvent {
+
+}
+
+message ReduceheightEvent {
+
+}
+
+message AddheightEvent {
 
 }
 

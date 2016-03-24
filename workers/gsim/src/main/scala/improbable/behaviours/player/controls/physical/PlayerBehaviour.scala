@@ -1,16 +1,17 @@
 package improbable.behaviours.player.controls.physical
 
 import com.typesafe.scalalogging.Logger
-import improbable.behaviours.bot.MovementEvent
 import improbable.behaviours.player.controls.RaycastRequestorInterface
 import improbable.entity.physical.RigidbodyInterface
-import improbable.math.Coordinates
-import improbable.natures.TreeNature
+import improbable.math.{Vector3d, Coordinates}
+import improbable.natures.{TerrainDamageNature, TreeNature}
 import improbable.papi.entity.{Entity, EntityBehaviour}
 import improbable.papi.world.World
 import improbable.papi.world.entities.EntityFindByTag
 import improbable.player.controls.PlayerControlsState
 import improbable.player.physical.PlayerStateWriter
+
+import scala.util.Random
 
 class PlayerBehaviour(entity: Entity,
                       playerState: PlayerStateWriter,
@@ -22,7 +23,6 @@ class PlayerBehaviour(entity: Entity,
   override def onReady(): Unit = {
     entity.watch[PlayerControlsState].bind.movementDirection {
       movementDirection => {
-        logger.info("player movement received")
         rigidbodyInterface.setForce(movementDirection * playerState.forceMagnitude)
       }
     }
@@ -31,15 +31,40 @@ class PlayerBehaviour(entity: Entity,
 
     entity.watch[PlayerControlsState].onExtinguishRequested {
       payload => {
-        raycastInterface.performRaycast()
+        logger.info("fire event received!")
+        val position = entity.position
+        val new_x = entity.position.x + Random.nextFloat() * 20
+         val new_y = entity.position.y + Random.nextFloat() * 5  // the y-axis is strictly below the player position
+        val new_z = entity.position.z + Random.nextFloat() * 20
+        val coordinate = new Coordinates(new_x, new_y, new_z)
+        world.entities.spawnEntity(TerrainDamageNature(coordinate))
       }
     }
 
-    entity.watch[PlayerControlsState].onPlanttreeRequested {
+    entity.watch[PlayerControlsState].onPlantRequested {
       payload => {
-        world.entities.spawnEntity(TreeNature(entity.position))
+        // we want to avoid the tree generated from hitting the player, so add some random disturbance
+        val position = entity.position
+        val new_x = entity.position.x + Random.nextFloat() * 10 - 5
+        val new_y = entity.position.y - Random.nextFloat() * 5  // the y-axis is strictly below the player position
+        val new_z = entity.position.z + Random.nextFloat() * 10 -5
+        val coordinate = new Coordinates(new_x, new_y, new_z)
+        world.entities.spawnEntity(TreeNature(coordinate))
+        logger.info("a new tree generated")
       }
     }
+
+    entity.watch[PlayerControlsState].onReduceheightRequested{
+      payload =>
+        rigidbodyInterface.setForce(Vector3d(0, -10f, 0).normalised)
+    }
+
+
+    entity.watch[PlayerControlsState].onAddheightRequested{
+      payload =>
+        rigidbodyInterface.setForce(Vector3d(0, 10f, 0).normalised)
+    }
+
   }
 
 

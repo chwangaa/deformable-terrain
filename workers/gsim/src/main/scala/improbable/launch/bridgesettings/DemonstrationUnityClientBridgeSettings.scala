@@ -6,6 +6,7 @@ import improbable.unity.fabric.engine.EnginePlatform
 import improbable.unity.fabric.engine.EnginePlatform._
 import improbable.unity.fabric.satisfiers.{AggregateSatisfiers, SatisfySingleConstraint, SatisfySpecificEngine}
 import improbable.unity.fabric.{AuthoritativeEntityOnly, VisualEngineConstraint}
+import improbable.util.TerrainGeneratorSetting
 
 object DemonstrationUnityClientBridgeSettings extends BridgeSettingsResolver {
 
@@ -17,7 +18,7 @@ object DemonstrationUnityClientBridgeSettings extends BridgeSettingsResolver {
       SatisfySpecificEngine,
       SatisfySingleConstraint(VisualEngineConstraint)
     ),
-    AuthoritativeEntityOnly( radius = 6 ),
+    AuthoritativeEntityOnly( radius = TerrainGeneratorSetting.PLAYER_VIEW_RADIUS / 100 ),
     ConstantEngineLoadPolicy(0.5),
     PerEntityOrderedStateUpdateQos
   )

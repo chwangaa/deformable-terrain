@@ -9,4 +9,5 @@ object EntityPrefabs {
   val TREE = EntityPrefab("Tree")
   val TERRAINCHUNK = EntityPrefab("TerrainChunk")
   val TERRAINGENERATOR = EntityPrefab("TerrainGenerator")
+  val TERRAINDAMAGE = EntityPrefab("TerrainDamage")
 }

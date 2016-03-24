@@ -9,7 +9,7 @@ namespace TerrainGenerator
 
         private Terrain Terrain { get; set; }
 
-        private TerrainData Data { get; set; }
+        public TerrainData Data { get; set; }
 
         private TerrainChunkSettings Settings { get; set; }
 
@@ -95,7 +95,7 @@ namespace TerrainGenerator
             terrain.materialType = UnityEngine.Terrain.MaterialType.Custom;
             terrain.materialTemplate = Settings.TerrainMaterial;
             terrain.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
-            terrain.Flush();
+            // terrain.Flush();
             return terrain;
         }
 

@@ -1,7 +1,7 @@
 package improbable.apps
 
 import com.typesafe.scalalogging.Logger
-import improbable.behaviours.bot.MovementEvent
+import improbable.behaviours.GenerateNeighbouringTerrainAt
 import improbable.math.{Vector3d, Coordinates}
 import improbable.natures._
 import improbable.papi._
@@ -20,7 +20,7 @@ class TerrainSpawner(appWorld: AppWorld,
 
   initializeTerrainGenerator()
   logger.info("terrain is intialized")
-  // spawnCubes()
+  spawnCubes()
   //spawnRandomTrees()
 
   private def initializeTerrainGenerator(): Unit = {
@@ -30,7 +30,7 @@ class TerrainSpawner(appWorld: AppWorld,
 
     appWorld.entities.find(EntityFindByTag("TerrainGenerator")).foreach(
       x =>
-        appWorld.messaging.sendToEntity(x.entityId, MovementEvent(initial_position, 500))
+        appWorld.messaging.sendToEntity(x.entityId, GenerateNeighbouringTerrainAt(initial_position, 500))
     )
 
   }
@@ -41,11 +41,10 @@ class TerrainSpawner(appWorld: AppWorld,
 
     appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), onFire = true))
 
-    Range.inclusive(1, 20).foreach {
+    Range.inclusive(1, 100).foreach {
       i =>
-        appWorld.timing.after((2000 * i) millis) {
+        appWorld.timing.after((200 * i) millis) {
           appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0)))
-          logger.info("a cube is spawned randomly")
         }
     }
   }

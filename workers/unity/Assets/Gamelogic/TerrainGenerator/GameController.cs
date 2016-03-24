@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
-{
+{   
+    /*
     private const int Radius = 4;
 
     private Vector2i PreviousPlayerChunkPosition;
@@ -71,4 +72,5 @@ public class GameController : MonoBehaviour
         StartCoroutine(initializePlayerNeighbourhood(new Vector3(x, 1, z)));
 
     }
+    */
 }

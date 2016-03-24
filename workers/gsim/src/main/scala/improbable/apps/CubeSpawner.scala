@@ -16,7 +16,7 @@ class CubeSpawner(appWorld: AppWorld) extends WorldApp {
   private def spawnCubes(): Unit = {
 
 
-    Range.inclusive(1, 100).foreach {
+    Range.inclusive(1, 10).foreach {
       i =>
         appWorld.timing.after((20000 * i) millis) {
           appWorld.entities.spawnEntity(BotNature((Vector3d.unitY * 50.0f + Vector3d.unitX * 10.0f).toCoordinates))

@@ -12,15 +12,13 @@ import improbable.physical.{Fire}
 import scala.concurrent.duration._
 import scala.util.Random
 
-case class MovementEvent(position: Coordinates, radius: Int) extends CustomMsg
-
 class MoveRandomlyBehaviour(world: World,
                             rigidBodyInterface: RigidbodyInterface,
                             entity: Entity,
                             logger: Logger
                             ) extends EntityBehaviour {
 
-  private var INTENSITY = 5.0f
+  private var INTENSITY = 10.0f
 
   override def onReady(): Unit = {
     world.timing.every(1.seconds) {
@@ -29,7 +27,7 @@ class MoveRandomlyBehaviour(world: World,
 
     entity.watch[Fire].bind.onFire {
       isOnFire =>
-          INTENSITY = 8f
+          INTENSITY = 20f
     }
   }
 

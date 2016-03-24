@@ -15,19 +15,29 @@ namespace Assets.Gamelogic.Visualizers
         [Require] protected LocalPlayerCheckStateWriter LocalPlayerCheck;
         [Require] protected PlayerControlsStateWriter PlayerControls;
 
+        float lastActionTime;
 
-        public void Update()
+        public void LateUpdate()
         {
+
             PlayerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
             if (InputSource.GetButton("Fire1"))
             {
-                Debug.Log("check if Fire1 is handled in Unity");
+                Debug.Log("Extinguish Fire event fired");
                 PlayerControls.Update.TriggerExtinguishRequested().FinishAndSend();
             }
             if (InputSource.GetButton("Jump"))
             {
-                Debug.Log("Space button being pressed");
-                GetComponent<Rigidbody>().isKinematic = true;
+                Debug.Log("Plant tree event fired");
+                PlayerControls.Update.TriggerPlantRequested().FinishAndSend();
+            }
+            if (InputSource.GetButton("Mouse X"))
+            {
+                PlayerControls.Update.TriggerReduceheightRequested().FinishAndSend();
+            }
+            if (InputSource.GetButton("Mouse Y"))
+            {
+                PlayerControls.Update.TriggerAddheightRequested().FinishAndSend();
             }
         }
 
