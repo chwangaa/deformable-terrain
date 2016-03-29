@@ -1,0 +1,26 @@
+syntax = "proto2";
+package schema.improbable.damage;
+
+import "improbable/entity_state.proto";
+
+import "improbable/math/coordinates.proto";
+
+// Player controls values
+message BulletStateData {
+  // Control movement direction
+
+  repeated DamageRequestedEvent damageRequested = 1029
+      [(improbable.state_event) = true];
+}
+
+message DamageRequestedEvent {
+  optional improbable.math.Coordinates position = 1;
+}
+
+extend improbable.EntityState {
+  optional BulletStateData bulletState = 1030
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+}

@@ -4,7 +4,7 @@ import com.typesafe.scalalogging.Logger
 import improbable.behaviours.player.controls.RaycastRequestorInterface
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.{Vector3d, Coordinates}
-import improbable.natures.{TerrainDamageNature, TreeNature}
+import improbable.natures.{BulletNature, TerrainDamageNature, TreeNature}
 import improbable.papi.entity.{Entity, EntityBehaviour}
 import improbable.papi.world.World
 import improbable.papi.world.entities.EntityFindByTag
@@ -23,7 +23,9 @@ class PlayerBehaviour(entity: Entity,
   override def onReady(): Unit = {
     entity.watch[PlayerControlsState].bind.movementDirection {
       movementDirection => {
-        rigidbodyInterface.setForce(movementDirection * playerState.forceMagnitude)
+        val moveX = movementDirection.x
+        val moveZ = movementDirection.z
+        rigidbodyInterface.setForce(Vector3d(moveX, 0, moveZ) * playerState.forceMagnitude)
       }
     }
 
@@ -31,13 +33,13 @@ class PlayerBehaviour(entity: Entity,
 
     entity.watch[PlayerControlsState].onExtinguishRequested {
       payload => {
-        logger.info("fire event received!")
         val position = entity.position
         val new_x = entity.position.x + Random.nextFloat() * 20
          val new_y = entity.position.y + Random.nextFloat() * 5  // the y-axis is strictly below the player position
         val new_z = entity.position.z + Random.nextFloat() * 20
         val coordinate = new Coordinates(new_x, new_y, new_z)
-        world.entities.spawnEntity(TerrainDamageNature(coordinate))
+        logger.info("fire event received! Creating bullet")
+        world.entities.spawnEntity(BulletNature(coordinate))
       }
     }
 
@@ -56,7 +58,7 @@ class PlayerBehaviour(entity: Entity,
 
     entity.watch[PlayerControlsState].onReduceheightRequested{
       payload =>
-        rigidbodyInterface.setForce(Vector3d(0, -10f, 0).normalised)
+        rigidbodyInterface.setForce(Vector3d(0, -50f, 0).normalised)
     }
 
 
@@ -64,6 +66,7 @@ class PlayerBehaviour(entity: Entity,
       payload =>
         rigidbodyInterface.setForce(Vector3d(0, 10f, 0).normalised)
     }
+
 
   }
 

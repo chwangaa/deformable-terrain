@@ -14,6 +14,7 @@ namespace TerrainGenerator
         [Require]
         protected PositionReader Position;
 
+
         public Texture2D FlatTexture;
         public Texture2D SteepTexture;
 
@@ -41,9 +42,7 @@ namespace TerrainGenerator
         {
             transform.position = Position.Value.ToUnityVector();
             assembleDamages();
-            generateNewTerrain();
-            Debug.Log("terrain is already available");
-            
+            generateNewTerrain();            
         }
         
         private void assembleDamages()
@@ -52,7 +51,6 @@ namespace TerrainGenerator
             var terrain_center = transform.position + new Vector3(radius, 0, radius);
             Collider[] hitColliders = Physics.OverlapSphere(terrain_center, radius * 1.5f);
             int i = 0;
-            Debug.Log("assemblying the demages");
             while (i < hitColliders.Length)
             {
                 TerrainDamage terrain_damage = (TerrainDamage)hitColliders[i].gameObject.GetComponent("TerrainDamage");
@@ -111,7 +109,6 @@ namespace TerrainGenerator
         
         private void ApplyDamage()
         {
-            Debug.Log("applying damages");
             foreach(var damage in damages)
             {
                 damage.applyDamageToHeightMap(terrain);
@@ -134,8 +131,11 @@ namespace TerrainGenerator
 
         private void OnDisable()
         {
+            if (terrain)
+            {
                 Destroy(terrain.gameObject);
                 terrain = null;
+            }
         }
 
         private void setNeighbours()
@@ -197,12 +197,7 @@ namespace TerrainGenerator
 
         public void updateNeighbour()
         {
-            Debug.Log("update the neighbours");
-            if(terrain == null)
-            {
-                Debug.Log("error, terrain is null");
-            }
-            else
+            if(terrain != null)
             {
                 terrain.SetNeighbors(left_neighbor, top_neighbor, right_neighbor, bottom_neighbor);
                 terrain.Flush();
@@ -211,7 +206,6 @@ namespace TerrainGenerator
 
         private void onDestroy()
         {
-            Debug.Log("on destroy called ");
             if(terrain != null)
                 Destroy(terrain.gameObject);
             Destroy(gameObject);

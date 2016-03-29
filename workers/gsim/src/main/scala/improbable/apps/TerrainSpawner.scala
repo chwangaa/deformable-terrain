@@ -39,8 +39,6 @@ class TerrainSpawner(appWorld: AppWorld,
 
   private def spawnCubes(): Unit = {
 
-    appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), onFire = true))
-
     Range.inclusive(1, 100).foreach {
       i =>
         appWorld.timing.after((200 * i) millis) {

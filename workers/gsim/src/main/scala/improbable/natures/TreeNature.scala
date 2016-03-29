@@ -1,6 +1,6 @@
 package improbable.natures
 
-import improbable.behaviours.ReportToTerrainGeneratorNature
+import improbable.behaviours.ReportToTerrainGeneratorBehaviour
 import improbable.behaviours.bot.MoveRandomlyBehaviour
 import improbable.behaviours.color.SetColorFromFireBehaviour
 import improbable.corelib.natures.base.BaseComposedTransformNature
@@ -18,7 +18,7 @@ object TreeNature extends NatureDescription {
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
     descriptorOf[SetColorFromFireBehaviour],
-    descriptorOf[ReportToTerrainGeneratorNature])
+    descriptorOf[ReportToTerrainGeneratorBehaviour])
 
   def apply(initialPosition: Coordinates, onFire:Boolean = false): NatureApplication = {
     application(

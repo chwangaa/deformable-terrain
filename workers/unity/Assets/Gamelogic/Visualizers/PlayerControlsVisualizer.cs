@@ -21,21 +21,21 @@ namespace Assets.Gamelogic.Visualizers
         {
 
             PlayerControls.Update.MovementDirection(GetMovementDirection()).FinishAndSend();
-            if (InputSource.GetButton("Fire1"))
+            if (InputSource.GetButtonDown("Fire1"))
             {
                 Debug.Log("Extinguish Fire event fired");
                 PlayerControls.Update.TriggerExtinguishRequested().FinishAndSend();
             }
-            if (InputSource.GetButton("Jump"))
+            if (InputSource.GetButtonDown("Jump"))
             {
                 Debug.Log("Plant tree event fired");
                 PlayerControls.Update.TriggerPlantRequested().FinishAndSend();
             }
-            if (InputSource.GetButton("Mouse X"))
+            if (InputSource.GetButtonDown("Mouse X"))
             {
                 PlayerControls.Update.TriggerReduceheightRequested().FinishAndSend();
             }
-            if (InputSource.GetButton("Mouse Y"))
+            if (InputSource.GetButtonDown("Mouse Y"))
             {
                 PlayerControls.Update.TriggerAddheightRequested().FinishAndSend();
             }
