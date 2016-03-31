@@ -1,0 +1,23 @@
+syntax = "proto2";
+package schema.improbable.damage;
+
+import "improbable/entity_state.proto";
+
+
+message TeamStateData {
+  enum Team {
+      RED = 0;
+      GREEN = 1;
+      BLUE = 2;
+  }
+
+  optional Team side = 1;
+}
+
+extend improbable.EntityState {
+  optional TeamStateData teamState = 1039
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+}

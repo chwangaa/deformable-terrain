@@ -9,6 +9,7 @@ import improbable.papi.world.entities.EntityFindByTag
 import improbable.physical.{Generatorreport, GeneratorReportData}
 import scala.concurrent.duration._
 import improbable.util.TerrainGeneratorSetting
+import improbable.util.TerrainCoordinateMapping._
 
 /**
   * Created by chihang on 22/03/2016.
@@ -76,14 +77,21 @@ class ReportToTerrainGeneratorBehaviour(entity : Entity, logger : Logger, world:
     )
   }
 
+  /**
+    * ask generator to generate all the terrains in the neighbourhood
+    */
   def generateNeighbourhood(): Unit = {
-    val neighbour_terrains = findCoordinatesOfTerrainsThatNeedToBeGenerated()
+    val neighbour_terrains = findCoordinatesOfTerrainsThatNeedToBeGenerated(entity.position, checkout_radius)
     val new_coordinates = neighbour_terrains.diff(generatedTerrain)
     val old_coordinates = generatedTerrain.diff(neighbour_terrains)
     removeOldTerrains(old_coordinates)
     askGeneratorForTheseTerrains(new_coordinates)
   }
 
+  /**
+    * ask generator to generate terrains
+    * @param new_coordinates set of terrains of which to ask the generator to generate
+    */
   def askGeneratorForTheseTerrains(new_coordinates:Set[Coordinates]):Unit = {
     new_coordinates.foreach(
       position => {
@@ -103,39 +111,24 @@ class ReportToTerrainGeneratorBehaviour(entity : Entity, logger : Logger, world:
     }
   }
 
+  /**
+    * ask generator to generate a particular terrain specified by the position
+    * @param position position of the new terrain
+    */
   def askGeneratorForNewTerrain(position:Coordinates): Unit = {
 
     world.messaging.sendToEntity(generator_id, RequireTerrainAt(position))
     generatedTerrain += position
   }
 
+  /**
+    * remove the old terrain from the active list
+    * @param old_terrains old terrain set
+    */
   def removeOldTerrains(old_terrains:Set[Coordinates]): Unit = {
     old_terrains.foreach(position =>{
       generatedTerrain -= position
     })
-  }
-
-  def getTerrainCoordinateForObjectPosition(x : Double, z : Double): Coordinates = {
-    val terrain_x:Int = math.floor(x / terrain_length).toInt * terrain_length
-    val terrain_z:Int = math.floor(z / terrain_length).toInt * terrain_length
-    return new Coordinates(terrain_x, 0, terrain_z)
-  }
-
-  def findCoordinatesOfTerrainsThatNeedToBeGenerated(): Set[Coordinates] = {
-    val position = entity.position
-    val x:Double = math.floor(position.x / terrain_length).toInt * terrain_length
-    val z:Double = math.floor(position.z / terrain_length).toInt * terrain_length
-
-    var neighbour_terrains = Set[Coordinates]()
-
-    for{
-      i <- x-checkout_radius to x+checkout_radius by terrain_length
-      j <- z-checkout_radius to z+checkout_radius by terrain_length
-    }{
-      neighbour_terrains += new Coordinates(i, 0, j)
-    }
-
-    return neighbour_terrains
   }
 
 }

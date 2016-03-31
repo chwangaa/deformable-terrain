@@ -13,8 +13,9 @@ GameObject:
   - 23: {fileID: 2309092}
   - 114: {fileID: 11468302}
   - 114: {fileID: 11483672}
+  - 114: {fileID: 11497096}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87642098a4da00147850a8eb7790fad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {x: 0, y: 0, z: 0}
 --- !u!114 &11483672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,6 +94,19 @@ MonoBehaviour:
   RotationNetworkUpdatePeriodThreshold: .0500000007
   SlottedRotationNetworkUpdatePeriodThreshold: 1
   RotationNetworkUpdateSquareDistanceThreshold: 9.99999975e-05
+--- !u!114 &11497096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16700ef5b1776040bdb5e85a58038ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderers:
+  - {fileID: 2309092}
 --- !u!135 &13576122
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -114,6 +127,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: Renderers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
@@ -129,6 +146,10 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 134394, guid: 6e37cf5e9292a42489b493442881da3b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 196330}

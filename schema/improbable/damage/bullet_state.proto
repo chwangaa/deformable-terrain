@@ -5,16 +5,23 @@ import "improbable/entity_state.proto";
 
 import "improbable/math/coordinates.proto";
 
-// Player controls values
 message BulletStateData {
-  // Control movement direction
 
   repeated DamageRequestedEvent damageRequested = 1029
       [(improbable.state_event) = true];
+
+  repeated EntityDamageRequestedEvent entityDamageRequested = 1033
+      [(improbable.state_event) = true];
+
+  optional int32 radius = 1;
 }
 
 message DamageRequestedEvent {
   optional improbable.math.Coordinates position = 1;
+}
+
+message EntityDamageRequestedEvent{
+  optional int64 entityId = 1 [(improbable.entity_id) = true];
 }
 
 extend improbable.EntityState {

@@ -2,6 +2,7 @@ package improbable.apps
 
 import com.typesafe.scalalogging.Logger
 import improbable.behaviours.GenerateNeighbouringTerrainAt
+import improbable.damage.TeamStateData
 import improbable.math.{Vector3d, Coordinates}
 import improbable.natures._
 import improbable.papi._
@@ -13,15 +14,14 @@ import improbable.papi.worldapp.{WorldApp, WorldAppLifecycle}
 import scala.util.Random
 import scala.concurrent.duration._
 import scala.language.postfixOps
+import improbable.util.FiringGameSetting.NUMBER_OF_BOTS
 
 class TerrainSpawner(appWorld: AppWorld,
                   logger: Logger,
                   lifecycle: WorldAppLifecycle) extends WorldApp {
 
   initializeTerrainGenerator()
-  logger.info("terrain is intialized")
   spawnCubes()
-  //spawnRandomTrees()
 
   private def initializeTerrainGenerator(): Unit = {
     val initial_position = Coordinates(0, 0, 0)
@@ -35,29 +35,16 @@ class TerrainSpawner(appWorld: AppWorld,
 
   }
 
-
-
   private def spawnCubes(): Unit = {
 
-    Range.inclusive(1, 100).foreach {
+    Range.inclusive(1, NUMBER_OF_BOTS).foreach {
       i =>
         appWorld.timing.after((200 * i) millis) {
-          appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0)))
+          appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), team=TeamStateData.Team.BLUE))
+          appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), team=TeamStateData.Team.GREEN))
         }
     }
-  }
 
-  private def spawnRandomTrees(): Unit = {
-    Range(1, 10).foreach { _ =>
-      spawnRandomTree()
-      logger.info("a tree is spawned randomly")
-    }
-  }
-
-  private def spawnRandomTree(): Unit = {
-    val x = (Random.nextDouble() - 0.5f) * TreeSpawner.DISTANCE
-    val z = (Random.nextDouble() - 0.5f) * TreeSpawner.DISTANCE
-    appWorld.entities.spawnEntity(TreeNature(Coordinates(x, 0.5, z)))
   }
 
 

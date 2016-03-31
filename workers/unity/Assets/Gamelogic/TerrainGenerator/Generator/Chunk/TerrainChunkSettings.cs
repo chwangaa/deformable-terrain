@@ -18,12 +18,12 @@ namespace TerrainGenerator
 
         public Material TerrainMaterial { get; private set; }
 
-        public TerrainChunkSettings(int heightmapResolution, int alphamapResolution, int length, int height, Texture2D flatTexture, Texture2D steepTexture, Material terrainMaterial)
+        public TerrainChunkSettings(int length, Texture2D flatTexture, Texture2D steepTexture, Material terrainMaterial)
         {
-            HeightmapResolution = heightmapResolution;
-            AlphamapResolution = alphamapResolution;
+            HeightmapResolution = 129;
+            AlphamapResolution = 129;
             Length = length;
-            Height = height;
+            Height = 30;
             FlatTexture = flatTexture;
             SteepTexture = steepTexture;
             TerrainMaterial = terrainMaterial;

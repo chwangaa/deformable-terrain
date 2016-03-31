@@ -18,9 +18,10 @@ namespace LibNoise.Generator
         /// <summary>
         /// Initializes a new instance of Spheres.
         /// </summary>
-        public Spheres()
+        public Spheres(long seed)
             : base(0)
         {
+            seed = seed;
         }
 
         /// <summary>

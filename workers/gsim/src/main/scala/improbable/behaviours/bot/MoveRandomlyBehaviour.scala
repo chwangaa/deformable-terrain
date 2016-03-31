@@ -21,22 +21,15 @@ class MoveRandomlyBehaviour(world: World,
   private var INTENSITY = 10.0f
 
   override def onReady(): Unit = {
-    world.timing.every(1.seconds) {
+    world.timing.every(500.milliseconds) {
       moveRandomly()
-    }
-
-    entity.watch[Fire].bind.onFire {
-      isOnFire =>
-          INTENSITY = 20f
     }
   }
 
   private def moveRandomly(): Unit = {
     val x = randomAxis()
     val z = randomAxis()
-
-    rigidBodyInterface.setForce(Vector3d(x, 0.0f, z).normalised * INTENSITY)
-
+    rigidBodyInterface.setForce(Vector3d(x, 0, z).normalised * INTENSITY)
   }
 
   private def randomAxis(): Double = {

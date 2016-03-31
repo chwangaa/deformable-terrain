@@ -1,13 +1,22 @@
 syntax = "proto2";
 
 package schema.improbable.terrainchunk;
-
 import "improbable/entity_state.proto";
+import "improbable/math/coordinates.proto";
+
 
 message TerrainSeedData {
-  // Whether something is on fire
+  enum TerrainType {
+      Perlin = 0;
+      Voronoi = 1;
+      Constant = 2;
+      Billow = 3;
+  }
+
+  // seed is the random number correspond to the terrain being generated
   optional int64 seed = 1;
   optional int32 terrain_length = 2;
+  optional TerrainType nature = 3;
 }
 
 extend improbable.EntityState {
@@ -16,4 +25,42 @@ extend improbable.EntityState {
     state_synchronized: true
     state_queryable: false
   }];
+}
+
+// each damage object consist of the position of the damage, and radius of the effect
+message Damage {
+  optional improbable.math.Coordinates position = 1;
+  optional int32 radius = 2;
+}
+
+// each terrain object will contain a list of damages
+message TerrainDamageData{
+  repeated Damage damages = 1;
+}
+
+extend improbable.EntityState {
+  optional TerrainDamageData terrainDamage = 1019
+  [(improbable.entity_state_options) = {
+    state_synchronized: true
+    state_queryable: false
+  }];
+}
+
+// damage event sent to terrain when a damage is to be applied
+message DamageRequestEvent {
+  optional Damage damage = 1;
+}
+
+// state object for sending the damage event
+message DamageRequestState {
+  repeated DamageRequestEvent damageRequested = 1
+    [(improbable.state_event) = true];
+}
+
+extend improbable.EntityState {
+  optional DamageRequestState damageRequest = 1021
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
 }

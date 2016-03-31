@@ -21,9 +21,10 @@ namespace LibNoise.Generator
         /// <summary>
         /// Initializes a new instance of Voronoi.
         /// </summary>
-        public Voronoi()
+        public Voronoi(long seed)
             : base(0)
         {
+            Seed = (int)seed;
         }
 
         /// <summary>

@@ -4,13 +4,12 @@ import com.typesafe.scalalogging.Logger
 import improbable.behaviours.player.controls.RaycastRequestorInterface
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.{Vector3d, Coordinates}
-import improbable.natures.{BulletNature, TerrainDamageNature, TreeNature}
+import improbable.natures.{BulletNature, TreeNature}
 import improbable.papi.entity.{Entity, EntityBehaviour}
 import improbable.papi.world.World
-import improbable.papi.world.entities.EntityFindByTag
 import improbable.player.controls.PlayerControlsState
 import improbable.player.physical.PlayerStateWriter
-
+import improbable.util.FiringGameSetting.PLAYER_BULLET_RADIUS
 import scala.util.Random
 
 class PlayerBehaviour(entity: Entity,
@@ -25,21 +24,21 @@ class PlayerBehaviour(entity: Entity,
       movementDirection => {
         val moveX = movementDirection.x
         val moveZ = movementDirection.z
-        rigidbodyInterface.setForce(Vector3d(moveX, 0, moveZ) * playerState.forceMagnitude)
+        rigidbodyInterface.setForce(Vector3d(moveX, 0, moveZ).normalised * playerState.forceMagnitude)
       }
     }
 
 
 
-    entity.watch[PlayerControlsState].onExtinguishRequested {
+    entity.watch[PlayerControlsState].onFiringRequested {
       payload => {
-        val position = entity.position
-        val new_x = entity.position.x + Random.nextFloat() * 20
-         val new_y = entity.position.y + Random.nextFloat() * 5  // the y-axis is strictly below the player position
-        val new_z = entity.position.z + Random.nextFloat() * 20
+        val position = payload.position
+        val new_x = position.x + Random.nextFloat() * 10
+        val new_y = position.y + Random.nextFloat() * 10
+        val new_z = position.z + 10
         val coordinate = new Coordinates(new_x, new_y, new_z)
-        logger.info("fire event received! Creating bullet")
-        world.entities.spawnEntity(BulletNature(coordinate))
+        logger.info(s"fire event received! Creating bullet at position $coordinate")
+        world.entities.spawnEntity(BulletNature(initialPosition = coordinate, radius = PLAYER_BULLET_RADIUS))
       }
     }
 
@@ -64,7 +63,7 @@ class PlayerBehaviour(entity: Entity,
 
     entity.watch[PlayerControlsState].onAddheightRequested{
       payload =>
-        rigidbodyInterface.setForce(Vector3d(0, 10f, 0).normalised)
+        rigidbodyInterface.setForce(Vector3d(0, 50f, 0).normalised)
     }
 
 

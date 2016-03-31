@@ -3,6 +3,7 @@ using Improbable.Player.Controls;
 using Improbable.Unity.Input.Sources;
 using Improbable.Unity.Visualizer;
 using IoC;
+using Improbable.Unity;
 using UnityEngine;
 using Vector3 = Improbable.Math.Vector3d;
 
@@ -24,7 +25,9 @@ namespace Assets.Gamelogic.Visualizers
             if (InputSource.GetButtonDown("Fire1"))
             {
                 Debug.Log("Extinguish Fire event fired");
-                PlayerControls.Update.TriggerExtinguishRequested().FinishAndSend();
+                var hit_position = CoordinateSystem.ToCoordinates(transform.position);
+
+                PlayerControls.Update.TriggerFiringRequested(hit_position).FinishAndSend();
             }
             if (InputSource.GetButtonDown("Jump"))
             {

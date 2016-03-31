@@ -4,7 +4,6 @@ using Improbable.Unity.Visualizer;
 using Improbable.Unity;
 using Improbable.Terrainchunk;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace TerrainGenerator
 {
@@ -14,6 +13,11 @@ namespace TerrainGenerator
         [Require]
         protected PositionReader Position;
 
+        [Require]
+        protected TerrainDamageReader damages_reader;
+
+        [Require]
+        protected DamageRequestReader damage_request_reader;
 
         public Texture2D FlatTexture;
         public Texture2D SteepTexture;
@@ -33,38 +37,31 @@ namespace TerrainGenerator
         private Terrain bottom_neighbor = null;
         private Terrain top_neighbor = null;
 
-        public List<TerrainDamage> damages = new List<TerrainDamage>();
 
         [Require]
         protected TerrainseedReader terrain_seed_reader;
 
+
+
         private void OnEnable()
         {
-            transform.position = Position.Value.ToUnityVector();
-            assembleDamages();
-            generateNewTerrain();            
+            damage_request_reader.DamageRequested += HandleDamageRequested;         // add the damage request handler
+            transform.position = Position.Value.ToUnityVector();                    // update the position
+            generateNewTerrain();                                                   // generate terrains in the neighbourhood
         }
-        
-        private void assembleDamages()
-        {
-            float radius = terrain_length / 2;
-            var terrain_center = transform.position + new Vector3(radius, 0, radius);
-            Collider[] hitColliders = Physics.OverlapSphere(terrain_center, radius * 1.5f);
-            int i = 0;
-            while (i < hitColliders.Length)
-            {
-                TerrainDamage terrain_damage = (TerrainDamage)hitColliders[i].gameObject.GetComponent("TerrainDamage");
-                if (terrain_damage != null)
-                {
-                    damages.Add(terrain_damage);
-                    Debug.Log("a damage is found");
-                }
-                i++;
-            }
-            if (hitColliders.Length == 0)
-            {
-                Debug.Log("no damages found");
-            }
+
+        void HandleDamageRequested(DamageRequestEvent obj){
+
+
+            
+            Damage damage = obj.Damage;
+            Vector3 center = damage.Position.ToUnityVector();
+
+            Instantiate(Resources.Load("EntityPrefabs/Explosion"), center, Quaternion.identity);
+
+            int radius = damage.Radius;
+            applyDamageToHeightMap(center, radius);
+            terrain.Flush();
         }
         
         private void generateNewTerrain()
@@ -83,10 +80,12 @@ namespace TerrainGenerator
             seed = terrain_seed_reader.Seed;                                                                                       // get the random seed value
             terrain_length = terrain_seed_reader.TerrainLength;                                                                    // get the terrain size
 
+            var terrain_type = terrain_seed_reader.Nature;
 
-            Settings = new TerrainChunkSettings(129, 129, terrain_length, 40, FlatTexture, SteepTexture, TerrainMaterial);             // create a setting variable
-            NoiseProvider = new NoiseProvider(seed);                                                                                   // create a noise provider variable
-            TerrainChunk new_chunk = new TerrainChunk(terrain_length, Settings, NoiseProvider, x, z);                                  // create a terrain chunk value
+
+            Settings = new TerrainChunkSettings(terrain_length, FlatTexture, SteepTexture, TerrainMaterial);             // create a setting variable
+            NoiseProvider = new NoiseProvider(seed, terrain_type);      // create a noise provider variable, the noise correspond to the noise generator used to generate the terrain height
+            TerrainChunk new_chunk = new TerrainChunk(Settings, NoiseProvider, x, z);                                  // create a terrain chunk value
             new_chunk.GenerateHeightmap();                                                                                             // generate the height map
 
 
@@ -99,35 +98,25 @@ namespace TerrainGenerator
                 yield return null;
             } while (!height_map_ready);
 
-            var new_terrain = new_chunk.CreateTerrain();                                                                               // use the generated height map to create a terrain
+
+            terrain = new_chunk.CreateTerrain();                                                                               // use the generated height map to create a terrain
             // new_terrain.transform.parent = gameObject.transform;
-            // Debug.Log("generated terrain at position " + gameObject.transform.position + "with seed valued " + seed.ToString());
-            terrain = new_terrain;              // hold the terrain as a class variable
             ApplyDamage();
             setNeighbours();
+            terrain.Flush();        // Flushing is required for the effect to take place
         }
         
         private void ApplyDamage()
         {
-            foreach(var damage in damages)
-            {
-                damage.applyDamageToHeightMap(terrain);
+            var damages = damages_reader.Damages;
+            foreach (var damage in damages)
+            {                
+                Vector3 center = damage.Position.ToUnityVector();
+                int radius = damage.Radius;
+                applyDamageToHeightMap(center, radius);       
             }
-            if(damages.Count != 0)
-            {
-                Debug.Log("damages applied");
-            }
-            terrain.Flush();
         }
 
-        public void addNewDamage(TerrainDamage damage)
-        {
-            Debug.Log("attempt to add new damage to the terrain object");
-            damages.Add(damage);
-            damage.applyDamageToHeightMap(terrain);
-            terrain.Flush();
-        }
-        
 
         private void OnDisable()
         {
@@ -150,11 +139,7 @@ namespace TerrainGenerator
                     setNeighbour(terrain_generator);
                 i++;
             }
-            if(hitColliders.Length == 0)
-            {
-                Debug.Log("no neighbours found");
-            }
-            else
+            if(i > 0)   // if one or more neighbours get updated, do flush
             {
                 updateNeighbour();
             }
@@ -210,5 +195,62 @@ namespace TerrainGenerator
                 Destroy(terrain.gameObject);
             Destroy(gameObject);
         }
+
+        public void applyDamageToHeightMap(Vector3 damage_position, float craterSizeInMeters)
+        {
+
+            //get the heights only once keep it and reuse, precalculate as much as possible
+            TerrainData data = terrain.terrainData;
+
+            Vector3 terrain_position = terrain.gameObject.transform.position;
+            int hmWidth = data.heightmapWidth;
+            int hmHeight = data.heightmapHeight;
+
+
+            
+            int heightMapCraterWidth = (int)(craterSizeInMeters * (hmWidth / data.size.x));
+            int heightMapCraterLength = (int)(craterSizeInMeters * (hmHeight / data.size.z));
+
+            int heightMapStartPosX = (int)(damage_position.x - terrain_position.x);
+            int heightMapStartPosZ = (int)(damage_position.z - terrain_position.z);
+
+            float[,] heights = terrain.terrainData.GetHeights(heightMapStartPosX, heightMapStartPosZ, heightMapCraterWidth, heightMapCraterLength);
+
+
+
+            float circlePosX;
+            float circlePosY;
+            float distanceFromCenter;
+            float depthDamage;
+            float damage_radius = craterSizeInMeters / 2.0f;
+
+            float deformationDepth = (craterSizeInMeters / 3.0f) / (data.size.y / 2);
+
+            // this creates a spherical damage
+            for (int i = 0; i < heightMapCraterLength; i++) //width
+            {
+                for (int j = 0; j < heightMapCraterWidth; j++) //height
+                {
+                    circlePosX = (i - (heightMapCraterWidth / 2));
+                    circlePosY = (j - (heightMapCraterLength / 2));
+
+                    distanceFromCenter = Mathf.Abs(Mathf.Sqrt(circlePosX * circlePosX + circlePosY * circlePosY));
+
+                    if (distanceFromCenter < damage_radius) // if within the damage radius
+                    {
+                        depthDamage = ((damage_radius - distanceFromCenter) / (distanceFromCenter + 0.01f)* distanceFromCenter);
+
+                        depthDamage = Mathf.Clamp(depthDamage, 0, 0.25f);    // place bound on the damages
+                        heights[i, j] = Mathf.Clamp(heights[i, j] - depthDamage, 0, 1);
+                    }
+
+                }
+            }
+            data.SetHeights(heightMapStartPosX, heightMapStartPosZ, heights);
+        }
+
     }
+
+
+
 }
