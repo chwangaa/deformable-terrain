@@ -45,7 +45,7 @@ object PlayerNature extends NatureDescription {
         Generatorreport(true, report_period, checkout_radius)
       ),
       natures = Seq(
-        BotComposedTransformNature(entityPrefab = PLAYER, mass = 10, hasGravity = false, initialPosition = Coordinates(0, 40, 0))
+        BotComposedTransformNature(entityPrefab = PLAYER, mass = 10, hasGravity = false, initialPosition = Coordinates(20, 40, 20))
       )
     )
   }

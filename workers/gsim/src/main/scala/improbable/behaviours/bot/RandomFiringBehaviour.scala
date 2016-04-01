@@ -36,11 +36,11 @@ class RandomFiringBehaviour(logger:Logger, world: World, entity: Entity) extends
       //Do nothing
     }
     else{
-      val target = targets.last
-      val target_position = target.position.+(Vector3d(0, 10, 0)) // create a bullet at 10 unit above the target
-      val radius = Random.nextInt(10)
+      val target = targets.last.position
+      val direction = target.-(entity.position).normalised
+      val initial_position = entity.position.+(direction)
 
-      world.entities.spawnEntity(BulletNature(target_position, radius=radius, color=getColorFromTeam(my_team)))
+      world.entities.spawnEntity(BulletNature(initial_position, target = target, color=getColorFromTeam(my_team)))
     }
 
 

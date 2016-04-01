@@ -28,7 +28,14 @@ class ReportToTerrainGeneratorBehaviour(entity : Entity, logger : Logger, world:
   var generator_id: EntityId = findGenerator()
 
   def findGenerator():EntityId = {
-    world.entities.find(EntityFindByTag("TerrainGenerator")).last.entityId
+    // busy wait until a terrain generator is available
+    while(world.entities.find(EntityFindByTag("TerrainGenerator")).isEmpty){
+      world.timing.after(5.seconds){
+        logger.info("terrain generator is not found")
+      }
+    }
+    return world.entities.find(EntityFindByTag("TerrainGenerator")).last.entityId
+
   }
 
   override def onReady(): Unit = {

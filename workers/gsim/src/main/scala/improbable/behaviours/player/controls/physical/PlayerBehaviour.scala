@@ -37,8 +37,9 @@ class PlayerBehaviour(entity: Entity,
         val new_y = position.y + Random.nextFloat() * 10
         val new_z = position.z + 10
         val coordinate = new Coordinates(new_x, new_y, new_z)
+        val target = new Coordinates(new_x, 0, new_z)
         logger.info(s"fire event received! Creating bullet at position $coordinate")
-        world.entities.spawnEntity(BulletNature(initialPosition = coordinate, radius = PLAYER_BULLET_RADIUS))
+        world.entities.spawnEntity(BulletNature(initialPosition = coordinate, target = target, radius = PLAYER_BULLET_RADIUS))
       }
     }
 

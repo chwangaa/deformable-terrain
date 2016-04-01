@@ -11,4 +11,5 @@ object EntityPrefabs {
   val TERRAINGENERATOR = EntityPrefab("TerrainGenerator")
   val BULLET = EntityPrefab("Bullet")
   val TERRAINDEMAGE = EntityPrefab("TerrainDamage")
+  val BOTWAREHOUSE = EntityPrefab("BotWareHouse")
 }

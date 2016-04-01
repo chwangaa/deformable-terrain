@@ -37,8 +37,8 @@ object TerrainCoordinateMapping{
 
   def findCoordinatesOfTerrainsThatNeedToBeGenerated(center: Coordinates, radius: Int): Set[Coordinates] = {
     val terrain_length = TerrainGeneratorSetting.TERRAIN_LENGTH
-    val x:Double = math.floor(center.x / terrain_length).toInt * terrain_length
-    val z:Double = math.floor(center.z / terrain_length).toInt * terrain_length
+    val x:Double = center.x
+    val z:Double = center.z
 
     var neighbour_terrains = Set[Coordinates]()
 
@@ -46,7 +46,7 @@ object TerrainCoordinateMapping{
       i <- x-radius to x+radius by terrain_length
       j <- z-radius to z+radius by terrain_length
     }{
-      neighbour_terrains += new Coordinates(i, 0, j)
+      neighbour_terrains += getTerrainCoordinateForObjectPosition(i, j)
     }
 
     return neighbour_terrains

@@ -61,9 +61,10 @@ namespace TerrainGenerator
 
             int radius = damage.Radius;
             applyDamageToHeightMap(center, radius);
+            updateNeighbour();
             terrain.Flush();
         }
-        
+
         private void generateNewTerrain()
         {
 
@@ -109,6 +110,7 @@ namespace TerrainGenerator
         private void ApplyDamage()
         {
             var damages = damages_reader.Damages;
+            Debug.Log("there are " + damages.Count + " damages checked out");
             foreach (var damage in damages)
             {                
                 Vector3 center = damage.Position.ToUnityVector();
@@ -207,12 +209,29 @@ namespace TerrainGenerator
             int hmHeight = data.heightmapHeight;
 
 
-            
-            int heightMapCraterWidth = (int)(craterSizeInMeters * (hmWidth / data.size.x));
-            int heightMapCraterLength = (int)(craterSizeInMeters * (hmHeight / data.size.z));
+            float scaling_factor = hmWidth / data.size.x;
+            int heightMapCraterWidth = (int)(craterSizeInMeters * scaling_factor);
+            int heightMapCraterLength = (int)(craterSizeInMeters * scaling_factor);
 
-            int heightMapStartPosX = (int)(damage_position.x - terrain_position.x);
-            int heightMapStartPosZ = (int)(damage_position.z - terrain_position.z);
+            int heightMapStartPosX = (int)((damage_position.x - terrain_position.x) * scaling_factor) - heightMapCraterWidth / 2;
+            int heightMapStartPosZ = (int)((damage_position.z - terrain_position.z) * scaling_factor) - heightMapCraterLength / 2;
+            if(heightMapStartPosX < 0)
+            {
+                heightMapStartPosX = 0;
+            }
+            if(heightMapStartPosZ < 0)
+            {
+                heightMapStartPosZ = 0;
+            }
+
+            if(heightMapStartPosX + heightMapCraterWidth > hmWidth)
+            {
+                heightMapCraterWidth = hmWidth - heightMapStartPosX;
+            }
+            if(heightMapStartPosZ + heightMapCraterLength > hmHeight)
+            {
+                heightMapCraterLength = hmHeight - heightMapStartPosZ;
+            }
 
             float[,] heights = terrain.terrainData.GetHeights(heightMapStartPosX, heightMapStartPosZ, heightMapCraterWidth, heightMapCraterLength);
 
@@ -222,9 +241,9 @@ namespace TerrainGenerator
             float circlePosY;
             float distanceFromCenter;
             float depthDamage;
-            float damage_radius = craterSizeInMeters / 2.0f;
+            float damage_radius = craterSizeInMeters;
+            float deformationDepth = (craterSizeInMeters / 2.0f) / data.size.y;
 
-            float deformationDepth = (craterSizeInMeters / 3.0f) / (data.size.y / 2);
 
             // this creates a spherical damage
             for (int i = 0; i < heightMapCraterLength; i++) //width
@@ -238,10 +257,10 @@ namespace TerrainGenerator
 
                     if (distanceFromCenter < damage_radius) // if within the damage radius
                     {
-                        depthDamage = ((damage_radius - distanceFromCenter) / (distanceFromCenter + 0.01f)* distanceFromCenter);
-
-                        depthDamage = Mathf.Clamp(depthDamage, 0, 0.25f);    // place bound on the damages
-                        heights[i, j] = Mathf.Clamp(heights[i, j] - depthDamage, 0, 1);
+                        depthDamage = (damage_radius - distanceFromCenter) / damage_radius;
+                        depthDamage *= 0.5f;
+                        depthDamage = Mathf.Clamp(depthDamage, 0, 1f);    // place bound on the damages
+                        heights[i, j] = Mathf.Clamp(heights[i, j] - depthDamage* deformationDepth, 0, 1);
                     }
 
                 }

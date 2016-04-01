@@ -40,8 +40,8 @@ class TerrainSpawner(appWorld: AppWorld,
     Range.inclusive(1, NUMBER_OF_BOTS).foreach {
       i =>
         appWorld.timing.after((200 * i) millis) {
-          appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), team=TeamStateData.Team.BLUE))
-          appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), team=TeamStateData.Team.GREEN))
+          appWorld.entities.spawnEntity(BotNature(Coordinates(80, 60, 40), team=TeamStateData.Team.BLUE))
+          appWorld.entities.spawnEntity(BotNature(Coordinates(80, 60, 10), team=TeamStateData.Team.GREEN))
         }
     }
 

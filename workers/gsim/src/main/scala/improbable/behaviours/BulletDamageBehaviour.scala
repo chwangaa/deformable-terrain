@@ -2,20 +2,26 @@ package improbable.behaviours
 
 import com.typesafe.scalalogging.Logger
 import improbable.damage.{BulletState}
-import improbable.math.Coordinates
+import improbable.entity.physical.RigidbodyInterface
+import improbable.math.{Vector3d, Coordinates}
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.World
 import improbable.papi.world.entities.EntityFindByTag
 import improbable.unity.fabric.PhysicsEngineConstraint
 import improbable.util.{TerrainCoordinateMapping}
-import improbable.util.FiringGameSetting.BULLET_DAMAGE_VALUE
+import improbable.util.FiringGameSetting.{BULLET_DAMAGE_VALUE, BULLET_SPEED}
 import scala.util.Random
+import scala.concurrent.duration._
 
-class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World) extends EntityBehaviour {
+class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigidBodyInterface: RigidbodyInterface) extends EntityBehaviour {
 
   override def onReady(): Unit = {
     entity.delegateState[BulletState](PhysicsEngineConstraint)
 
+    /* making the bullet flying to the target */
+    val target_position = entity.watch[BulletState].target.get
+    val bullet_direction = target_position.-(entity.position).normalised
+    rigidBodyInterface.setForce(bullet_direction.normalised * BULLET_SPEED)
 
     /**
       * This listener listens for terrain damage events
@@ -30,11 +36,15 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World) exte
          */
 
         val damage_position = payload.position
+        val radius:Int = entity.watch[BulletState].radius.get
+
         val terrain_coordinate = TerrainCoordinateMapping.getTerrainCoordinateForObjectPosition(damage_position)
 
-        val terrain_generator_id = world.entities.find(EntityFindByTag("TerrainGenerator")).last.entityId // find the terrain generator id
-        val radius:Int = entity.watch[BulletState].radius.get
-        world.messaging.sendToEntity(terrain_generator_id, DamageTerrainIdAtPosition(terrain_coordinate, damage_position, radius))   // ask terrain generator to apply the damage
+        val terrain_generators = world.entities.find(EntityFindByTag("TerrainGenerator"))
+        if(!terrain_generators.isEmpty){
+          val terrain_generator_id = terrain_generators.last.entityId // find the terrain generator id
+          world.messaging.sendToEntity(terrain_generator_id, DamageTerrainIdAtPosition(terrain_coordinate, damage_position, radius))   // ask terrain generator to apply the damage
+        }
         world.entities.destroyEntity(entity.entityId) // destroy the bullet
 
         /**
@@ -60,6 +70,13 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World) exte
         world.messaging.sendToEntity(entity_id, HealthDamage(BULLET_DAMAGE_VALUE))
         world.entities.destroyEntity(entity.entityId)
       }
+    }
+
+    /**
+      * let it fly for a while, then kill it anyway, lack of fuels
+      */
+    world.timing.after(10.seconds){
+      entity.destroy()
     }
 
   }

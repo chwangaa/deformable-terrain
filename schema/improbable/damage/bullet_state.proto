@@ -14,6 +14,7 @@ message BulletStateData {
       [(improbable.state_event) = true];
 
   optional int32 radius = 1;
+  optional improbable.math.Coordinates target = 2;
 }
 
 message DamageRequestedEvent {
