@@ -37,7 +37,7 @@ object PlayerNature extends NatureDescription {
     application(
       states = Seq(
         EntityOwner(ownerId = Some(engineId)),
-        PlayerState(forceMagnitude = 10.0f),
+        PlayerState(forceMagnitude = 20.0f),
         PlayerControlsState(movementDirection = Vector3d.zero),
         LocalPlayerCheckState(),
         RaycastRequest(),
@@ -45,7 +45,7 @@ object PlayerNature extends NatureDescription {
         Generatorreport(true, report_period, checkout_radius)
       ),
       natures = Seq(
-        BotComposedTransformNature(entityPrefab = PLAYER, mass = 10, hasGravity = false, initialPosition = Coordinates(20, 40, 20))
+        BotComposedTransformNature(entityPrefab = PLAYER, mass = 10, hasGravity = false, initialPosition = Coordinates(0, 40, 0))
       )
     )
   }

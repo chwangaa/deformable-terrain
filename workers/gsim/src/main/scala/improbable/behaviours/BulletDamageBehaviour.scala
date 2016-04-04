@@ -38,12 +38,19 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigi
         val damage_position = payload.position
         val radius:Int = entity.watch[BulletState].radius.get
 
-        val terrain_coordinate = TerrainCoordinateMapping.getTerrainCoordinateForObjectPosition(damage_position)
+        val terrain_coordinates = TerrainCoordinateMapping.findCoordinatesOfTerrainsThatNeedToBeGenerated(damage_position, radius)
+        logger.info(s"the damage position is $damage_position");
+
 
         val terrain_generators = world.entities.find(EntityFindByTag("TerrainGenerator"))
         if(!terrain_generators.isEmpty){
           val terrain_generator_id = terrain_generators.last.entityId // find the terrain generator id
-          world.messaging.sendToEntity(terrain_generator_id, DamageTerrainIdAtPosition(terrain_coordinate, damage_position, radius))   // ask terrain generator to apply the damage
+          terrain_coordinates.foreach(
+            terrain_coordinate =>{
+              world.messaging.sendToEntity(terrain_generator_id, DamageTerrainIdAtPosition(terrain_coordinate, damage_position, radius))   // ask terrain generator to apply the damage
+              logger.info(s"the terrain coordinate of $terrain_coordinate needs to respond to damage request")
+            }
+          )
         }
         world.entities.destroyEntity(entity.entityId) // destroy the bullet
 

@@ -42,9 +42,12 @@ object TerrainCoordinateMapping{
 
     var neighbour_terrains = Set[Coordinates]()
 
+    val start_position = getTerrainCoordinateForObjectPosition(x-radius, z-radius)
+    val end_position = getTerrainCoordinateForObjectPosition(x+radius, z+radius) // this ensures the last position is considered by the loop, fixes the edge case
+
     for{
-      i <- x-radius to x+radius by terrain_length
-      j <- z-radius to z+radius by terrain_length
+      i <- start_position.x to end_position.x by terrain_length
+      j <- start_position.z to end_position.z by terrain_length
     }{
       neighbour_terrains += getTerrainCoordinateForObjectPosition(i, j)
     }

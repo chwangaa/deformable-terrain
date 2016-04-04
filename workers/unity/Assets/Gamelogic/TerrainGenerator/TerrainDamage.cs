@@ -21,19 +21,22 @@ public class TerrainDamage : MonoBehaviour
 
     void OnCollisionEnter(UnityEngine.Collision other)
     {
-        var center = gameObject.transform.position;
-        var center_coord = CoordinateSystem.ToCoordinates(center);
+        if (other != null)
+        {
+            var center = gameObject.transform.position;
+            var center_coord = CoordinateSystem.ToCoordinates(center);
 
 
-        Terrain terrain = (Terrain)other.gameObject.GetComponent("Terrain");
-        if (terrain != null)
-        {
-            BulletWriter.Update.TriggerDamageRequested(center_coord).FinishAndSend();
-        }
-        else
-        {
-            var entityId = other.transform.gameObject.EntityId();
-            BulletWriter.Update.TriggerEntityDamageRequested(entityId).FinishAndSend();
+            Terrain terrain = (Terrain)other.gameObject.GetComponent("Terrain");
+            if (terrain != null)
+            {
+                BulletWriter.Update.TriggerDamageRequested(center_coord).FinishAndSend();
+            }
+            else
+            {
+                var entityId = other.transform.gameObject.EntityId();
+                BulletWriter.Update.TriggerEntityDamageRequested(entityId).FinishAndSend();
+            }
         }
     }
 }
