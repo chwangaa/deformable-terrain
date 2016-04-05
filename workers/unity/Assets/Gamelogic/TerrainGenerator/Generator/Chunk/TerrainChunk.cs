@@ -135,5 +135,44 @@ namespace TerrainGenerator
 
 
         #endregion
+        public void SetNeighbors(TerrainChunk chunk, TerrainNeighbor direction)
+        {
+            if (chunk != null)
+            {
+                switch (direction)
+                {
+                    case TerrainNeighbor.XUp:
+                        Neighborhood.XUp = chunk;
+                        break;
+
+                    case TerrainNeighbor.XDown:
+                        Neighborhood.XDown = chunk;
+                        break;
+
+                    case TerrainNeighbor.ZUp:
+                        Neighborhood.ZUp = chunk;
+                        break;
+
+                    case TerrainNeighbor.ZDown:
+                        Neighborhood.ZDown = chunk;
+                        break;
+                }
+            }
+            chunk.UpdateNeighbors();
+
+        }
+
+        public void UpdateNeighbors()
+        {
+            if (terrain != null)
+            {
+                var xDown = Neighborhood.XDown == null ? null : Neighborhood.XDown.terrain;
+                var xUp = Neighborhood.XUp == null ? null : Neighborhood.XUp.terrain;
+                var zDown = Neighborhood.ZDown == null ? null : Neighborhood.ZDown.terrain;
+                var zUp = Neighborhood.ZUp == null ? null : Neighborhood.ZUp.terrain;
+                terrain.SetNeighbors(xDown, zUp, xUp, zDown);
+                terrain.Flush();
+            }
+        }
     }
 }

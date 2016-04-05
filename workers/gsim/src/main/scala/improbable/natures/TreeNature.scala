@@ -14,20 +14,19 @@ import improbable.util.EntityPrefabs._
 
 object TreeNature extends NatureDescription {
 
-  override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature, ColoredNature, FlammableNature)
+  override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature, ColoredNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
-    descriptorOf[SetColorFromFireBehaviour],
-    descriptorOf[ReportToTerrainGeneratorBehaviour])
+    descriptorOf[SetColorFromFireBehaviour]
+    )
 
   def apply(initialPosition: Coordinates, onFire:Boolean = false): NatureApplication = {
     application(
-      states = Seq(Fire(onFire),
-                   Generatorreport(false, 100, 100)),
+      states = Seq(Fire(onFire)
+                   ),
       natures = Seq(
         RigidbodyComposedTransformNature(entityPrefab = TREE, initialPosition = initialPosition, drag = 0.2f, mass = 100, rotationConstraints = FreezeConstraints(x = true, y = true, z = true)),
-        ColoredNature(java.awt.Color.green),
-        FlammableNature(onFire)
+        ColoredNature(java.awt.Color.green)
 
       )
     )

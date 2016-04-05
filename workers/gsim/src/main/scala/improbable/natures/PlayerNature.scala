@@ -28,8 +28,8 @@ object PlayerNature extends NatureDescription {
       descriptorOf[DelegateLocalPlayerCheckToOwnerBehaviour],
       descriptorOf[RaycastRequestorBehaviour],
       descriptorOf[RaycastResponderBehaviour],
-      descriptorOf[ExtinguishFlamesBehaviour],
-      descriptorOf[ReportToTerrainGeneratorBehaviour]
+      descriptorOf[ExtinguishFlamesBehaviour]
+      //descriptorOf[ReportToTerrainGeneratorBehaviour]
     )
   }
 
@@ -41,8 +41,8 @@ object PlayerNature extends NatureDescription {
         PlayerControlsState(movementDirection = Vector3d.zero),
         LocalPlayerCheckState(),
         RaycastRequest(),
-        RaycastResponse(),
-        Generatorreport(true, report_period, checkout_radius)
+        RaycastResponse()
+        //Generatorreport(true, report_period, checkout_radius)
       ),
       natures = Seq(
         BotComposedTransformNature(entityPrefab = PLAYER, mass = 10, hasGravity = false, initialPosition = Coordinates(0, 40, 0))

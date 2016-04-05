@@ -17,15 +17,13 @@ object BulletNature extends NatureDescription {
   override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature, ColoredNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
-    descriptorOf[BulletDamageBehaviour],
-    descriptorOf[ReportToTerrainGeneratorBehaviour]
+    descriptorOf[BulletDamageBehaviour]
   )
 
   def apply(initialPosition: Coordinates, color:java.awt.Color = java.awt.Color.WHITE, radius:Int = 10, target: Coordinates): NatureApplication = {
     application(
       states = Seq(
-        BulletState(radius, target),
-        Generatorreport(true, 500, 100)
+        BulletState(radius, target)
       ),
       natures = Seq(
         RigidbodyComposedTransformNature(entityPrefab = BULLET, initialPosition = initialPosition, mass = 1, rotationConstraints = FreezeConstraints(x = true, y = true, z = true)),

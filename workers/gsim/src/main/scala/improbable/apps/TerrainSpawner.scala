@@ -20,7 +20,8 @@ class TerrainSpawner(appWorld: AppWorld,
                   logger: Logger,
                   lifecycle: WorldAppLifecycle) extends WorldApp {
 
-  initializeTerrainGenerator()
+  // initializeTerrainGenerator()
+  spawnCubes()
 
   private def initializeTerrainGenerator(): Unit = {
     val initial_position = Coordinates(0, 0, 0)
@@ -39,10 +40,11 @@ class TerrainSpawner(appWorld: AppWorld,
     Range.inclusive(1, NUMBER_OF_BOTS).foreach {
       i =>
         appWorld.timing.after((200 * i) millis) {
+          logger.info("a bot is spawned");
           appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), team=TeamStateData.Team.BLUE))
-          appWorld.entities.spawnEntity(BotNature(Coordinates(0, 60, 0), team=TeamStateData.Team.GREEN))
         }
     }
+
 
   }
 
@@ -72,7 +74,6 @@ class TerrainSpawner(appWorld: AppWorld,
   private def addEntity(userId: String): Unit = {
     val playerEntityId = appWorld.entities.spawnEntity(PlayerNature(engineId = userId))
     logger.info(s"Spawning Player with userId $userId and entityId $playerEntityId")
-    spawnCubes()
     userIdToEntityIdMap += userId -> playerEntityId
   }
 

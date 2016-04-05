@@ -32,7 +32,7 @@ object FiringGameSetting {
   val INITIAL_HEALTH = 100
   val BULLET_DAMAGE_VALUE = 15
   val BULLET_SPEED = 10
-  val NUMBER_OF_BOTS = 100
+  val NUMBER_OF_BOTS = 10
 
   val BOT_FIRING_RATE = 1000
   val BOT_VIEW_RADIUS = 100

@@ -16,15 +16,15 @@ object BotNature extends NatureDescription {
   override def dependencies = Set[NatureDescription](RigidbodyComposedTransformNature, ColoredNature, HealthNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
-    descriptorOf[ReportToTerrainGeneratorBehaviour]
-    ,descriptorOf[BotCombatBehaviour]
+    descriptorOf[MoveRandomlyBehaviour]
+    //,descriptorOf[BotCombatBehaviour]
   )
 
 
-  def apply(initialPosition: Coordinates, team:TeamStateData.Team.Value = TeamStateData.Team.RED, onFire:Boolean = false, checkout_radius:Int = 100, report_period:Int = 500): NatureApplication = {
+  def apply(initialPosition: Coordinates, team:TeamStateData.Team.Value = TeamStateData.Team.RED, checkout_radius:Int = 100, report_period:Int = 500): NatureApplication = {
 
     application(
-      states = Seq(Generatorreport(true, report_period, checkout_radius),
+      states = Seq(
         TeamState(team)
       ),
       natures = Seq(

@@ -8,7 +8,7 @@ import "improbable/math/coordinates.proto";
 // Player controls values
 message DamagedStateData {
   optional improbable.math.Coordinates position = 1;
-
+  optional int32 radius = 2;
 }
 
 

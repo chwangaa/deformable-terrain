@@ -30,13 +30,16 @@ public class TerrainDamage : MonoBehaviour
             Terrain terrain = (Terrain)other.gameObject.GetComponent("Terrain");
             if (terrain != null)
             {
+                Debug.Log("collided with a terrain object");
                 BulletWriter.Update.TriggerDamageRequested(center_coord).FinishAndSend();
             }
             else
             {
+                Debug.Log("did not collide with a terrain object");
                 var entityId = other.transform.gameObject.EntityId();
                 BulletWriter.Update.TriggerEntityDamageRequested(entityId).FinishAndSend();
             }
+            Debug.Log(other.gameObject.name);
         }
     }
 }

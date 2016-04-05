@@ -4,6 +4,7 @@ import com.typesafe.scalalogging.Logger
 import improbable.damage.{BulletState}
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.{Vector3d, Coordinates}
+import improbable.natures.DamageNature
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.World
 import improbable.papi.world.entities.EntityFindByTag
@@ -41,7 +42,13 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigi
         val terrain_coordinates = TerrainCoordinateMapping.findCoordinatesOfTerrainsThatNeedToBeGenerated(damage_position, radius)
         logger.info(s"the damage position is $damage_position");
 
-
+        terrain_coordinates.foreach(
+          terrain_coordinate =>
+            {
+              logger.info(s"terrain at position $terrain_coordinate need a new damage")
+              world.entities.spawnEntity(DamageNature(terrain_coordinate, damaged_position=damage_position, radius = radius))
+            }
+        )
         val terrain_generators = world.entities.find(EntityFindByTag("TerrainGenerator"))
         if(!terrain_generators.isEmpty){
           val terrain_generator_id = terrain_generators.last.entityId // find the terrain generator id
