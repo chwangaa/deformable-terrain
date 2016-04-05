@@ -6,7 +6,7 @@ class DemonstrationLauncher(launchConfig: LaunchConfig) {
 
   val options = Seq(
     "--engine_startup_retries=3",
-    "--game_world_edge_length=10000",
+    "--game_world_edge_length=20000",
     "--entity_activator=improbable.corelib.entity.CoreLibraryEntityActivator",
     "--use_spatial_build_workflow=true",
     "--resource_based_config_name=one-gsim-one-jvm"

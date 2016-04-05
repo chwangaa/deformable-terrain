@@ -25,6 +25,7 @@ class PlayerBehaviour(entity: Entity,
         val moveX = movementDirection.x
         val moveZ = movementDirection.z
         rigidbodyInterface.setForce(Vector3d(moveX, 0, moveZ).normalised * playerState.forceMagnitude)
+
       }
     }
 
@@ -67,9 +68,9 @@ class PlayerBehaviour(entity: Entity,
   }
 
   def getRandomCoordinateNearMe(position: Coordinates): Coordinates = {
-    val x = position.x + Random.nextDouble() * 100 - 50
+    val x = position.x + Random.nextDouble() * 1000 - 500
     val y = position.y
-    val z = position.z + Random.nextDouble() * 100 - 50
+    val z = position.z + Random.nextDouble() * 1000 - 500
     return Coordinates(x, y, z)
   }
 

@@ -37,7 +37,7 @@ object PlayerNature extends NatureDescription {
     application(
       states = Seq(
         EntityOwner(ownerId = Some(engineId)),
-        PlayerState(forceMagnitude = 30.0f),
+        PlayerState(forceMagnitude = 100.0f),
         PlayerControlsState(movementDirection = Vector3d.zero),
         LocalPlayerCheckState(),
         RaycastRequest(),

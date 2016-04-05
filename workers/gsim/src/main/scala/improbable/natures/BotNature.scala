@@ -8,7 +8,7 @@ import improbable.math.Coordinates
 import improbable.papi.entity.behaviour.EntityBehaviourDescriptor
 import improbable.physical._
 import improbable.util.EntityPrefabs.BOT
-import improbable.behaviours.bot.{BotCombatBehaviour, RandomFiringBehaviour, MoveRandomlyBehaviour}
+import improbable.behaviours.bot.{JumpingAroundBehaviour}
 import improbable.util.FiringGameSetting._
 
 object BotNature extends NatureDescription {
@@ -17,11 +17,11 @@ object BotNature extends NatureDescription {
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
     descriptorOf[ReportToTerrainGeneratorBehaviour]
-    ,descriptorOf[MoveRandomlyBehaviour]
+    ,descriptorOf[JumpingAroundBehaviour]
   )
 
 
-  def apply(initialPosition: Coordinates, team:TeamStateData.Team.Value = TeamStateData.Team.RED, onFire:Boolean = false, checkout_radius:Int = 100, report_period:Int = 500): NatureApplication = {
+  def apply(initialPosition: Coordinates, team:TeamStateData.Team.Value = TeamStateData.Team.RED, onFire:Boolean = false, checkout_radius:Int = 200, report_period:Int = 1000): NatureApplication = {
 
     application(
       states = Seq(Generatorreport(true, report_period, checkout_radius),

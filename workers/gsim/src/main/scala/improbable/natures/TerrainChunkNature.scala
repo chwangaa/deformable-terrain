@@ -15,8 +15,7 @@ object TerrainChunkNature extends NatureDescription {
   override def dependencies: Set[NatureDescription] = Set(RigidbodyComposedTransformNature)
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
-                        descriptorOf[TerrainInstanceBehaviour],
-                        descriptorOf[TerrainUsageInitializerBehaviour]
+                        descriptorOf[TerrainInstanceBehaviour]
   )
 
   def apply(initialPosition: Coordinates, seed: Long, terrain_length:Int, terrain_type:TerrainSeedData.TerrainType.Value, terrain_usage: TerrainUsageState.TerrainUsageType.Value): NatureApplication = {
