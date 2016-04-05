@@ -1,16 +1,20 @@
 package improbable.behaviours
 
 import com.typesafe.scalalogging.Logger
-import improbable.math.Coordinates
+import improbable.math.{Vector3d, Coordinates}
 import improbable.natures.TerrainChunkNature
 import improbable.papi.EntityId
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.World
 import improbable.papi.world.messaging.CustomMsg
-import improbable.terrainchunk.{TerrainSeedData, Terrainseed}
+import improbable.terrainchunk.{TerrainUsageState, TerrainSeedData, Terrainseed}
 import improbable.util.TerrainGeneratorSetting
 import scala.concurrent.duration._
 import improbable.util.TerrainCoordinateMapping._
+import improbable.util.TerrainUsageTypeUtil.getRandomTerrainType
+
+import scala.util.Random
+
 /**
   * Created by chihang on 21/03/2016.
   */
@@ -24,7 +28,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
   var terrain_length = TerrainGeneratorSetting.TERRAIN_LENGTH
   val garbage_collector_period = TerrainGeneratorSetting.GARBAGE_COLLECTION_EXECUTION_PERIOD
   var generatedTerrain = Map[Coordinates, EntityId]()
-  var markedTerrain = Set[Coordinates]()
+  // var markedTerrain = Set[Coordinates]()
   var seed : Long = entity.watch[Terrainseed].seed.get
   val nature: TerrainSeedData.TerrainType.Value = entity.watch[Terrainseed].nature.get
 
@@ -47,7 +51,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
         forwardTerrainDamageToTerrain(position, damage_center, radius)
     }
 
-    initializeGarbageCollector() // start garbage collector
+    // initializeGarbageCollector() // start garbage collector
 
     logger.info(s"Terrain Generator with seed value $seed and size $terrain_length ready")
 
@@ -56,11 +60,13 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
   /**
     * start the periodic garbage collector
     */
+  /*
   def initializeGarbageCollector():Unit = {
     world.timing.every(garbage_collector_period.second){
       garbageCollection()
     }
   }
+  */
 
   /**
     * call this code upon every onReady upon failure to reconstruct the generatedTerrain list
@@ -84,7 +90,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     val new_coordinates = terrain_coordinates.diff(generatedTerrain.keySet)
     val old_coordinates = generatedTerrain.keySet.diff(terrain_coordinates)
     // this is the mark stage of garbage collection
-    markTerrainAsRequired(terrain_coordinates)
+    // markTerrainAsRequired(terrain_coordinates)
     new_coordinates.foreach(
       position => {
         generateNewTerrainAtPosition(position)
@@ -93,6 +99,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
   }
 
   /** mark the given set of terrains so they do not get garbage collected */
+  /*
   def markTerrainAsRequired(required_terrain_set:Set[Coordinates]):Unit = {
     required_terrain_set.foreach(terrain =>
       markedTerrain += terrain
@@ -103,8 +110,10 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
   def markTerrainAsRequired(required_terrain:Coordinates):Unit = {
     markedTerrain += required_terrain
   }
+  */
 
   /* destroy the terrains that are not being marked */
+  /*
   def garbageCollection():Unit = {
     logger.info("calling garbage collector")
 
@@ -128,7 +137,7 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
       }
     )
   }
-
+  */
   /**
     * destroy the terrain entity
  *
@@ -146,10 +155,36 @@ class TerrainGeneratorBehaviour(entity : Entity, logger : Logger, world: World) 
     * @param position position of the terrain entity
     */
   def generateNewTerrainAtPosition(position:Coordinates): Unit ={
-    markTerrainAsRequired(position)      // remove the position from the garbage collector since we still want it
+    // markTerrainAsRequired(position)      // remove the position from the garbage collector since we still want it
     if(!generatedTerrain.contains(position)){ // check if it already exists
-       val id = world.entities.spawnEntity(TerrainChunkNature(position, seed, terrain_length, nature))  // generate the terrain
+       val id = world.entities.spawnEntity(TerrainChunkNature(position, seed, terrain_length, nature, determineBestTerrainType(position)))  // generate the terrain
        generatedTerrain += position -> id
+    }
+  }
+
+  def determineBestTerrainType(position: Coordinates): TerrainUsageState.TerrainUsageType.Value = {
+    val residence_terrains = world.entities.find(position, terrain_length+1, Set(TerrainUsageState.TerrainUsageType.Residence.toString))
+    if(residence_terrains.isEmpty){
+      logger.info("both are empty")
+      return getRandomTerrainType()
+    }
+    else{
+      if(residence_terrains.length >= 5){
+        if(Random.nextFloat() >= 0.05){
+          return TerrainUsageState.TerrainUsageType.Residence
+        }
+        else{
+          return getRandomTerrainType()
+        }
+      }
+      else{
+        if(Random.nextFloat() >= 0.3){
+          return TerrainUsageState.TerrainUsageType.Residence
+        }
+        else{
+          return getRandomTerrainType()
+        }
+      }
     }
   }
 

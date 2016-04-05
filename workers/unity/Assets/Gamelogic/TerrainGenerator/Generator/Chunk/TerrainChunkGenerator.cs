@@ -19,8 +19,14 @@ namespace TerrainGenerator
         [Require]
         protected DamageRequestReader damage_request_reader;
 
+        [Require]
+        protected TerrainUsageReader terrain_usage_reader;
+
+
+
         public Texture2D FlatTexture;
         public Texture2D SteepTexture;
+        public Texture2D RoadTexture;
 
         private TerrainChunkSettings Settings;
         private NoiseProvider NoiseProvider;
@@ -40,14 +46,19 @@ namespace TerrainGenerator
 
         [Require]
         protected TerrainseedReader terrain_seed_reader;
-
-
+        
+        /*
+        [Require]
+        protected BuildingRequestWriter buildingRequester;
+        */
 
         private void OnEnable()
         {
+            Debug.Log("generate terrain on Enable");
             damage_request_reader.DamageRequested += HandleDamageRequested;         // add the damage request handler
             transform.position = Position.Value.ToUnityVector();                    // update the position
-            generateNewTerrain();                                                   // generate terrains in the neighbourhood
+            generateNewTerrain();
+            Debug.Log("new terrain generated"); // generate terrains in the neighbourhood
         }
 
         void HandleDamageRequested(DamageRequestEvent obj){
@@ -83,8 +94,15 @@ namespace TerrainGenerator
 
             var terrain_type = terrain_seed_reader.Nature;
 
+            if(terrain_usage_reader.Usage == TerrainUsageState.TerrainUsageType.Residence)
+            {
+                Settings = new TerrainChunkSettings(terrain_length, RoadTexture, RoadTexture, TerrainMaterial);
+            }
+            else
+            {
+                Settings = new TerrainChunkSettings(terrain_length, FlatTexture, SteepTexture, TerrainMaterial);             // create a setting variable
+            }
 
-            Settings = new TerrainChunkSettings(terrain_length, FlatTexture, SteepTexture, TerrainMaterial);             // create a setting variable
             NoiseProvider = new NoiseProvider(seed, terrain_type);      // create a noise provider variable, the noise correspond to the noise generator used to generate the terrain height
             TerrainChunk new_chunk = new TerrainChunk(Settings, NoiseProvider, x, z);                                  // create a terrain chunk value
             new_chunk.GenerateHeightmap();                                                                                             // generate the height map
@@ -259,6 +277,14 @@ namespace TerrainGenerator
 
             }
             data.SetHeights((int)heightMapStartPosX, (int)heightMapStartPosZ, heights);
+        }
+
+
+
+        private int getRandomInRange(int x, int y)
+        {
+            float v = Random.value; // this is a random number between 0 to 1
+            return (int)(v * (y - x) + x); 
         }
     }
 

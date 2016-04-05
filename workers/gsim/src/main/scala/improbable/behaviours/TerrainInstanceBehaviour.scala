@@ -5,7 +5,9 @@ import improbable.math.Coordinates
 import improbable.papi.entity.{EntityBehaviour, Entity}
 import improbable.papi.world.World
 import improbable.papi.world.messaging.CustomMsg
-import improbable.terrainchunk.{DamageRequestWriter, Damage, TerrainDamageWriter}
+import improbable.physical.RaycastResponse
+import improbable.terrainchunk.{BuildingRequest, DamageRequestWriter, Damage, TerrainDamageWriter}
+import improbable.unity.fabric.PhysicsEngineConstraint
 
 case class TerrainDamage(position:Coordinates, radius:Int) extends CustomMsg
 case class TerrainDestroyRequest() extends CustomMsg
@@ -30,6 +32,8 @@ class TerrainInstanceBehaviour(entity : Entity, logger : Logger, world: World, d
         }
       }
     }
+
+
   }
 
   /**

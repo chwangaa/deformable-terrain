@@ -9,6 +9,8 @@ import improbable.papi.world.messaging.CustomMsg
 import improbable.physical.{Bla, BlaWriter}
 import scala.concurrent.duration._
 
+import improbable.util.FiringGameSetting.DestroyableTag
+
 case class HealthDamage(damage: Int) extends CustomMsg
 
 
@@ -20,6 +22,8 @@ class HealthBehaviour(entity : Entity, logger : Logger, world: World, health:Bla
         reduceHealthBy(damage)
       }
     }
+
+    entity.addTag(DestroyableTag)
   }
 
   def reduceHealthBy(damage:Int): Unit = {

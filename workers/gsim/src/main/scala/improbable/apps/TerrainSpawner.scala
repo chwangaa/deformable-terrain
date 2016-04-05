@@ -72,7 +72,6 @@ class TerrainSpawner(appWorld: AppWorld,
   private def addEntity(userId: String): Unit = {
     val playerEntityId = appWorld.entities.spawnEntity(PlayerNature(engineId = userId))
     logger.info(s"Spawning Player with userId $userId and entityId $playerEntityId")
-    spawnCubes()
     userIdToEntityIdMap += userId -> playerEntityId
   }
 

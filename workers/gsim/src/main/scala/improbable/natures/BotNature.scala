@@ -17,7 +17,7 @@ object BotNature extends NatureDescription {
 
   override def activeBehaviours: Set[EntityBehaviourDescriptor] = Set[EntityBehaviourDescriptor](
     descriptorOf[ReportToTerrainGeneratorBehaviour]
-    ,descriptorOf[BotCombatBehaviour]
+    ,descriptorOf[MoveRandomlyBehaviour]
   )
 
 

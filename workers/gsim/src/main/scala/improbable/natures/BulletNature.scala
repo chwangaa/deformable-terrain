@@ -3,7 +3,7 @@ package improbable.natures
 import improbable.behaviours.{ReportToTerrainGeneratorBehaviour, BulletDamageBehaviour}
 import improbable.corelib.natures.rigidbody.RigidbodyComposedTransformNature
 import improbable.corelib.natures.{NatureApplication, NatureDescription}
-import improbable.damage.BulletState
+import improbable.damage.{BulletExplosion, BulletState}
 import improbable.entity.physical.FreezeConstraints
 import improbable.math.Coordinates
 import improbable.natures
@@ -25,7 +25,8 @@ object BulletNature extends NatureDescription {
     application(
       states = Seq(
         BulletState(radius, target),
-        Generatorreport(true, 500, 100)
+        Generatorreport(true, 500, 100),
+        BulletExplosion()
       ),
       natures = Seq(
         RigidbodyComposedTransformNature(entityPrefab = BULLET, initialPosition = initialPosition, mass = 1, rotationConstraints = FreezeConstraints(x = true, y = true, z = true)),

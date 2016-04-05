@@ -4,7 +4,7 @@ import com.typesafe.scalalogging.Logger
 import improbable.behaviours.player.controls.RaycastRequestorInterface
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.{Vector3d, Coordinates}
-import improbable.natures.{BulletNature, TreeNature}
+import improbable.natures.{BotNature, BulletNature, TreeNature}
 import improbable.papi.entity.{Entity, EntityBehaviour}
 import improbable.papi.world.World
 import improbable.player.controls.PlayerControlsState
@@ -43,31 +43,34 @@ class PlayerBehaviour(entity: Entity,
       }
     }
 
-    entity.watch[PlayerControlsState].onPlantRequested {
-      payload => {
-        // we want to avoid the tree generated from hitting the player, so add some random disturbance
-        val position = entity.position
-        val new_x = entity.position.x + Random.nextFloat() * 10 - 5
-        val new_y = entity.position.y - Random.nextFloat() * 5  // the y-axis is strictly below the player position
-        val new_z = entity.position.z + Random.nextFloat() * 10 -5
-        val coordinate = new Coordinates(new_x, new_y, new_z)
-        world.entities.spawnEntity(TreeNature(coordinate))
-        logger.info("a new tree generated")
-      }
-    }
+
 
     entity.watch[PlayerControlsState].onReduceheightRequested{
       payload =>
         rigidbodyInterface.setForce(Vector3d(0, -50f, 0).normalised)
     }
 
-
-    entity.watch[PlayerControlsState].onAddheightRequested{
+    // on plant request is used to spawn some bots now
+    entity.watch[PlayerControlsState].onPlantRequested{
       payload =>
-        rigidbodyInterface.setForce(Vector3d(0, 50f, 0).normalised)
+        spawnHundredsBots()
     }
 
 
+  }
+
+  def spawnHundredsBots(): Unit = {
+    Range.inclusive(1, 100).foreach {
+      i =>
+          world.entities.spawnEntity(BotNature(getRandomCoordinateNearMe(entity.position)))
+    }
+  }
+
+  def getRandomCoordinateNearMe(position: Coordinates): Coordinates = {
+    val x = position.x + Random.nextDouble() * 100 - 50
+    val y = position.y
+    val z = position.z + Random.nextDouble() * 100 - 50
+    return Coordinates(x, y, z)
   }
 
 

@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+package schema.improbable.terrainchunk;
+import "improbable/entity_state.proto";
+
+
+message TerrainUsageState {
+
+  enum TerrainUsageType{
+      None = 0;
+      Residence = 1;
+      Vegetation = 2;
+  }
+
+  optional TerrainUsageType usage = 4;
+}
+
+
+extend improbable.EntityState {
+  optional TerrainUsageState terrainUsage = 1026
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+}

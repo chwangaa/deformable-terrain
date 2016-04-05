@@ -13,6 +13,7 @@ message TerrainSeedData {
       Billow = 3;
   }
 
+
   // seed is the random number correspond to the terrain being generated
   optional int64 seed = 1;
   optional int32 terrain_length = 2;
@@ -55,6 +56,26 @@ message DamageRequestEvent {
 message DamageRequestState {
   repeated DamageRequestEvent damageRequested = 1
     [(improbable.state_event) = true];
+}
+
+message BuildingRequestEvent {
+  optional improbable.math.Coordinates position = 1;
+  optional int32 length = 2;
+  optional int32 width = 3;
+  optional int32 height = 4;
+}
+
+message RequestBuildingState {
+  repeated BuildingRequestEvent buildingRequested = 1
+      [(improbable.state_event) = true];
+}
+
+extend improbable.EntityState {
+  optional RequestBuildingState buildingRequest = 1022
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
 }
 
 extend improbable.EntityState {

@@ -66,9 +66,11 @@ class ReportToTerrainGeneratorBehaviour(entity : Entity, logger : Logger, world:
       askGeneratorForNewTerrain(terrain_position)
     }
     // both dynamic and static objects, we periodically send a message to the generator to make sure the neighbourhood of interest is not being garbage collected
+    /*
     world.timing.every(report_period.seconds){
       tellGeneratorTerrainsStillRequired()
     }
+    */
   }
 
   def ensureAllNeighbourTerrainsAreGenerated(): Unit = {

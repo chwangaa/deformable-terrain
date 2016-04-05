@@ -25,6 +25,26 @@ message EntityDamageRequestedEvent{
   optional int64 entityId = 1 [(improbable.entity_id) = true];
 }
 
+message BulletExplosionStateData{
+
+    repeated BulletExplosionEvent bulletExploded = 1
+      [(improbable.state_event) = true];
+
+}
+
+message BulletExplosionEvent{
+  optional improbable.math.Coordinates target = 1;
+}
+
+extend improbable.EntityState {
+  optional BulletExplosionStateData bulletExplosion = 1049
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+}
+
+
 extend improbable.EntityState {
   optional BulletStateData bulletState = 1030
     [(improbable.entity_state_options) = {

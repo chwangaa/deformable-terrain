@@ -29,7 +29,7 @@ object FiringGameSetting {
   }
 
   val PLAYER_BULLET_RADIUS = 20
-  val INITIAL_HEALTH = 100
+  val INITIAL_HEALTH = 30
   val BULLET_DAMAGE_VALUE = 15
   val BULLET_SPEED = 10
   val NUMBER_OF_BOTS = 100
@@ -41,4 +41,6 @@ object FiringGameSetting {
 
   val BOT_PRODUCTION_PERIOD = 2500
   val BOT_WAREHOUSE_LIFE = 100
+
+  val DestroyableTag:String = "EntityIsDestroyable"
 }

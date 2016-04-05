@@ -18,7 +18,7 @@
    "nodes":[  
       {  
          "name":"master",
-         "size":"single",
+         "size":"octa",
          "modules":[  
             {  
                "name":"ReceptionistModule"

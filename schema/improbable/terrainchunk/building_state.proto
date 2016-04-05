@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package schema.improbable.terrainchunk;
+import "improbable/entity_state.proto";
+
+
+message BuildingState {
+
+  optional int32 width = 1;
+  optional int32 height = 2;
+  optional int32 length = 3;
+}
+
+
+extend improbable.EntityState {
+  optional BuildingState building = 1027
+    [(improbable.entity_state_options) = {
+      state_synchronized: true
+      state_queryable: false
+    }];
+}

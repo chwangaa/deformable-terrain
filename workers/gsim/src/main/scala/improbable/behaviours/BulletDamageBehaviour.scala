@@ -1,7 +1,7 @@
 package improbable.behaviours
 
 import com.typesafe.scalalogging.Logger
-import improbable.damage.{BulletState}
+import improbable.damage.{BulletExplosionWriter, BulletExplosion, BulletState}
 import improbable.entity.physical.RigidbodyInterface
 import improbable.math.{Vector3d, Coordinates}
 import improbable.papi.entity.{EntityBehaviour, Entity}
@@ -9,11 +9,11 @@ import improbable.papi.world.World
 import improbable.papi.world.entities.EntityFindByTag
 import improbable.unity.fabric.PhysicsEngineConstraint
 import improbable.util.{TerrainCoordinateMapping}
-import improbable.util.FiringGameSetting.{BULLET_DAMAGE_VALUE, BULLET_SPEED}
+import improbable.util.FiringGameSetting.{BULLET_DAMAGE_VALUE, BULLET_SPEED, DestroyableTag}
 import scala.util.Random
 import scala.concurrent.duration._
 
-class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigidBodyInterface: RigidbodyInterface) extends EntityBehaviour {
+class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigidBodyInterface: RigidbodyInterface, explosionWriter: BulletExplosionWriter) extends EntityBehaviour {
 
   override def onReady(): Unit = {
     entity.delegateState[BulletState](PhysicsEngineConstraint)
@@ -39,7 +39,6 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigi
         val radius:Int = entity.watch[BulletState].radius.get
 
         val terrain_coordinates = TerrainCoordinateMapping.findCoordinatesOfTerrainsThatNeedToBeGenerated(damage_position, radius)
-        logger.info(s"the damage position is $damage_position");
 
 
         val terrain_generators = world.entities.find(EntityFindByTag("TerrainGenerator"))
@@ -48,7 +47,6 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigi
           terrain_coordinates.foreach(
             terrain_coordinate =>{
               world.messaging.sendToEntity(terrain_generator_id, DamageTerrainIdAtPosition(terrain_coordinate, damage_position, radius))   // ask terrain generator to apply the damage
-              logger.info(s"the terrain coordinate of $terrain_coordinate needs to respond to damage request")
             }
           )
         }
@@ -58,7 +56,7 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigi
           * optionally, we can do a search in the local area and apply damages to the nearby entities
           * probably should add a tag to assist the search
           */
-        world.entities.find(damage_position, radius).foreach(
+        world.entities.find(damage_position, radius, tags=Set(DestroyableTag)).foreach(
           entity =>{
             val entity_id = entity.entityId
             val damage_value = BULLET_DAMAGE_VALUE / (damage_position.distanceTo(entity.position) + 1).toInt
@@ -74,8 +72,10 @@ class BulletDamageBehaviour(entity : Entity, logger : Logger, world: World, rigi
     entity.watch[BulletState].onEntityDamageRequested{
       payload => {
         val entity_id = payload.entityId
-        world.messaging.sendToEntity(entity_id, HealthDamage(BULLET_DAMAGE_VALUE))
-        world.entities.destroyEntity(entity.entityId)
+        world.messaging.sendToEntity(entity_id, HealthDamage(BULLET_DAMAGE_VALUE*5))
+        explosionWriter.update.triggerBulletExploded(entity.position)
+        entity.destroy()
+
       }
     }
 

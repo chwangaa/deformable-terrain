@@ -12,11 +12,13 @@ public class TerrainDamage : MonoBehaviour
 
     [Require] protected PositionReader Position;
 
+    [Require]
+    protected BulletExplosionReader explosionReader;
 
     void OnEnable()
     {
         transform.position = Position.Value.ToUnityVector();
-
+        explosionReader.BulletExploded += handleExplosionEvent;
     }
 
     void OnCollisionEnter(UnityEngine.Collision other)
@@ -38,5 +40,15 @@ public class TerrainDamage : MonoBehaviour
                 BulletWriter.Update.TriggerEntityDamageRequested(entityId).FinishAndSend();
             }
         }
+    }
+
+    void handleExplosionEvent(BulletExplosionEvent obj)
+    {
+
+
+        Debug.Log("explosion event received");
+        Vector3 center = obj.Target.ToUnityVector();
+
+        Instantiate(Resources.Load("EntityPrefabs/Explosion"), center, Quaternion.identity);
     }
 }
